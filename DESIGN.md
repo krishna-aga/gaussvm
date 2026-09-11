@@ -217,6 +217,8 @@ The ordered Connect, Get tokens, Swap indicators reflect current wallet/balance 
 
 The market question, manual-resolution note and implied probability sit inside the trade panel. One page heading introduces the task. Get YES / Get NO is the single direction selector, and the two amount wells have 14px padding with a 10px gap. Repeated introductions and the empty journal placeholder are omitted.
 
+The only market asks whether this project will win ETHOnline 2026. The question is checked against the chain; a native disclosure explains what counts as a win. On a fresh confirmed purchase, a 650ms stamped YES/NO token and a 450ms check reveal acknowledge receipt success. YES uses sage and NO uses warm stone. The direction track slides in 200ms. Reduced motion preserves static labels and receipt links; history reloads do not replay the purchase animation.
+
 Liquidity retains its two-column position controls and stacks at 740px. The research article retains its 830px measure. Full addresses wrap, code blocks scroll inside their container and amount inputs use `min-width: 0`. The primary execution flow remains narrow at all widths. See [the UX rationale](docs/ux.md).
 
 ## Elevation & Depth

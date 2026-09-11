@@ -327,6 +327,7 @@ input[type="range"] {
   padding: 25px 22px;
 }
 .segmented {
+  position: relative;
   display: flex;
   box-shadow: var(--inset);
   padding: 5px;
@@ -335,6 +336,7 @@ input[type="range"] {
   gap: 6px;
 }
 .segmented button {
+  position: relative;
   width: 50%;
   border: 0;
   background: transparent;
@@ -344,11 +346,22 @@ input[type="range"] {
   font-size: 12px;
   font-weight: 650;
 }
-.segmented .selected {
+.segmented::before {
+  content: "";
+  position: absolute;
+  inset: 5px auto 5px 5px;
+  width: calc(50% - 8px);
+  border-radius: 8px;
   box-shadow:
     3px 3px 7px #c5cec0,
     -3px -3px 7px #f7fff3;
   background: #e9ede8;
+  transition: transform 200ms cubic-bezier(0.16, 1, 0.3, 1);
+}
+.segmented[data-outcome="no"]::before {
+  transform: translateX(calc(100% + 6px));
+}
+.segmented .selected {
   color: #294b34;
 }
 .amount-box {
@@ -1252,14 +1265,73 @@ footer {
   line-height: 1.7;
   margin-bottom: 22px;
 }
-.swap-success {
+.purchase-feedback {
   display: flex;
-  flex-wrap: wrap;
   align-items: center;
-  gap: 8px;
+  gap: 14px;
   color: var(--green);
   font-size: 13px;
   margin-top: 18px;
+}
+.purchase-feedback p {
+  display: grid;
+  gap: 4px;
+}
+.purchase-feedback p > span {
+  font-size: 12px;
+  color: var(--muted);
+}
+.purchase-token {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 5px;
+  flex: 0 0 68px;
+  height: 44px;
+  border-radius: 8px;
+  color: #315739;
+  background: #d4dfcf;
+  box-shadow:
+    3px 3px 7px #c5cec0,
+    -3px -3px 7px #f7fff3;
+  font-size: 13px;
+  font-weight: 700;
+}
+.purchase-feedback.no .purchase-token {
+  color: #706044;
+  background: #e2ddd0;
+}
+.purchase-feedback.animate .purchase-token {
+  animation: outcome-stamp 650ms cubic-bezier(0.16, 1, 0.3, 1) both;
+}
+.purchase-feedback.animate .purchase-token svg {
+  animation: outcome-check 450ms 120ms cubic-bezier(0.16, 1, 0.3, 1) both;
+}
+@keyframes outcome-stamp {
+  from {
+    transform: scale(1.12) rotate(-7deg);
+  }
+  65% {
+    transform: scale(0.98) rotate(0deg);
+  }
+  to {
+    transform: scale(1) rotate(0deg);
+  }
+}
+@keyframes outcome-check {
+  from {
+    clip-path: inset(0 100% 0 0);
+  }
+  to {
+    clip-path: inset(0);
+  }
+}
+.market-rules summary {
+  padding-bottom: 0;
+  font-size: 12px;
+}
+.market-rules p {
+  font-size: 12px;
 }
 #transactions {
   scroll-margin-top: 20px;

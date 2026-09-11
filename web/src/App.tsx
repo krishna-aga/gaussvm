@@ -31,6 +31,8 @@ import {
   takerData,
 } from "../../lib/encoding.mjs";
 import { cdf } from "../../lib/reference.mjs";
+import { MARKET_QUESTION, MARKET_RULES } from "../../lib/market.mjs";
+import { PurchaseFeedback } from "./PurchaseFeedback";
 import {
   validateDeployment,
   workspaceKey,
@@ -55,6 +57,7 @@ import {
 } from "./chain";
 
 type ChainState = {
+  question: string;
   yes: bigint;
   no: bigint;
   collateral: bigint;
@@ -148,6 +151,12 @@ export default function App() {
   const [remaining, setRemaining] = useState(100),
     [timeScaled, setTimeScaled] = useState(false);
   const [copied, setCopied] = useState<Hash>();
+  const [freshPurchase, setFreshPurchase] = useState<Hash>();
+  useEffect(() => {
+    if (!freshPurchase) return;
+    const timer = setTimeout(() => setFreshPurchase(undefined), 900);
+    return () => clearTimeout(timer);
+  }, [freshPurchase]);
 
   function persistHistory() {
     if (!history.current) return;
@@ -252,39 +261,58 @@ export default function App() {
               blockNumber: block.number,
             })
           : Promise.resolve(0n);
-      const [yes, no, collateral, reserveYes, reserveNo, status, code] =
-        await Promise.all([
-          balance(d.yes),
-          balance(d.no),
-          balance(d.collateral),
-          p.readContract({
-            address: d.aqua,
-            abi: aquaAbi,
-            functionName: "rawBalances",
-            args: [d.maker, d.router, d.orderHash, d.yes],
-            blockNumber: block.number,
-          }),
-          p.readContract({
-            address: d.aqua,
-            abi: aquaAbi,
-            functionName: "rawBalances",
-            args: [d.maker, d.router, d.orderHash, d.no],
-            blockNumber: block.number,
-          }),
-          p.readContract({
-            address: d.market,
-            abi: marketAbi,
-            functionName: "status",
-            blockNumber: block.number,
-          }),
-          p.getCode({ address: d.router, blockNumber: block.number }),
-        ]);
+      const [
+        yes,
+        no,
+        collateral,
+        reserveYes,
+        reserveNo,
+        status,
+        code,
+        question,
+      ] = await Promise.all([
+        balance(d.yes),
+        balance(d.no),
+        balance(d.collateral),
+        p.readContract({
+          address: d.aqua,
+          abi: aquaAbi,
+          functionName: "rawBalances",
+          args: [d.maker, d.router, d.orderHash, d.yes],
+          blockNumber: block.number,
+        }),
+        p.readContract({
+          address: d.aqua,
+          abi: aquaAbi,
+          functionName: "rawBalances",
+          args: [d.maker, d.router, d.orderHash, d.no],
+          blockNumber: block.number,
+        }),
+        p.readContract({
+          address: d.market,
+          abi: marketAbi,
+          functionName: "status",
+          blockNumber: block.number,
+        }),
+        p.getCode({ address: d.router, blockNumber: block.number }),
+        p.readContract({
+          address: d.market,
+          abi: marketAbi,
+          functionName: "question",
+          blockNumber: block.number,
+        }),
+      ]);
       if (request !== refreshSequence.current) return;
       if (!code || code === "0x")
         throw new Error(
           "Deployment no longer exists. Restart npm run dev and reload this page.",
         );
+      if (question !== MARKET_QUESTION)
+        throw new Error(
+          "This deployment uses an older market. Reload the published app or run npm run deploy:local for the current question.",
+        );
       setState({
+        question,
         yes,
         no,
         collateral,
@@ -536,6 +564,7 @@ export default function App() {
       throw new Error(
         "The wallet cancelled or replaced this transaction. The original action was not completed; review its receipt before trying again.",
       );
+    return receipt;
   }
   const recheck = (hash: Hash) =>
     action(
@@ -626,7 +655,7 @@ export default function App() {
       const minOutput = (quote * 995n) / 1000n;
       if (minOutput === 0n) throw new Error("Trade amount is too small.");
       await approve(inputToken, deployment.router, parsed);
-      await send(
+      const receipt = await send(
         `Swap ${inputName} → ${outputName}`,
         deployment.router,
         routerAbi,
@@ -643,6 +672,7 @@ export default function App() {
           }),
         ],
       );
+      setFreshPurchase(receipt.transactionHash);
     });
   const ship = () =>
     action("Shipping your position", async () => {
@@ -891,7 +921,9 @@ export default function App() {
                 aria-labelledby="trade-heading"
               >
                 <header className="market-heading">
-                  <h2 id="trade-heading">Will the demo resolver choose YES?</h2>
+                  <h2 id="trade-heading">
+                    {state?.question ?? MARKET_QUESTION}
+                  </h2>
                   <div className="market-status">
                     <span className={open ? "dot live" : "dot"} />
                     <span>{status}</span>
@@ -903,6 +935,15 @@ export default function App() {
                     Manual resolution: the resolver chooses the outcome after
                     expiry.
                   </p>
+                  <details className="market-rules">
+                    <summary>What counts as a win?</summary>
+                    <p>{MARKET_RULES}</p>
+                    <p>
+                      This project means GaussVM. The displayed probability
+                      comes from this test market’s pricing, not an assessment
+                      by ETHGlobal.
+                    </p>
+                  </details>
                 </header>
                 <ol className="demo-steps" aria-label="Swap progress">
                   {["Connect", "Get tokens", "Swap"].map((label, index) => (
@@ -932,7 +973,11 @@ export default function App() {
                 )}
                 {showTrade && (
                   <>
-                    <div className="segmented" aria-label="Swap direction">
+                    <div
+                      className="segmented"
+                      data-outcome={buyYes ? "yes" : "no"}
+                      aria-label="Swap direction"
+                    >
                       <button
                         aria-pressed={buyYes}
                         className={buyYes ? "selected" : ""}
@@ -1093,10 +1138,13 @@ export default function App() {
                   separate transactions.
                 </p>
                 {swapConfirmed && (
-                  <p className="swap-success" role="status">
-                    <CheckCircle2 size={18} />
-                    Swap confirmed. <a href="#transactions">View receipt</a>
-                  </p>
+                  <PurchaseFeedback
+                    key={latestTransaction.hash}
+                    side={
+                      latestTransaction.label.endsWith("YES") ? "YES" : "NO"
+                    }
+                    animate={freshPurchase === latestTransaction.hash}
+                  />
                 )}
                 {transactions.some((tx) => tx.state === "unknown") && (
                   <p className="field-error">
@@ -1140,8 +1188,8 @@ export default function App() {
                 <div>
                   <h1>Liquidity stays with you.</h1>
                   <p>
-                    Inspect, ship or close a position through the official Aqua
-                    contract.
+                    Liquidity positions for this market’s YES/NO pair. Inspect,
+                    ship or close them through Aqua.
                   </p>
                 </div>
                 <Layers3 size={34} />
@@ -1468,6 +1516,33 @@ export default function App() {
                 <BookOpen size={34} />
               </div>
               <article className="research-content">
+                <section>
+                  <h2>What is an Aqua app?</h2>
+                  <p>
+                    Aqua is 1inch’s shared liquidity layer. A liquidity provider
+                    authorizes a trading strategy while keeping its tokens in
+                    their own wallet. An Aqua app supplies the trading rules and
+                    uses Aqua to settle transfers when a trade executes.
+                  </p>
+                  <p>
+                    Here, GaussVM is the Aqua app: our SwapVM extension prices
+                    this market’s YES/NO swaps with the Gaussian pm-AMM rule.
+                    Aqua records the maker’s allocation and transfers the
+                    tokens. The separate BinaryMarket contract creates the
+                    collateral-backed outcomes and handles manual resolution.
+                  </p>
+                  <p>
+                    For example, buying YES pays NO to the maker and receives
+                    YES from the maker. Shipping a liquidity position allocates
+                    those tokens without depositing them into Aqua. Maker funds
+                    must remain available for the swap to settle.
+                  </p>
+                  <p>
+                    All saved liquidity positions use this one market and the
+                    same YES/NO tokens. They are pricing strategies, not
+                    additional markets.
+                  </p>
+                </section>
                 <details className="research-curve">
                   <summary>Explore the Gaussian curve</summary>
                   <section className="curve-panel surface">

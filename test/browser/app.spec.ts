@@ -9,6 +9,24 @@ test("desktop: real trade, LP controls, lifecycle and chain failure handling", a
   await page.goto("/");
   await expect(page.getByText("Trading open", { exact: true })).toBeVisible();
   await expect(
+    page.getByRole("heading", {
+      name: "Will this project win ETHOnline 2026?",
+      exact: true,
+    }),
+  ).toHaveCount(1);
+  await expect(
+    page.getByText("Will the demo resolver choose YES?", { exact: true }),
+  ).toHaveCount(0);
+  await page.evaluate(() => {
+    (window as any).__purchaseAnimations = [];
+    document.addEventListener("animationstart", (event) => {
+      if ((event.target as Element).matches(".purchase-token"))
+        (window as any).__purchaseAnimations.push(
+          (event as AnimationEvent).animationName,
+        );
+    });
+  });
+  await expect(
     page
       .getByRole("list", { name: "Swap progress" })
       .locator('[aria-current="step"]'),
@@ -36,6 +54,7 @@ test("desktop: real trade, LP controls, lifecycle and chain failure handling", a
   await expect(
     page.getByRole("button", { name: "Swap NO for YES", exact: true }),
   ).toBeEnabled();
+  await expect(page.locator(".purchase-feedback")).toHaveCount(0);
   await page
     .getByRole("button", { name: "Swap NO for YES", exact: true })
     .click();
@@ -44,6 +63,15 @@ test("desktop: real trade, LP controls, lifecycle and chain failure handling", a
   await expect(
     page.getByRole("status").filter({ hasText: "Swap confirmed." }),
   ).toBeVisible();
+  await expect(page.locator(".purchase-feedback")).toHaveAttribute(
+    "data-side",
+    "YES",
+  );
+  await expect
+    .poll(() =>
+      page.evaluate(() => (window as any).__purchaseAnimations.length),
+    )
+    .toBe(1);
   await expect(
     page.getByRole("button", { name: "Swap NO for YES", exact: true }),
   ).toBeEnabled();
@@ -73,6 +101,15 @@ test("desktop: real trade, LP controls, lifecycle and chain failure handling", a
     .getByRole("button", { name: "Swap YES for NO", exact: true })
     .click();
   await expect(page.getByText("Swap YES → NO", { exact: true })).toBeVisible();
+  await expect(page.locator(".purchase-feedback")).toHaveAttribute(
+    "data-side",
+    "NO",
+  );
+  await expect
+    .poll(() =>
+      page.evaluate(() => (window as any).__purchaseAnimations.length),
+    )
+    .toBe(2);
   await page.getByRole("button", { name: "Liquidity", exact: true }).click();
   await expect(
     page.getByRole("heading", { name: "Liquidity stays with you." }),
@@ -132,10 +169,29 @@ test("mobile: readable layout, reduced motion, illustration and research navigat
   await connect.click();
   await expect(page.getByTestId("quote")).not.toHaveText("—");
   await expect(page.getByTestId("quote").locator("svg")).toHaveCount(0);
+  await page.getByRole("button", { name: "Get NO", exact: true }).click();
+  await page
+    .getByRole("button", { name: "Swap YES for NO", exact: true })
+    .click();
+  await expect(page.locator(".purchase-feedback")).toHaveAttribute(
+    "data-side",
+    "NO",
+  );
+  expect(
+    await page
+      .locator(".purchase-token")
+      .evaluate((element) => getComputedStyle(element).animationName),
+  ).toBe("none");
   await page.screenshot({
     path: ".impeccable/review/mobile.png",
     fullPage: true,
   });
+  await page.reload();
+  await expect(page.locator(".purchase-feedback")).toHaveAttribute(
+    "data-side",
+    "NO",
+  );
+  await expect(page.locator(".purchase-feedback.animate")).toHaveCount(0);
   await page.getByRole("button", { name: "How it works", exact: true }).click();
   await expect(
     page.getByRole("heading", { name: "From a paper to a position." }),

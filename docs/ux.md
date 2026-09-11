@@ -27,6 +27,8 @@ The subsequent cleanup removes repeated introductions, the second swap heading, 
 
 Wallet events now describe state instead of producing a generic disconnection error. Unchanged events leave the session intact, selecting another account refreshes balances, and a wrong chain exposes **Switch to Sepolia**. A genuine account change during approval still stops the next transaction. Declined requests show a short retry message.
 
+The single ETHOnline question is read from the chain. “What counts as a win?” reveals the prize criteria without expanding the initial screen. All liquidity strategies use this one market. The direction selector moves its raised selection surface in 200ms. After a fresh successful swap receipt, a 650ms YES/NO stamp identifies the purchased side and a clipped check mark completes the feedback. Failed, pending and unknown transactions never trigger it; restored receipts remain static. Reduced-motion settings remove movement while preserving the outcome label and receipt link. Both sides have equally affirmative purchase feedback: buying NO is not a failed action.
+
 Test assets, manual resolution, slippage/minimum output and the separation between approval and swap remain visible where they matter. Transaction uncertainty still blocks new writes, preserves the hash across reloads and offers receipt recovery. A confirmed swap has an inline link to its receipt. Saved positions have a selector under Liquidity, and the journal can be downloaded. Only wallet access requires reconnection after a reload; no keys are cached. Storage failures remain visible.
 
 ## Verification
