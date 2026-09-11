@@ -48,6 +48,12 @@ The interface uses an injected wallet on Sepolia and requests a network switch. 
 
 The deployer is the disclosed resolver. Replace the market after expiry for later demos. Public testnet time cannot be accelerated; the local lifecycle controls remain exclusive to the local demo.
 
+### Replacing the initial question
+
+`node --env-file=.env scripts/replace-market.mjs` migrates the original Sepolia demo to the single ETHOnline question. It reuses Aqua, GaussVM and gUSD, deploys BinaryMarket with new YES/NO tokens, seeds the new position, docks the old seed and writes the new public manifest. The old manifest is preserved in `deployments/archive/sepolia-initial.json`; old tokens/receipts are not erased or relabeled. It is a one-time migration: after completion, rerunning sends no transactions. An incomplete deployment stops and points to the submitted-hash progress file for inspection; a completed new market can resume the retirement step.
+
+The existing expiry is retained. The UI accepts only the ETHOnline question and stores the new market's history separately. Earlier complete sets can still be merged using the archived contract addresses. See [market retirement](retired-market.md) before interacting with earlier tokens.
+
 ### Source verification and a public UI test
 
 `npm run contracts:build` also writes complete compiler input, including pinned imports, to ignored `artifacts/build-info.json`. Run `npm run verify:sepolia` to submit that source to the free Sourcify v2 API and record exact/partial match results in `reports/sepolia-verification.json`. This needs no API key or chain transaction.

@@ -1,0 +1,90 @@
+{
+  "chainId": 11155111,
+  "checkedAt": "2026-09-11T15:30:38.235Z",
+  "contracts": [
+    {
+      "name": "aqua",
+      "address": "0x2f478eb1726c83108f1363f01757bae7dfe9bed6",
+      "url": "https://repo.sourcify.dev/11155111/0x2f478eb1726c83108f1363f01757bae7dfe9bed6",
+      "result": {
+        "matchId": "49432500",
+        "creationMatch": "exact_match",
+        "runtimeMatch": "exact_match",
+        "verifiedAt": "2026-09-11T15:00:27Z",
+        "match": "exact_match",
+        "chainId": "11155111",
+        "address": "0x2F478Eb1726C83108F1363f01757bAE7dFe9bed6"
+      }
+    },
+    {
+      "name": "router",
+      "address": "0xee9bd9a83feaf9df60fe6ad0ced4bd30c3fd18e9",
+      "url": "https://repo.sourcify.dev/11155111/0xee9bd9a83feaf9df60fe6ad0ced4bd30c3fd18e9",
+      "result": {
+        "matchId": "49432550",
+        "creationMatch": "exact_match",
+        "runtimeMatch": "exact_match",
+        "verifiedAt": "2026-09-11T15:00:52Z",
+        "match": "exact_match",
+        "chainId": "11155111",
+        "address": "0xEe9BD9A83feaF9DF60FE6AD0Ced4Bd30C3fD18e9"
+      }
+    },
+    {
+      "name": "collateral",
+      "address": "0x39bc0f0658f0d79b8f923e98fd840a41cd65c85e",
+      "url": "https://repo.sourcify.dev/11155111/0x39bc0f0658f0d79b8f923e98fd840a41cd65c85e",
+      "result": {
+        "matchId": "49432586",
+        "creationMatch": "exact_match",
+        "runtimeMatch": "exact_match",
+        "verifiedAt": "2026-09-11T15:01:00Z",
+        "match": "exact_match",
+        "chainId": "11155111",
+        "address": "0x39BC0F0658F0d79b8f923e98fD840a41cd65c85E"
+      }
+    },
+    {
+      "name": "market",
+      "address": "0xb36c73b753424da9e7177a2b6b32310f4241eb4f",
+      "url": "https://repo.sourcify.dev/11155111/0xb36c73b753424da9e7177a2b6b32310f4241eb4f",
+      "result": {
+        "matchId": "49449769",
+        "creationMatch": "exact_match",
+        "runtimeMatch": "exact_match",
+        "verifiedAt": "2026-09-11T15:29:25Z",
+        "match": "exact_match",
+        "chainId": "11155111",
+        "address": "0xB36C73b753424da9E7177a2B6B32310F4241Eb4F"
+      }
+    },
+    {
+      "name": "yes",
+      "address": "0x3250101B123877c69A2C9b2a6c3178f863cE0Fa3",
+      "url": "https://repo.sourcify.dev/11155111/0x3250101B123877c69A2C9b2a6c3178f863cE0Fa3",
+      "result": {
+        "matchId": "49449797",
+        "creationMatch": "exact_match",
+        "runtimeMatch": "exact_match",
+        "verifiedAt": "2026-09-11T15:29:27Z",
+        "match": "exact_match",
+        "chainId": "11155111",
+        "address": "0x3250101B123877c69A2C9b2a6c3178f863cE0Fa3"
+      }
+    },
+    {
+      "name": "no",
+      "address": "0x6649436b2F61F6760Dc8638ad41a187cBB3bf4c8",
+      "url": "https://repo.sourcify.dev/11155111/0x6649436b2F61F6760Dc8638ad41a187cBB3bf4c8",
+      "result": {
+        "matchId": "49449830",
+        "creationMatch": "exact_match",
+        "runtimeMatch": "exact_match",
+        "verifiedAt": "2026-09-11T15:29:30Z",
+        "match": "exact_match",
+        "chainId": "11155111",
+        "address": "0x6649436b2F61F6760Dc8638ad41a187cBB3bf4c8"
+      }
+    }
+  ]
+}
