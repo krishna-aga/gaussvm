@@ -10,13 +10,13 @@ if(remote && (!process.env.SEPOLIA_RPC_URL || !process.env.TESTNET_PRIVATE_KEY))
 }
 const rpc=remote?process.env.SEPOLIA_RPC_URL:'http://127.0.0.1:8545';
 const chain=remote?sepolia:hardhat;
-const publicClient=createPublicClient({chain,transport:http(rpc)});
+const publicClient=createPublicClient({chain,transport:http(rpc,{timeout:30000}),pollingInterval:remote?4000:1000});
 if(await publicClient.getChainId()!==chain.id) throw new Error('Wrong chain. Only local 31337 and Sepolia 11155111 are allowed.');
 const account=remote?privateKeyToAccount(process.env.TESTNET_PRIVATE_KEY):undefined;
-const wallet=createWalletClient({chain,transport:http(rpc),account});
+const wallet=createWalletClient({chain,transport:http(rpc,{timeout:30000,retryCount:0}),account});
 const maker=account ?? (await wallet.getAddresses())[0];
 if(remote && await publicClient.getBalance({address:maker.address})===0n) throw new Error('The test wallet needs faucet Sepolia ETH before deployment.');
-const result=await deploySystem({publicClient,wallet,maker,duration:remote?7*86400:86400});
+const result=await deploySystem({publicClient,wallet,maker,duration:remote?30*86400:86400});
 // Never publish a private RPC URL or private key in the browser manifest.
 result.rpcUrl=remote?'https://ethereum-sepolia-rpc.publicnode.com':rpc;
 fs.mkdirSync('deployments',{recursive:true}); fs.mkdirSync('web/public',{recursive:true});
