@@ -17,12 +17,12 @@ Verified locally on 2026-09-11. This record describes executed checks, not an in
 | Check | Result |
 | --- | --- |
 | Solidity compilation | Pass. GaussVM deployed runtime: 16,226 bytes, below the EVM 24,576-byte limit. |
-| Contract / mathematical / economic / workspace suite | **21 tests passed**: 16 onchain/numerical tests and 5 configuration, persistence and receipt-state tests. Includes real official-Aqua transfers in both directions. |
-| Browser suite | **7 scenarios passed**: swaps/export, mobile/reduced motion, no-deployment preview, receipt failure/reload/recovery, malformed configuration, cancellation/reload, saved positions and maker lifecycle. |
+| Contract / mathematical / economic / workspace suite | **22 tests passed**: 17 onchain/numerical tests and 5 configuration, persistence and receipt-state tests. Includes real official-Aqua transfers in both directions and infrastructure reuse for market replacement. |
+| Browser suite | **12 scenarios passed**: swaps/export, mobile/reduced motion, preview/error/recovery, cancellation, saved positions, maker lifecycle, four wallet-provider event scenarios and a slow-quote refresh regression. Both YES/NO receipt animations are exercised. |
 | Canonical Aqua fork | Pass at Ethereum source block 25,954,422: matching Aqua bytecode, position ship and an actual local swap. No public transaction. |
-| Sepolia deployment | Ten successful public deployment/setup receipts; 1,000 YES + 1,000 NO seeded. Creation inputs match local artifacts. |
-| Hosted Sepolia UI | Verified 10 NO → 9.93674043721512635 YES with actual event/balance deltas, successful receipts and desktop/mobile review. See [public execution evidence](evidence/sepolia-ui.json). |
-| Sourcify source verification | All six contracts have exact creation/runtime matches. See [source evidence](evidence/sepolia-source-verification.json). |
+| Sepolia deployment | The ETHOnline market reuses Aqua/router/gUSD; seven new market/setup receipts plus the old seed's docking are confirmed. 1,000 new YES + 1,000 new NO seeded. |
+| Initial hosted Sepolia UI | Verified 10 NO → 9.93674043721512635 YES on the retired question, with actual event/balance deltas and successful receipts. [Original evidence](evidence/sepolia-ui.json) remains tied to that market. |
+| Sourcify source verification | All six current contracts have exact creation/runtime matches. See [current source evidence](evidence/ethonline-source-verification.json). |
 | GitHub CI / Pages | Hosted checks and publication passed at `9f9982d`; public HTTPS site serves the Sepolia manifest. |
 | TypeScript and Vite production build | Pass. Separate Ethereum bundle and self-hosted Latin font; no oversized-chunk warning. |
 | Public static build | Pass; confirmed it excludes local `deployment.json` and restores the local development manifest. |
@@ -54,6 +54,10 @@ The integration fixture's two measured swaps used **767,171 gas** (NO to YES) an
 The tests execute both swap directions, limited approvals, complete-set preparation and merge, real maker ship/dock, local expiry advancement, resolution and redemption. All eleven scenarios passed in the wallet-fix and interface-cleanup browser run, including Connect → Get tokens → Swap progression, the first mobile action in the viewport with at least 44px height, no horizontal overflow, hidden-until-expanded research curve, insufficient-balance prevention and RPC outage. An injected receipt-watcher RPC failure preserves an unknown transaction across reload; restoring RPC and selecting Check receipt observes its successful receipt.
 
 Four provider-event scenarios cover connection-time/duplicate events, changed or revoked accounts, wrong-network blocking, Sepolia switch/add requests, declined-request recovery and local-demo isolation. Changing the account after an approval submits preserves that receipt and prevents the following swap. The provider fixture presents Sepolia metadata while routing all transactions to the local EVM; these tests spend no public testnet gas and do not exercise extension dialogs.
+
+The single-question revision checks the onchain question and keeps all saved strategies within that market. A new contract test reuses Aqua/router/collateral, creates a new market/pair, docks the old allocation and obtains a quote from the new allocation. The browser observes animation-start events only after successful YES and NO swaps; reduced-motion mode renders static feedback, and restored receipts do not replay the animation. Desktop/mobile captures were inspected after this change.
+
+A quote delayed 8.5 seconds remains the same request across the 7-second balance poll when the block has not changed. Quotes now simulate against their balance snapshot's block and refresh on a new block, amount, account, position or direction. A missing quote at action time produces an explicit retry message instead of silently returning.
 
 A real local-chain pending approval was replaced by a same-nonce cancellation. Its receipt remained cancelled after reload, outcome balances did not change, and the next token-preparation step did not run. Saved static/time-scaled positions survived reload and switching, including mobile layout checks. Receipt export was downloaded and parsed. A malformed deployment URL produced recovery instructions without a page crash. Desktop/mobile entry, trade and saved-position screenshots were inspected.
 

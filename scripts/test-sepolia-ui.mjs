@@ -6,6 +6,7 @@ import { privateKeyToAccount } from 'viem/accounts';
 import { sepolia } from 'viem/chains';
 import { loadArtifact } from '../lib/deploy.mjs';
 import { validateDeployment } from '../lib/workspace.mjs';
+import { MARKET_QUESTION } from '../lib/market.mjs';
 
 // Opt-in public test: real Sepolia writes through the hosted UI. Never run in CI.
 const appUrl = 'https://krishna-aga.github.io/gaussvm/';
@@ -19,11 +20,12 @@ assert.notEqual(account.address.toLowerCase(), d.maker.toLowerCase(), 'Use a sep
 const p = createPublicClient({ chain: sepolia, transport: http(d.rpcUrl), pollingInterval: 4000 });
 const wallet = createWalletClient({ account, chain: sepolia, transport: http(d.rpcUrl, { retryCount: 0 }) });
 assert.equal(await p.getChainId(), sepolia.id);
+assert.equal(await p.readContract({ address: d.market, abi: loadArtifact('BinaryMarket').abi, functionName: 'question' }), MARKET_QUESTION);
 assert(await p.getBalance({ address: account.address }) > 0n, 'Taker needs faucet Sepolia ETH');
 const tokenAbi = loadArtifact('OutcomeToken').abi;
 const balance = (token, blockNumber) => p.readContract({ address: token, abi: tokenAbi, functionName: 'balanceOf', args: [account.address], blockNumber });
 const evidence = { chainId: sepolia.id, appUrl, testedAt: new Date().toISOString(), account: account.address, market: d.market,
-  router: d.router, strategy: d.orderHash, walletAdapter: 'EIP-1193 test adapter; signing stays in the Node process, never the page. Not a browser-extension approval-dialog test.', transactions: [] };
+  router: d.router, strategy: d.orderHash, question: MARKET_QUESTION, walletAdapter: 'EIP-1193 test adapter; signing stays in the Node process, never the page. Not a browser-extension approval-dialog test.', transactions: [] };
 fs.mkdirSync('reports', { recursive: true });
 const save = () => fs.writeFileSync('reports/sepolia-ui.json', JSON.stringify(evidence, null, 2));
 const browser = await chromium.launch();
@@ -54,9 +56,14 @@ try {
   });
   await page.addInitScript(() => {
     window.ethereum = { request: args => window.testWalletRequest(args), on() {}, removeListener() {} };
+    window.purchaseAnimations = [];
+    document.addEventListener('animationstart', event => {
+      if (event.target.matches('.purchase-token')) window.purchaseAnimations.push(event.animationName);
+    });
   });
   await page.goto(appUrl);
   await page.getByText('Trading open', { exact: true }).waitFor();
+  await page.getByRole('heading', { name: MARKET_QUESTION, exact: true }).waitFor();
   await page.getByRole('button', { name: 'Connect to swap', exact: true }).click();
   const preparation = page.getByRole('button', { name: 'Get 100 YES + 100 NO', exact: true });
   const swap = page.getByRole('button', { name: 'Swap NO for YES', exact: true });
@@ -67,6 +74,9 @@ try {
   const alert = page.getByRole('alert');
   await success.or(alert).waitFor();
   if (await alert.isVisible()) throw new Error(await alert.innerText());
+  assert.equal(await page.locator('.purchase-feedback').getAttribute('data-side'), 'YES');
+  await page.waitForFunction(() => window.purchaseAnimations.includes('outcome-stamp'));
+  evidence.purchaseFeedback = { side: 'YES', animationObserved: true, trigger: 'successful swap receipt' };
   const last = evidence.transactions.at(-1);
   const receipt = await p.getTransactionReceipt({ hash: last.hash });
   assert.equal(receipt.status, 'success');

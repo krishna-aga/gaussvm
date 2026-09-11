@@ -400,11 +400,20 @@ export default function App() {
     state.status === 0 &&
     state.timestamp + 60 < deployment.expiry &&
     state.active;
+  const quoteBlock = state?.block;
+  const quoteTimestamp = state?.timestamp;
   useEffect(() => {
     let cancelled = false;
     setQuote(undefined);
     setQuoteError("");
-    if (!deployment || !state || !open || parsed <= 0n || !inputToken) {
+    if (
+      !deployment ||
+      quoteBlock === undefined ||
+      quoteTimestamp === undefined ||
+      !open ||
+      parsed <= 0n ||
+      !inputToken
+    ) {
       setQuoting(false);
       return;
     }
@@ -424,10 +433,11 @@ export default function App() {
               yes: d.yes,
               no: d.no,
               minOutput: 1n,
-              deadline: state.timestamp + 120,
+              deadline: quoteTimestamp + 120,
             }),
           ],
           account: session?.account ?? d.maker,
+          blockNumber: quoteBlock,
         });
         if (!cancelled) setQuote(result.result[1]);
       } catch {
@@ -443,7 +453,15 @@ export default function App() {
       cancelled = true;
       clearTimeout(timer);
     };
-  }, [deployment, state, open, parsed, inputToken, session]);
+  }, [
+    deployment,
+    quoteBlock,
+    quoteTimestamp,
+    open,
+    parsed,
+    inputToken,
+    session,
+  ]);
 
   async function action(
     label: string,
@@ -651,7 +669,10 @@ export default function App() {
     });
   const swap = () =>
     action(`Swapping ${inputName} for ${outputName}`, async () => {
-      if (!deployment || !inputToken || quote === undefined || !state) return;
+      if (!deployment || !inputToken || quote === undefined || !state)
+        throw new Error(
+          "The quote is updating. Wait for the estimate, then try again.",
+        );
       const minOutput = (quote * 995n) / 1000n;
       if (minOutput === 0n) throw new Error("Trade amount is too small.");
       await approve(inputToken, deployment.router, parsed);
