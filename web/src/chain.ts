@@ -93,10 +93,18 @@ export async function connect(
   if (localAvailable(d)) {
     const wallet = createWalletClient({
       chain: getChain(d),
-      transport: http(d.rpcUrl),
+      transport: http(d.rpcUrl, { retryCount: 0 }),
     });
     const accounts = await wallet.getAddresses();
-    return { wallet, account: role === "maker" ? accounts[0] : accounts[1] };
+    const account =
+      role === "maker"
+        ? accounts.find((a) => a.toLowerCase() === d.maker.toLowerCase())
+        : accounts[1];
+    if (!account)
+      throw new Error(
+        "The required local wallet is not available. Restart the local demo.",
+      );
+    return { wallet, account };
   }
   const provider = injected();
   if (!provider)
@@ -115,6 +123,10 @@ export async function connect(
     transport: custom(provider as never),
   });
   const [account] = await wallet.requestAddresses();
+  if (!account)
+    throw new Error(
+      "No wallet account was shared. Connect an account to continue.",
+    );
   return { wallet, account };
 }
 export type Session = Awaited<ReturnType<typeof connect>>;

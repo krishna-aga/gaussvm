@@ -663,6 +663,30 @@ footer > span {
   grid-template-columns: 1.25fr 1fr;
   gap: 30px;
 }
+.position-select {
+  display: grid;
+  gap: 8px;
+  color: var(--muted);
+  font-size: 13px;
+}
+.position-select select {
+  min-height: 44px;
+  max-width: 100%;
+  min-width: 0;
+  padding: 10px;
+  color: var(--ink);
+  background: var(--surface);
+  border: 1px solid #b6c1b4;
+  border-radius: 8px;
+  font: inherit;
+}
+.position-select select:focus-visible {
+  outline: 3px solid #577e52;
+  outline-offset: 4px;
+}
+.activity-section > .text-button {
+  min-height: 44px;
+}
 .detail-panel {
   padding: 28px;
 }

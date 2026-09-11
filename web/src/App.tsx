@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useState } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 import {
   Activity,
   ArrowDownUp,
@@ -31,6 +31,14 @@ import {
   takerData,
 } from "../../lib/encoding.mjs";
 import { cdf } from "../../lib/reference.mjs";
+import {
+  validateDeployment,
+  workspaceKey,
+  positionFrom,
+  readWorkspace,
+  writeWorkspace,
+  receiptState,
+} from "../../lib/workspace.mjs";
 import { Curve } from "./Curve";
 import {
   aquaAbi,
@@ -61,9 +69,25 @@ type ChainState = {
 type Transaction = {
   label: string;
   hash: Hash;
-  state: "pending" | "confirmed" | "failed" | "unknown";
+  state:
+    | "pending"
+    | "confirmed"
+    | "failed"
+    | "unknown"
+    | "cancelled"
+    | "replaced";
+  account: Address;
+  replacement?: "repriced" | "cancelled" | "replaced";
   gas?: string;
   block?: string;
+};
+type Position = Pick<
+  Deployment,
+  "maker" | "start" | "timeScaled" | "liquidity" | "order" | "orderHash"
+>;
+const browserStorage = {
+  getItem: (key: string) => localStorage.getItem(key),
+  setItem: (key: string, value: string) => localStorage.setItem(key, value),
 };
 const fmt = (v: bigint | undefined, digits = 2) =>
   v === undefined
@@ -88,12 +112,28 @@ export default function App() {
   const [deployment, setDeployment] = useState<Deployment>();
   const [loading, setLoading] = useState(true),
     [page, setPage] = useState("market");
-  const [session, setSession] = useState<Session>(),
+  const [session, updateSession] = useState<Session>(),
     [state, setState] = useState<ChainState>();
   const [error, setError] = useState(""),
     [chainError, setChainError] = useState(""),
     [busy, setBusy] = useState("");
-  const [transactions, setTransactions] = useState<Transaction[]>([]);
+  const [transactions, updateTransactions] = useState<Transaction[]>([]);
+  const [positions, setPositions] = useState<Position[]>([]);
+  const [storageWarning, setStorageWarning] = useState("");
+  const history = useRef<
+    | {
+        key: string;
+        positions: Position[];
+        selected: Hash;
+        transactions: Transaction[];
+      }
+    | undefined
+  >(undefined);
+  const seed = useRef<Deployment | undefined>(undefined);
+  const refreshSequence = useRef(0);
+  const actionLock = useRef(false);
+  const current = useRef({ deployment, session });
+  current.current = { deployment, session };
   const [amount, setAmount] = useState("10"),
     [buyYes, setBuyYes] = useState(true);
   const [quote, setQuote] = useState<bigint>(),
@@ -101,19 +141,80 @@ export default function App() {
     [quoteError, setQuoteError] = useState("");
   const [remaining, setRemaining] = useState(100),
     [timeScaled, setTimeScaled] = useState(false);
-  const [copied, setCopied] = useState(false);
+  const [copied, setCopied] = useState<Hash>();
+
+  function persistHistory() {
+    if (!history.current) return;
+    const { key, ...value } = history.current;
+    if (!writeWorkspace(browserStorage, key, value))
+      setStorageWarning(
+        "Browser storage is unavailable. Keep transaction hashes before refreshing; new history cannot be saved here.",
+      );
+  }
+  function setTransactions(update: (previous: Transaction[]) => Transaction[]) {
+    const next = update(history.current?.transactions ?? []);
+    if (history.current) history.current.transactions = next;
+    // Persist the submitted hash synchronously, before React's next render.
+    persistHistory();
+    updateTransactions(next);
+  }
+  function setSession(next: Session | undefined) {
+    current.current.session = next;
+    refreshSequence.current++;
+    setState(undefined);
+    setQuote(undefined);
+    updateSession(next);
+  }
+  function selectPosition(selected: Hash) {
+    const position = positions.find((p) => p.orderHash === selected);
+    if (!seed.current || !position || !history.current) return;
+    history.current.selected = selected;
+    persistHistory();
+    refreshSequence.current++;
+    setState(undefined);
+    setQuote(undefined);
+    const next = { ...seed.current, ...position };
+    current.current.deployment = next;
+    setDeployment(next);
+  }
 
   useEffect(() => {
     let active = true;
     fetch(`${import.meta.env.BASE_URL}deployment.json`)
       .then(async (r) => {
-        if (!r.ok) throw new Error("No deployment manifest.");
+        if (r.status === 404) return;
+        if (!r.ok)
+          throw new Error(
+            "Deployment configuration could not be loaded. Reload the page to try again.",
+          );
         const d = (await r.json()) as Deployment;
-        if (d.schemaVersion !== 1 || ![31337, 11155111].includes(d.chainId))
-          throw new Error("Unsupported deployment manifest.");
-        if (active) setDeployment(d);
+        if (!validateDeployment(d))
+          throw new Error(
+            "Deployment configuration is invalid. Regenerate it with npm run deploy:local or the Sepolia deployment script.",
+          );
+        if (active) {
+          seed.current = d;
+          const saved = readWorkspace(browserStorage, d);
+          history.current = {
+            key: workspaceKey(d),
+            positions: saved.positions,
+            selected: saved.selected,
+            transactions: saved.transactions,
+          };
+          setPositions(saved.positions);
+          updateTransactions(saved.transactions);
+          setStorageWarning(saved.warning);
+          setDeployment({
+            ...d,
+            ...saved.positions.find(
+              (p: Position) => p.orderHash === saved.selected,
+            ),
+          });
+        }
       })
-      .catch(() => {})
+      .catch((e) => {
+        if (active) setError(errorText(e));
+      })
       .finally(() => {
         if (active) setLoading(false);
       });
@@ -124,9 +225,16 @@ export default function App() {
 
   const refresh = useCallback(async () => {
     if (!deployment) return;
+    if (
+      current.current.deployment !== deployment ||
+      current.current.session !== session
+    )
+      return;
+    const request = ++refreshSequence.current;
     const d = deployment,
       p = getClient(d);
     try {
+      const block = await p.getBlock();
       const address = session?.account;
       const balance = (token: Address) =>
         address
@@ -135,9 +243,10 @@ export default function App() {
               abi: tokenAbi,
               functionName: "balanceOf",
               args: [address],
+              blockNumber: block.number,
             })
           : Promise.resolve(0n);
-      const [yes, no, collateral, reserveYes, reserveNo, status, block, code] =
+      const [yes, no, collateral, reserveYes, reserveNo, status, code] =
         await Promise.all([
           balance(d.yes),
           balance(d.no),
@@ -147,21 +256,24 @@ export default function App() {
             abi: aquaAbi,
             functionName: "rawBalances",
             args: [d.maker, d.router, d.orderHash, d.yes],
+            blockNumber: block.number,
           }),
           p.readContract({
             address: d.aqua,
             abi: aquaAbi,
             functionName: "rawBalances",
             args: [d.maker, d.router, d.orderHash, d.no],
+            blockNumber: block.number,
           }),
           p.readContract({
             address: d.market,
             abi: marketAbi,
             functionName: "status",
+            blockNumber: block.number,
           }),
-          p.getBlock(),
-          p.getCode({ address: d.router }),
+          p.getCode({ address: d.router, blockNumber: block.number }),
         ]);
+      if (request !== refreshSequence.current) return;
       if (!code || code === "0x")
         throw new Error(
           "Deployment no longer exists. Restart npm run dev and reload this page.",
@@ -183,6 +295,7 @@ export default function App() {
       });
       setChainError("");
     } catch (e) {
+      if (request !== refreshSequence.current) return;
       setChainError(errorText(e));
       setState(undefined);
     }
@@ -190,7 +303,10 @@ export default function App() {
   useEffect(() => {
     void refresh();
     const timer = setInterval(() => void refresh(), 7000);
-    return () => clearInterval(timer);
+    return () => {
+      refreshSequence.current++;
+      clearInterval(timer);
+    };
   }, [refresh]);
   useEffect(() => {
     const provider = injected();
@@ -216,7 +332,8 @@ export default function App() {
     outputName = buyYes ? "YES" : "NO";
   let parsed = 0n;
   try {
-    if (/^\d+(\.\d{0,18})?$/.test(amount)) parsed = parseEther(amount);
+    if (/^(\d+(\.\d{0,18})?|\.\d{1,18})$/.test(amount.trim()))
+      parsed = parseEther(amount.trim());
   } catch {}
   const open =
     !!deployment &&
@@ -269,8 +386,24 @@ export default function App() {
     };
   }, [deployment, state, open, parsed, inputToken, session]);
 
-  async function action(label: string, fn: () => Promise<void>) {
-    if (busy) return;
+  async function action(
+    label: string,
+    fn: () => Promise<void>,
+    allowUnconfirmed = false,
+  ) {
+    if (actionLock.current) return;
+    if (
+      !allowUnconfirmed &&
+      history.current?.transactions.some(
+        (tx) => tx.state === "unknown" || tx.state === "pending",
+      )
+    ) {
+      setError(
+        "Check the unconfirmed receipt before starting another transaction.",
+      );
+      return;
+    }
+    actionLock.current = true;
     setBusy(label);
     setError("");
     try {
@@ -279,6 +412,7 @@ export default function App() {
     } catch (e) {
       setError(errorText(e));
     } finally {
+      actionLock.current = false;
       setBusy("");
     }
   }
@@ -290,9 +424,26 @@ export default function App() {
     args: readonly unknown[] = [],
   ) {
     if (!deployment || !session) throw new Error("Connect a wallet first.");
+    const unchanged = () => {
+      if (
+        current.current.session !== session ||
+        current.current.deployment !== deployment
+      )
+        throw new Error(
+          "Wallet or position changed. Review the current selection and try again.",
+        );
+    };
+    unchanged();
     const p = getClient(deployment);
     if ((await p.getChainId()) !== deployment.chainId)
       throw new Error("Network changed. Connect again.");
+    if ((await session.wallet.getChainId()) !== deployment.chainId)
+      throw new Error("Wallet network changed. Connect again.");
+    if (!localAvailable(deployment)) {
+      const [account] = await session.wallet.getAddresses();
+      if (account?.toLowerCase() !== session.account.toLowerCase())
+        throw new Error("Wallet account changed. Connect again.");
+    }
     const { request } = await p.simulateContract({
       address,
       abi,
@@ -300,8 +451,13 @@ export default function App() {
       args,
       account: session.account,
     });
+    unchanged();
     let hash = await session.wallet.writeContract(request);
-    setTransactions((t) => [{ label, hash, state: "pending" }, ...t]);
+    let replacementReason: Transaction["replacement"];
+    setTransactions((t) => [
+      { label, hash, account: session.account, state: "pending" },
+      ...t,
+    ]);
     let receipt;
     try {
       receipt = await p.waitForTransactionReceipt({
@@ -310,16 +466,14 @@ export default function App() {
         onReplaced: (replacement) => {
           const oldHash = hash;
           hash = replacement.transaction.hash;
+          replacementReason = replacement.reason;
           setTransactions((t) =>
             t.map((tx) =>
               tx.hash === oldHash
                 ? {
                     ...tx,
                     hash,
-                    label:
-                      replacement.reason === "cancelled"
-                        ? `${label} (wallet cancellation)`
-                        : label,
+                    replacement: replacement.reason,
                   }
                 : tx,
             ),
@@ -339,7 +493,7 @@ export default function App() {
         tx.hash === hash
           ? {
               ...tx,
-              state: receipt.status === "success" ? "confirmed" : "failed",
+              state: receiptState(tx, receipt.status),
               gas: receipt.gasUsed.toString(),
               block: receipt.blockNumber.toString(),
             }
@@ -347,31 +501,39 @@ export default function App() {
       ),
     );
     if (receipt.status !== "success") throw new Error("Transaction reverted.");
+    if (replacementReason === "cancelled" || replacementReason === "replaced")
+      throw new Error(
+        "The wallet cancelled or replaced this transaction. The original action was not completed; review its receipt before trying again.",
+      );
   }
   const recheck = (hash: Hash) =>
-    action("Checking receipt", async () => {
-      if (!deployment) return;
-      let receipt;
-      try {
-        receipt = await getClient(deployment).getTransactionReceipt({ hash });
-      } catch {
-        throw new Error(
-          "Confirmation is still unavailable. The transaction is not known to have failed; check this same hash again later.",
+    action(
+      "Checking receipt",
+      async () => {
+        if (!deployment) return;
+        let receipt;
+        try {
+          receipt = await getClient(deployment).getTransactionReceipt({ hash });
+        } catch {
+          throw new Error(
+            "Confirmation is still unavailable. The transaction is not known to have failed; check this same hash again later.",
+          );
+        }
+        setTransactions((t) =>
+          t.map((tx) =>
+            tx.hash === hash
+              ? {
+                  ...tx,
+                  state: receiptState(tx, receipt.status),
+                  gas: receipt.gasUsed.toString(),
+                  block: receipt.blockNumber.toString(),
+                }
+              : tx,
+          ),
         );
-      }
-      setTransactions((t) =>
-        t.map((tx) =>
-          tx.hash === hash
-            ? {
-                ...tx,
-                state: receipt.status === "success" ? "confirmed" : "failed",
-                gas: receipt.gasUsed.toString(),
-                block: receipt.blockNumber.toString(),
-              }
-            : tx,
-        ),
-      );
-    });
+      },
+      true,
+    );
   async function approve(token: Address, spender: Address, quantity: bigint) {
     if (!deployment || !session) return;
     const allowed = await getClient(deployment).readContract({
@@ -387,9 +549,13 @@ export default function App() {
       ]);
   }
   const connectWallet = (role: "trader" | "maker" = "trader") =>
-    action("Connecting", async () => {
-      if (deployment) setSession(await connect(deployment, role));
-    });
+    action(
+      "Connecting",
+      async () => {
+        if (deployment) setSession(await connect(deployment, role));
+      },
+      true,
+    );
   const fund = () =>
     action("Preparing test tokens", async () => {
       if (!deployment) return;
@@ -477,6 +643,21 @@ export default function App() {
         order: { ...order, traits: order.traits.toString() },
         orderHash: orderHash(order),
       } as Deployment;
+      if (history.current) {
+        history.current.positions = [
+          ...history.current.positions.filter(
+            (p) => p.orderHash !== next.orderHash,
+          ),
+          positionFrom(next),
+        ];
+        history.current.selected = next.orderHash;
+        setPositions(history.current.positions);
+        persistHistory();
+      }
+      refreshSequence.current++;
+      current.current.deployment = next;
+      setState(undefined);
+      setQuote(undefined);
       setDeployment(next);
       setPage("market");
     });
@@ -574,6 +755,7 @@ export default function App() {
                   className="icon-button"
                   title="Disconnect wallet"
                   aria-label="Disconnect wallet"
+                  disabled={!!busy}
                   onClick={() => setSession(undefined)}
                 >
                   <LogOut size={17} />
@@ -634,6 +816,12 @@ export default function App() {
               >
                 ×
               </button>
+            </div>
+          )}
+          {storageWarning && (
+            <div className="notice" role="status">
+              <CircleHelp size={20} />
+              <p>{storageWarning}</p>
             </div>
           )}
 
@@ -795,6 +983,12 @@ export default function App() {
                         {quoteError}
                       </p>
                     )}
+                    {parsed <= 0n && (
+                      <p className="field-error" role="status">
+                        Enter an amount greater than zero, with up to 18 decimal
+                        places.
+                      </p>
+                    )}
                     {session && insufficient && (
                       <p className="field-error">
                         Your {inputName} balance is too low. Enter a smaller
@@ -889,7 +1083,7 @@ export default function App() {
                     onClick={() => void fund()}
                     disabled={disabled || !session || !open}
                   >
-                    Get more test tokens <span>+</span>
+                    Get more test tokens <span aria-hidden="true">+</span>
                   </button>
                   <p className="small-help">
                     Claims faucet gUSD and splits 100 into 100 YES + 100 NO. No
@@ -946,6 +1140,24 @@ export default function App() {
               <div className="position-grid">
                 <section className="surface detail-panel">
                   <h2>Active strategy</h2>
+                  {positions.length > 1 && deployment && (
+                    <label className="position-select">
+                      Trading position
+                      <select
+                        value={deployment.orderHash}
+                        disabled={disabled}
+                        onChange={(e) => selectPosition(e.target.value as Hash)}
+                      >
+                        {positions.map((p, index) => (
+                          <option key={p.orderHash} value={p.orderHash}>
+                            {index === 0 ? "Seed" : "Saved"} ·{" "}
+                            {p.timeScaled ? "Time-scaled" : "Static"} ·{" "}
+                            {short(p.maker)} · {short(p.orderHash)}
+                          </option>
+                        ))}
+                      </select>
+                    </label>
+                  )}
                   <dl className="address-list">
                     {[
                       ["Maker", deployment?.maker],
@@ -1388,9 +1600,40 @@ export default function App() {
               <h3>Transaction journal</h3>
               <span>
                 {transactions.filter((t) => t.state === "confirmed").length}{" "}
-                confirmed this session
+                confirmed ·{" "}
+                {storageWarning ? "session only" : "saved in this browser"}
               </span>
             </div>
+            {transactions.length > 0 && (
+              <button
+                className="text-button"
+                onClick={() => {
+                  const blob = new Blob(
+                    [
+                      JSON.stringify(
+                        {
+                          chainId: seed.current?.chainId,
+                          market: seed.current?.market,
+                          exportedAt: new Date().toISOString(),
+                          transactions,
+                        },
+                        null,
+                        2,
+                      ),
+                    ],
+                    { type: "application/json" },
+                  );
+                  const url = URL.createObjectURL(blob),
+                    link = document.createElement("a");
+                  link.href = url;
+                  link.download = `gaussvm-receipts-${Date.now()}.json`;
+                  link.click();
+                  setTimeout(() => URL.revokeObjectURL(url), 1000);
+                }}
+              >
+                Download receipts
+              </button>
+            )}
             {transactions.length === 0 ? (
               <div className="empty-journal">
                 <Activity size={20} />
@@ -1405,7 +1648,9 @@ export default function App() {
                   <div key={tx.hash} className="journal-row">
                     {tx.state === "confirmed" ? (
                       <CheckCircle2 size={19} />
-                    ) : tx.state === "failed" ? (
+                    ) : tx.state === "failed" ||
+                      tx.state === "cancelled" ||
+                      tx.state === "replaced" ? (
                       <XCircle size={19} />
                     ) : tx.state === "unknown" ? (
                       <CircleHelp size={19} />
@@ -1421,6 +1666,7 @@ export default function App() {
                         {tx.block
                           ? ` · Block ${tx.block} · ${Number(tx.gas).toLocaleString()} gas`
                           : ""}
+                        {` · ${short(tx.account)}`}
                       </span>
                     </div>
                     {tx.state === "unknown" && (
@@ -1447,15 +1693,19 @@ export default function App() {
                         onClick={async () => {
                           try {
                             await navigator.clipboard.writeText(tx.hash);
-                            setCopied(true);
-                            setTimeout(() => setCopied(false), 1500);
+                            setCopied(tx.hash);
+                            setTimeout(() => setCopied(undefined), 1500);
                           } catch {
                             setError(`Transaction hash: ${tx.hash}`);
                           }
                         }}
                       >
                         {short(tx.hash)}
-                        {copied ? <Check size={13} /> : <Copy size={13} />}
+                        {copied === tx.hash ? (
+                          <Check size={13} />
+                        ) : (
+                          <Copy size={13} />
+                        )}
                       </button>
                     )}
                   </div>
