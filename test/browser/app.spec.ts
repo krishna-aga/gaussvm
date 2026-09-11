@@ -8,6 +8,9 @@ test("desktop: real trade, LP controls, lifecycle and chain failure handling", a
   page.on("pageerror", (e) => errors.push(e.message));
   await page.goto("/");
   await expect(page.getByText("Trading open", { exact: true })).toBeVisible();
+  await expect(
+    page.getByRole("button", { name: "Swap outcomes", exact: true }),
+  ).toBeHidden();
   await page
     .getByRole("button", { name: "Connect demo wallet", exact: true })
     .click();

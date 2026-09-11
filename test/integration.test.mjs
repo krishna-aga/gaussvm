@@ -51,11 +51,16 @@ test('both trade directions settle real transfers, match quotes, emit Swapped',a
 
 test('slippage, expired deadlines, unsupported exact output, malformed programs reject atomically',async()=>{
   const before=await balance(no,trader);
-  await assert.rejects(write(router,'swap',[order,e('10'),data(no.address,e('100'))],trader));
-  await assert.rejects(write(router,'swap',[order,e('10'),data(no.address,1n,{deadline:1})],trader));
-  await assert.rejects(write(router,'swap',[order,e('10'),data(no.address,1n,{exactIn:false})],trader));
+  await assert.rejects(write(router,'swap',[order,e('10'),data(no.address,e('100'))],trader),/TakerTraitsInsufficientMinOutputAmount/);
+  await assert.rejects(write(router,'swap',[order,e('10'),data(no.address,1n,{deadline:1})],trader),/TakerTraitsDeadlineExpired/);
+  await assert.rejects(write(router,'swap',[order,e('10'),data(no.address,1n,{exactIn:false})],trader),/ExactOutputUnsupported/);
   const malformed={...order,data:order.data.slice(0,-2)};
-  await assert.rejects(write(router,'swap',[malformed,e('10'),data(no.address)],trader));
+  // Ship the malformed order so rejection comes from program parsing, not missing Aqua allocation.
+  await write(aqua,'ship',[router.address,encodeOrder(malformed),[yes.address,no.address],[e('1000'),e('1000')]]);
+  await assert.rejects(write(router,'swap',[malformed,e('10'),data(no.address)],trader),/RunLoopExceedProgramLength/);
+  const unknown={...order,data:`${order.data.slice(0,82)}81${order.data.slice(84)}`};
+  await write(aqua,'ship',[router.address,encodeOrder(unknown),[yes.address,no.address],[e('1000'),e('1000')]]);
+  await assert.rejects(write(router,'swap',[unknown,e('10'),data(no.address)],trader),/InvalidProgram/);
   assert.equal(await balance(no,trader),before);
 });
 
