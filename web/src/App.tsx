@@ -19,6 +19,7 @@ import {
 } from "lucide-react";
 import {
   formatEther,
+  isAddress,
   parseEther,
   type Abi,
   type Address,
@@ -44,7 +45,6 @@ import {
   aquaAbi,
   connect,
   getClient,
-  injected,
   localAvailable,
   marketAbi,
   routerAbi,
@@ -96,9 +96,16 @@ const fmt = (v: bigint | undefined, digits = 2) =>
         maximumFractionDigits: digits,
       });
 function errorText(error: unknown) {
-  const text = error instanceof Error ? error.message : String(error);
-  if (/reject|denied/i.test(text))
+  const details =
+    error && typeof error === "object"
+      ? (error as { message?: unknown; code?: number })
+      : undefined;
+  const text =
+    typeof details?.message === "string" ? details.message : String(error);
+  if (details?.code === 4001 || /reject|denied/i.test(text))
     return "The wallet request was declined. You can try again.";
+  if (details?.code === -32002)
+    return "A wallet request is already open. Check your wallet to continue.";
   if (/insufficient funds/i.test(text))
     return "This test wallet needs faucet ETH to cover gas.";
   if (/fetch|HTTP request|network/i.test(text))
@@ -308,20 +315,45 @@ export default function App() {
       clearInterval(timer);
     };
   }, [refresh]);
+  const provider = session?.provider;
   useEffect(() => {
-    const provider = injected();
-    const reset = () => {
-      setSession(undefined);
-      setQuote(undefined);
-      setError("Wallet account or network changed. Connect again to continue.");
+    if (!provider) return;
+    const accountsChanged = (value: unknown) => {
+      const connected = current.current.session;
+      if (connected?.provider !== provider || !Array.isArray(value)) return;
+      if (!value.length) {
+        setSession(undefined);
+        return;
+      }
+      const account = value[0];
+      if (typeof account !== "string" || !isAddress(account)) return;
+      if (account.toLowerCase() === connected.account.toLowerCase()) return;
+      setSession({ ...connected, account });
     };
-    provider?.on?.("accountsChanged", reset);
-    provider?.on?.("chainChanged", reset);
+    const chainChanged = (value: unknown) => {
+      const connected = current.current.session;
+      if (connected?.provider !== provider || typeof value !== "string") return;
+      const chainId = Number(value);
+      if (
+        !Number.isSafeInteger(chainId) ||
+        chainId <= 0 ||
+        chainId === connected.chainId
+      )
+        return;
+      setSession({ ...connected, chainId });
+    };
+    const disconnected = () => {
+      if (current.current.session?.provider === provider) setSession(undefined);
+    };
+    provider.on?.("accountsChanged", accountsChanged);
+    provider.on?.("chainChanged", chainChanged);
+    provider.on?.("disconnect", disconnected);
     return () => {
-      provider?.removeListener?.("accountsChanged", reset);
-      provider?.removeListener?.("chainChanged", reset);
+      provider.removeListener?.("accountsChanged", accountsChanged);
+      provider.removeListener?.("chainChanged", chainChanged);
+      provider.removeListener?.("disconnect", disconnected);
     };
-  }, []);
+  }, [provider]);
 
   const inputToken = deployment
     ? buyYes
@@ -552,7 +584,10 @@ export default function App() {
     action(
       "Connecting",
       async () => {
-        if (deployment) setSession(await connect(deployment, role));
+        if (deployment) {
+          setSession(await connect(deployment, role));
+          setError("");
+        }
       },
       true,
     );
@@ -691,8 +726,10 @@ export default function App() {
             : open
               ? "Trading open"
               : "Trading closed";
+  const wrongNetwork = !!session && session.chainId !== deployment?.chainId;
   const disabled =
     !!busy ||
+    wrongNetwork ||
     !!chainError ||
     !state ||
     transactions.some((tx) => tx.state === "unknown");
@@ -822,6 +859,26 @@ export default function App() {
             <div className="notice" role="status">
               <CircleHelp size={20} />
               <p>{storageWarning}</p>
+            </div>
+          )}
+          {wrongNetwork && (
+            <div className="notice" role="status">
+              <Wallet size={20} />
+              <div>
+                <p>
+                  Your wallet is on another network. Switch to{" "}
+                  {deployment?.network} to continue.
+                </p>
+                {page !== "market" && (
+                  <button
+                    className="text-button"
+                    disabled={!!busy}
+                    onClick={() => void connectWallet()}
+                  >
+                    Switch to {deployment?.network}
+                  </button>
+                )}
+              </div>
             </div>
           )}
 
@@ -997,7 +1054,16 @@ export default function App() {
                     )}
                   </>
                 )}
-                {!session ? (
+                {wrongNetwork ? (
+                  <button
+                    className="button primary full"
+                    disabled={!!busy}
+                    onClick={() => void connectWallet()}
+                  >
+                    {busy || `Switch to ${deployment?.network}`}{" "}
+                    <ArrowRight size={18} />
+                  </button>
+                ) : !session ? (
                   <button
                     className="button primary full"
                     disabled={!deployment || !!busy || !!chainError}

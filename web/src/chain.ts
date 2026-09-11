@@ -79,7 +79,7 @@ export function localAvailable(d: Deployment) {
     ["127.0.0.1", "localhost"].includes(new URL(d.rpcUrl).hostname)
   );
 }
-type Provider = {
+export type Provider = {
   request: (args: { method: string; params?: unknown[] }) => Promise<unknown>;
   on?: (name: string, fn: (value: unknown) => void) => void;
   removeListener?: (name: string, fn: (value: unknown) => void) => void;
@@ -104,30 +104,59 @@ export async function connect(
       throw new Error(
         "The required local wallet is not available. Restart the local demo.",
       );
-    return { wallet, account };
+    return { wallet, account, chainId: d.chainId, provider: undefined };
   }
   const provider = injected();
   if (!provider)
     throw new Error(
       "Install an Ethereum wallet, or run npm run dev locally for a wallet-free demo.",
     );
-  const id = `0x${d.chainId.toString(16)}`;
-  if ((await provider.request({ method: "eth_chainId" })) !== id) {
-    await provider.request({
-      method: "wallet_switchEthereumChain",
-      params: [{ chainId: id }],
-    });
-  }
   const wallet = createWalletClient({
     chain: getChain(d),
     transport: custom(provider as never),
   });
-  const [account] = await wallet.requestAddresses();
+  await wallet.requestAddresses();
+  const id = `0x${d.chainId.toString(16)}`;
+  if (Number(await provider.request({ method: "eth_chainId" })) !== d.chainId) {
+    try {
+      await provider.request({
+        method: "wallet_switchEthereumChain",
+        params: [{ chainId: id }],
+      });
+    } catch (error) {
+      if (
+        (error as { code?: number }).code !== 4902 ||
+        d.chainId !== sepolia.id
+      )
+        throw error;
+      await provider.request({
+        method: "wallet_addEthereumChain",
+        params: [
+          {
+            chainId: id,
+            chainName: sepolia.name,
+            nativeCurrency: sepolia.nativeCurrency,
+            rpcUrls: [d.rpcUrl],
+            blockExplorerUrls: [sepolia.blockExplorers.default.url],
+          },
+        ],
+      });
+      await provider.request({
+        method: "wallet_switchEthereumChain",
+        params: [{ chainId: id }],
+      });
+    }
+  }
+  // Read again after wallet prompts: either account or chain may have changed.
+  const [account] = await wallet.getAddresses();
+  const chainId = await wallet.getChainId();
   if (!account)
     throw new Error(
       "No wallet account was shared. Connect an account to continue.",
     );
-  return { wallet, account };
+  if (chainId !== d.chainId)
+    throw new Error(`Switch your wallet to ${d.network} to continue.`);
+  return { wallet, account, chainId, provider };
 }
 export type Session = Awaited<ReturnType<typeof connect>>;
 export const short = (value: string) =>
