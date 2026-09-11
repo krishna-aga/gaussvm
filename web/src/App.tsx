@@ -102,7 +102,7 @@ function errorText(error: unknown) {
   if (/insufficient funds/i.test(text))
     return "This test wallet needs faucet ETH to cover gas.";
   if (/fetch|HTTP request|network/i.test(text))
-    return "The blockchain is unavailable. Check that the local demo is running, then refresh.";
+    return "The blockchain connection is unavailable. Try again shortly.";
   if (/revert/i.test(text))
     return "The contract rejected this action. Check the amount, token balance, active position and market deadline, then get a new quote.";
   return text.split("\n")[0].slice(0, 230);

@@ -1,6 +1,7 @@
 import fs from 'node:fs';
 import path from 'node:path';
 import solc from 'solc';
+const importedSources = {};
 
 function files(dir) {
   return fs.readdirSync(dir, { withFileTypes: true }).flatMap(e =>
@@ -11,7 +12,11 @@ function resolveImport(name) {
     : name.startsWith('@1inch/aqua/') ? name.replace('@1inch/aqua/', 'vendor/aqua/')
     : name.startsWith('@1inch/solidity-utils/') ? name.replace('@1inch/solidity-utils/', 'vendor/solidity-utils/')
     : path.join('node_modules', name);
-  try { return { contents: fs.readFileSync(resolved, 'utf8') }; }
+  try {
+    const contents = fs.readFileSync(resolved, 'utf8');
+    importedSources[name] = { content: contents };
+    return { contents };
+  }
   catch { return { error: `Missing ${resolved}. Run git submodule update --init --recursive and npm ci.` }; }
 }
 const input = {
@@ -26,6 +31,11 @@ const output = JSON.parse(solc.compile(JSON.stringify(input), { import: resolveI
 for (const error of output.errors ?? []) console[error.severity === 'error' ? 'error' : 'warn'](error.formattedMessage);
 if (output.errors?.some(e => e.severity === 'error')) process.exit(1);
 fs.mkdirSync('artifacts', { recursive: true });
+// Complete standard input for free source verification, including pinned imports.
+fs.writeFileSync('artifacts/build-info.json', JSON.stringify({
+  compilerVersion: solc.version().replace('.Emscripten.clang', ''),
+  input: { ...input, sources: { ...input.sources, ...importedSources } },
+}));
 for (const [source, contracts] of Object.entries(output.contracts)) {
   for (const [name, artifact] of Object.entries(contracts)) {
     if (!artifact.evm.bytecode.object) continue;
