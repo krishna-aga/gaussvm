@@ -2,6 +2,8 @@
 
 GaussVM is a single-maker Aqua position in complementary ERC-20 outcomes. It is not a central order book or pooled LP-share vault. Multiple makers can ship independent strategies; the UI operates on one selected strategy.
 
+Every UI strategy belongs to the single ETHOnline question and the same YES/NO pair. The app reads `BinaryMarket.question()` at the same block as balances and refuses an older question. The old public demo market is archived rather than relabeled: onchain questions cannot be edited. A replacement reuses Aqua, router and collateral while deploying a new BinaryMarket and its outcome tokens. [A plain-language Aqua walkthrough](aqua.md) explains the roles.
+
 ```mermaid
 flowchart LR
   C[Test collateral] -->|split a complete set| M[BinaryMarket]

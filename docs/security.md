@@ -5,6 +5,7 @@ This is an unaudited local/Sepolia research demo, without a production deploymen
 ## Trust boundaries
 
 - **Resolution:** the immutable resolver selects YES/NO during the day after expiry. There is no external price oracle or dispute mechanism. After that window, anyone can cancel an unresolved market for half-value payouts on each side.
+- **Event interpretation:** the ETHOnline question and published prize rules are a manual-resolution convention. The contract stores the question but cannot verify prize announcements or force the resolver to follow that convention. Pool-implied odds are not an ETHGlobal assessment of the project.
 - **Collateral:** the demo uses its own worthless faucet token. Split checks the actual received amount before minting and rejects transfer-tax deposits. Rebasing and third-party collateral are unsupported economic models.
 - **Maker availability:** Aqua allocation is not escrow. A maker may spend tokens or revoke approval, so quotes cannot guarantee settlement.
 - **Aqua/SwapVM:** source is pinned, not rewritten. Official settlement and locks retain their upstream assumptions.

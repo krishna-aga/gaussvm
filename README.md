@@ -4,6 +4,8 @@
 
 GaussVM turns [Paradigm's pm-AMM research](https://www.paradigm.xyz/writing/pm-amm) into an executable test-token position. A custom SwapVM instruction prices YES/NO trades using the Gaussian invariant. Official Aqua contracts account for the maker's allocation and transfer tokens between wallets.
 
+The app has one market: **Will this project win ETHOnline 2026?** YES means GaussVM receives any officially announced event prize, including partner prizes, by expiry. The rules are available beside the question; resolution is manual. Confirmed YES/NO purchases receive a short animation, with static feedback for reduced-motion preferences. [What is an Aqua app, and how does GaussVM use it?](docs/aqua.md)
+
 Built for **ETHOnline 2026**, with **1inch's Build an Aqua App** as the primary track. This is a working local/testnet research prototype, not an audited protocol or a promise of LP returns. The time-scaled mode is explicitly distinguished from the paper's complete economic result.
 
 Powered by Aqua — © Degensoft Ltd 2025  
