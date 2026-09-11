@@ -353,7 +353,7 @@ input[type="range"] {
 }
 .amount-box {
   display: block;
-  padding: 15px 14px 19px;
+  padding: 14px;
   border-radius: 12px;
   box-shadow: var(--inset);
   background: #e6ebe3;
@@ -409,21 +409,8 @@ input[type="range"] {
   background: #e2ddd0;
   color: #706044;
 }
-.swap-divider {
-  display: flex;
-  justify-content: center;
-  margin: -8px 0;
-  position: relative;
-  z-index: 1;
-}
-.swap-divider .icon-button {
-  height: 29px;
-  width: 29px;
-  border-radius: 9px;
-  background: #e9ede8;
-  box-shadow:
-    3px 3px 6px #cbd5c7,
-    -3px -3px 6px #f6fff2;
+.amount-box.receive {
+  margin-top: 10px;
 }
 .quote-details {
   display: flex;
@@ -592,16 +579,6 @@ input[type="range"] {
 }
 .activity-section h3 {
   font-size: 14px;
-}
-.empty-journal {
-  display: flex;
-  align-items: center;
-  gap: 12px;
-  padding: 24px 0 12px;
-  color: #52634f;
-}
-.empty-journal p {
-  font-size: 11px;
 }
 .journal-list {
   margin-top: 15px;
@@ -1024,9 +1001,6 @@ footer > span {
   .activity-section .section-top > span {
     font-size: 9px;
   }
-  .empty-journal p {
-    font-size: 10px;
-  }
   .journal-row {
     gap: 9px;
     flex-wrap: wrap;
@@ -1091,7 +1065,6 @@ footer > span {
 .slider-row,
 .reserve-strip > div > span,
 .reserve-strip small,
-.empty-journal p,
 .journal-row span,
 .journal-row > button,
 .journal-row > a,
@@ -1221,7 +1194,8 @@ footer {
   margin-bottom: 24px;
 }
 .market-heading {
-  margin-bottom: 24px;
+  padding-bottom: 20px;
+  border-bottom: 1px solid #d4dcd2;
 }
 .market-heading h2 {
   font-size: 18px;
@@ -1229,11 +1203,9 @@ footer {
   margin-bottom: 12px;
 }
 .market-heading p {
+  margin-top: 10px;
   font-size: 13px;
   line-height: 1.6;
-}
-.market-heading p strong {
-  font-weight: 550;
 }
 .market-status {
   font-size: 12px;
@@ -1313,17 +1285,6 @@ summary:focus-visible {
   margin-top: 0;
   border-top: 0;
 }
-.swap-footnote {
-  font-size: 13px;
-  margin: 25px 0 8px;
-  line-height: 1.7;
-}
-.learn-link {
-  display: inline-flex;
-  align-items: center;
-  gap: 8px;
-  min-height: 44px;
-}
 .research-curve {
   margin-bottom: 30px;
 }
@@ -1387,9 +1348,6 @@ summary:focus-visible {
   .page-heading p {
     margin-top: 8px;
     line-height: 1.6;
-  }
-  .market-heading {
-    margin-bottom: 22px;
   }
   .market-heading h2 {
     font-size: 17px;

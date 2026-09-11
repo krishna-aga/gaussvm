@@ -121,7 +121,7 @@ components:
     textColor: "{colors.ink}"
     typography: "{typography.amount}"
     rounded: "{rounded.field}"
-    padding: "15px 14px 19px"
+    padding: "14px"
   navigation-active:
     backgroundColor: "{colors.surface}"
     textColor: "{colors.green}"
@@ -215,6 +215,8 @@ The application uses a horizontal brand/navigation header, a compact network/wal
 
 The ordered Connect, Get tokens, Swap indicators reflect current wallet/balance state. An empty wallet sees token preparation as the primary action; a funded wallet sees the direction/amount/quote form. Wallet balances and additional tokens live in native expandable details. The research curve and slider moved to an expandable section of How it works. Allocation figures moved to Liquidity. The former sidebar and mobile jump are removed because the curve no longer precedes the swap.
 
+The market question, manual-resolution note and implied probability sit inside the trade panel. One page heading introduces the task. Get YES / Get NO is the single direction selector, and the two amount wells have 14px padding with a 10px gap. Repeated introductions and the empty journal placeholder are omitted.
+
 Liquidity retains its two-column position controls and stacks at 740px. The research article retains its 830px measure. Full addresses wrap, code blocks scroll inside their container and amount inputs use `min-width: 0`. The primary execution flow remains narrow at all widths. See [the UX rationale](docs/ux.md).
 
 ## Elevation & Depth
@@ -266,7 +268,7 @@ The time slider ranges from 5% to 100% remaining and compresses the normalized p
 
 Preview mode names the absence of a deployment and explains local execution. Chain failures expose a retry action; errors appear in a clay notice with `role="alert"`. Field-level quote failure explains the amount/domain problem near the trade action. Test-token value, manual resolution and separate approval/swap transactions stay visible in the relevant flow.
 
-A confirmed swap shows an inline success message linking to its actual journal receipt. Pending and unknown receipts never trigger that message. Positions and the journal are cached in this browser per deployment, with visible storage-failure feedback and a JSON receipt download. This cache is not a full chain indexer or cross-device archive. Its empty state describes future receipt entries without creating sample activity. Rows include an action label, submitting account, written state and a state-specific icon. Block and gas metadata appear only after receipt retrieval. Local hashes are copyable; explorer links are conditional on a configured transaction URL. A polite live region announces busy work or the latest confirmed transaction.
+A confirmed swap shows an inline success message linking to its actual journal receipt. Pending and unknown receipts never trigger that message. Positions and the journal are cached in this browser per deployment, with visible storage-failure feedback and a JSON receipt download. This cache is not a full chain indexer or cross-device archive. The journal appears only when it has transactions, including pending or unknown entries. Rows include an action label, submitting account, written state and a state-specific icon. Block and gas metadata appear only after receipt retrieval. Local hashes are copyable; explorer links are conditional on a configured transaction URL. A polite live region announces busy work or the latest confirmed transaction.
 
 | Receipt state | Visual and interaction meaning |
 | --- | --- |

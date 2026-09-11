@@ -16,15 +16,19 @@ These are design decisions informed by Laws of UX, not measured user-study resul
 
 ## Where the details went
 
-- **Swap:** test-market question, manual resolution, implied probability, current setup step, actual quote/minimum output, the primary action and receipt journal.
+- **Swap:** one panel groups the test-market question, manual resolution, implied probability, current setup step, actual quote/minimum output and primary action. The receipt journal appears once there is a transaction to show.
 - **Your balances & test tokens:** expandable wallet balances and the additional token-preparation action.
 - **Liquidity:** allocations, strategy addresses, ship/dock, merging, resolution and redemption.
 - **How it works:** original research, expandable curve/time illustration, comparison and exact implementation boundaries.
 
 The old sidebar, promotional heading, large probability display and mobile jump shortcut were removed. The primary task now sits directly in a narrow column. Moving the curve removes the need to jump past it. No contract capability was removed.
 
+The subsequent cleanup removes repeated introductions, the second swap heading, duplicate direction controls and the empty receipt placeholder. Get YES / Get NO remains the single direction selector. The amount fields are more compact, with the sage material and readable labels retained.
+
+Wallet events now describe state instead of producing a generic disconnection error. Unchanged events leave the session intact, selecting another account refreshes balances, and a wrong chain exposes **Switch to Sepolia**. A genuine account change during approval still stops the next transaction. Declined requests show a short retry message.
+
 Test assets, manual resolution, slippage/minimum output and the separation between approval and swap remain visible where they matter. Transaction uncertainty still blocks new writes, preserves the hash across reloads and offers receipt recovery. A confirmed swap has an inline link to its receipt. Saved positions have a selector under Liquidity, and the journal can be downloaded. Only wallet access requires reconnection after a reload; no keys are cached. Storage failures remain visible.
 
 ## Verification
 
-The updated seven-scenario Playwright suite covers first-time step progression, actual swaps in both directions, 390px mobile first-action visibility/target size, no horizontal overflow, reduced motion, expandable curve navigation, missing/malformed deployment, RPC outage, receipt recovery across reload, receipt download, wallet cancellation, saved-position selection and the complete maker lifecycle. Screenshots of entry, trade and saved-position states were inspected on desktop and mobile. No claim is made about user-study completion times or a full assistive-technology/device matrix.
+The eleven-scenario Playwright suite covers first-time step progression, actual swaps in both directions, 390px mobile first-action visibility/target size, no horizontal overflow, reduced motion, expandable curve navigation, missing/malformed deployment, RPC outage, receipt recovery across reload, receipt download, wallet cancellation, saved-position selection and the complete maker lifecycle. Four provider-event scenarios additionally cover duplicate events, account changes/revocation, switch/add-network recovery, rejected requests, mid-approval account changes and local-session isolation. The injected provider fixture routes all writes to the local EVM; it does not automate wallet-extension dialogs. Screenshots of entry, trade and saved-position states were inspected on desktop and mobile. No claim is made about user-study completion times or a full assistive-technology/device matrix.

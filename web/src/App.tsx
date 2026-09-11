@@ -1,7 +1,6 @@
 import { useCallback, useEffect, useRef, useState } from "react";
 import {
   Activity,
-  ArrowDownUp,
   ArrowRight,
   BookOpen,
   Check,
@@ -809,9 +808,7 @@ export default function App() {
                   ? "Connect demo wallet"
                   : "Connect wallet"}
               </button>
-            ) : (
-              <span className="account">Wallet not connected</span>
-            )}
+            ) : null}
           </div>
         </header>
         <div
@@ -885,39 +882,28 @@ export default function App() {
           {page === "market" && (
             <div className="swap-workspace">
               <div className="page-heading">
-                <div>
-                  <h1>Swap test outcomes</h1>
-                  <p>
-                    Try Gaussian pricing with a real test-token transaction.
-                  </p>
-                </div>
+                <h1>Swap outcomes</h1>
               </div>
-              <section className="market-heading" aria-label="Demo market">
-                <h2>Will the demo resolver choose YES?</h2>
-                <div className="market-status">
-                  <span className={open ? "dot live" : "dot"} />
-                  <span>{status}</span>
-                  <span>Manual resolution</span>
-                </div>
-                <p>
-                  The resolver chooses the winning side after expiry.{" "}
-                  <strong>
-                    {state && probability !== undefined
-                      ? `${(probability * 100).toFixed(1)}% implied YES probability.`
-                      : ""}
-                  </strong>
-                </p>
-              </section>
               <section
                 id="trade-panel"
                 tabIndex={-1}
                 className="trade-panel surface"
                 aria-labelledby="trade-heading"
               >
-                <div className="section-top">
-                  <h2 id="trade-heading">Make a test swap</h2>
-                  <ArrowDownUp size={19} />
-                </div>
+                <header className="market-heading">
+                  <h2 id="trade-heading">Will the demo resolver choose YES?</h2>
+                  <div className="market-status">
+                    <span className={open ? "dot live" : "dot"} />
+                    <span>{status}</span>
+                    {state && probability !== undefined && (
+                      <span>{(probability * 100).toFixed(1)}% implied YES</span>
+                    )}
+                  </div>
+                  <p>
+                    Manual resolution: the resolver chooses the outcome after
+                    expiry.
+                  </p>
+                </header>
                 <ol className="demo-steps" aria-label="Swap progress">
                   {["Connect", "Get tokens", "Swap"].map((label, index) => (
                     <li
@@ -934,17 +920,14 @@ export default function App() {
                 </ol>
                 {!session && (
                   <p className="step-help">
-                    Connect a test wallet to begin.{" "}
                     {deployment && localAvailable(deployment)
-                      ? "No wallet extension or real funds needed."
-                      : "Use a Sepolia wallet with faucet ETH."}
+                      ? "Use the demo wallet. No extension or real funds needed."
+                      : "Connect a Sepolia wallet with faucet ETH to begin."}
                   </p>
                 )}
                 {session && !showTrade && (
                   <p className="step-help">
-                    Get 100 YES and 100 NO tokens to try either side of the
-                    market. These test tokens are free and have no monetary
-                    value.
+                    Get 100 YES and 100 NO test tokens to try either side.
                   </p>
                 )}
                 {showTrade && (
@@ -987,15 +970,6 @@ export default function App() {
                         </strong>
                       </div>
                     </label>
-                    <div className="swap-divider">
-                      <button
-                        className="icon-button"
-                        onClick={() => setBuyYes(!buyYes)}
-                        aria-label="Reverse swap direction"
-                      >
-                        <ArrowDownUp size={17} />
-                      </button>
-                    </div>
                     <div className="amount-box receive">
                       <span>
                         You receive <small>Estimated</small>
@@ -1116,7 +1090,7 @@ export default function App() {
                 )}
                 <p className="trade-disclaimer">
                   Test tokens have no monetary value. Approval and swap are
-                  separate transactions. Quotes can change before confirmation.
+                  separate transactions.
                 </p>
                 {swapConfirmed && (
                   <p className="swap-success" role="status">
@@ -1157,16 +1131,6 @@ export default function App() {
                   </p>
                 </details>
               </section>
-              <p className="swap-footnote">
-                Powered by 1inch Aqua + SwapVM. Maker tokens stay in their
-                wallet until a swap settles.
-              </p>
-              <button
-                className="text-button learn-link"
-                onClick={() => setPage("research")}
-              >
-                How does the pricing work? <ArrowRight size={16} />
-              </button>
             </div>
           )}
 
@@ -1661,16 +1625,20 @@ export default function App() {
             </>
           )}
 
-          <section id="transactions" className="activity-section" tabIndex={-1}>
-            <div className="section-top">
-              <h3>Transaction journal</h3>
-              <span>
-                {transactions.filter((t) => t.state === "confirmed").length}{" "}
-                confirmed ·{" "}
-                {storageWarning ? "session only" : "saved in this browser"}
-              </span>
-            </div>
-            {transactions.length > 0 && (
+          {transactions.length > 0 && (
+            <section
+              id="transactions"
+              className="activity-section"
+              tabIndex={-1}
+            >
+              <div className="section-top">
+                <h3>Transaction journal</h3>
+                <span>
+                  {transactions.filter((t) => t.state === "confirmed").length}{" "}
+                  confirmed ·{" "}
+                  {storageWarning ? "session only" : "saved in this browser"}
+                </span>
+              </div>
               <button
                 className="text-button"
                 onClick={() => {
@@ -1699,16 +1667,6 @@ export default function App() {
               >
                 Download receipts
               </button>
-            )}
-            {transactions.length === 0 ? (
-              <div className="empty-journal">
-                <Activity size={20} />
-                <p>
-                  Your transactions will appear here, with their actual chain
-                  receipts.
-                </p>
-              </div>
-            ) : (
               <div className="journal-list">
                 {transactions.map((tx) => (
                   <div key={tx.hash} className="journal-row">
@@ -1777,8 +1735,8 @@ export default function App() {
                   </div>
                 ))}
               </div>
-            )}
-          </section>
+            </section>
+          )}
           <footer>
             <span>
               <Waves size={16} />
