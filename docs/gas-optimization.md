@@ -101,3 +101,9 @@ authorization to the current router. The archived manifest retains old addresses
 Browser workspaces now include the router address. Old cached receipts are kept,
 but old custom authorizations are not silently treated as positions on a different
 router. Takers approve the new router for the requested amount when needed.
+
+The rollout completed on 11 September 2026. Router
+`0xc6861469c1c0144d132efcc4a1261c4fd3e38310` has an exact Sourcify source match.
+The published app executed a real 10 NO swap using 612,134 gas at the migrated
+reserve state. [Live addresses, receipt and funding](live-deployment.md#optimized-router-rollout)
+are recorded separately from the controlled baseline benchmarks above.

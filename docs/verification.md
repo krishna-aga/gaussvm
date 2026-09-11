@@ -16,15 +16,16 @@ Verified locally on 2026-09-11. This record describes executed checks, not an in
 
 | Check | Result |
 | --- | --- |
-| Solidity compilation | Pass. GaussVM deployed runtime: 16,226 bytes, below the EVM 24,576-byte limit. |
-| Contract / mathematical / economic / workspace suite | **22 tests passed**: 17 onchain/numerical tests and 5 configuration, persistence and receipt-state tests. Includes real official-Aqua transfers in both directions and infrastructure reuse for market replacement. |
+| Solidity compilation | Pass. Optimized GaussVM deployed runtime: 16,217 bytes, below the EVM 24,576-byte limit. |
+| Contract / mathematical / economic / workspace suite | **24 tests passed**: 18 onchain/numerical/migration tests and 6 configuration, persistence and receipt-state tests. Includes real official-Aqua transfers in both directions, infrastructure reuse and interrupted router migration with concurrent swaps. |
+| Gas regression suite | **3 tests passed**: 1,246 exact return/revert comparisons and 16 paired full swaps. Gas reductions in measured cases: 21.37–28.85%; all compared quotes, event fields, token balances, allowances and allocations match. [Method and evidence](gas-optimization.md). |
 | Browser suite | **12 scenarios passed**: swaps/export, mobile/reduced motion, preview/error/recovery, cancellation, saved positions, maker lifecycle, four wallet-provider event scenarios and a slow-quote refresh regression. Both YES/NO receipt animations are exercised. |
 | Canonical Aqua fork | Pass at Ethereum source block 25,954,422: matching Aqua bytecode, position ship and an actual local swap. No public transaction. |
-| Sepolia deployment | The ETHOnline market reuses Aqua/router/gUSD; seven new market/setup receipts plus the old seed's docking are confirmed. 1,000 new YES + 1,000 new NO seeded. |
+| Sepolia deployment | The optimized router reuses Aqua, the ETHOnline market and all tokens. Four confirmed deployment/migration transactions preserve the closing seed allocations; a completed rerun sent no transactions. [Migration evidence](evidence/gas-router-migration.json). |
 | Initial hosted Sepolia UI | Verified 10 NO → 9.93674043721512635 YES on the retired question, with actual event/balance deltas and successful receipts. [Original evidence](evidence/sepolia-ui.json) remains tied to that market. |
-| Current hosted Sepolia UI | The ETHOnline market delivered 9.93674043721512635 YES for 10 NO, with event/balance checks, a receipt-triggered animation and desktop/mobile inspection. The initial setup-only attempt and successful retry are both recorded in [current evidence](evidence/ethonline-ui.json). |
-| Sourcify source verification | All six current contracts have exact creation/runtime matches. See [current source evidence](evidence/ethonline-source-verification.json). |
-| GitHub CI / Pages | [CI](https://github.com/krishna-aga/gaussvm/actions/runs/34617333220) and [Pages](https://github.com/krishna-aga/gaussvm/actions/runs/34617333538) passed for the final runtime at `6b1e18e`; the public entry matches its built bundle. |
+| Current hosted Sepolia UI | The optimized router delivered 9.811808425194647650 YES for 10 NO, using 612,134 gas at the migrated reserve state. Real event/balance checks, a receipt-triggered animation and desktop/mobile inspection passed. [Current evidence](evidence/gas-ui.json). Earlier router evidence remains in [ethonline-ui.json](evidence/ethonline-ui.json). |
+| Sourcify source verification | All six current contracts, including the optimized router, have exact creation/runtime matches. See [current source evidence](evidence/gas-source-verification.json). |
+| GitHub CI / Pages | [Optimization CI](https://github.com/krishna-aga/gaussvm/actions/runs/34629036498) passed at `d5d68e0`; [Pages](https://github.com/krishna-aga/gaussvm/actions/runs/34629267729) published the updated manifest at `d1896b4`. The hosted smoke test checked the served router and order hash before sending transactions. |
 | TypeScript and Vite production build | Pass. Separate Ethereum bundle and self-hosted Latin font; no oversized-chunk warning. |
 | Public static build | Pass; confirmed it excludes local `deployment.json` and restores the local development manifest. |
 | JavaScript dependency audit | **0 known vulnerabilities** reported by npm at verification time. |
@@ -43,6 +44,18 @@ Verified locally on 2026-09-11. This record describes executed checks, not an in
 The domains, tolerances, arithmetic and non-claims are specified in [math.md](math.md). These observations do not establish a universal error bound or economic safety.
 
 ## Transfer and gas evidence
+
+The gas optimization was validated with `npm run check` and all 12 browser
+scenarios. The compiler settings, numerical approximation, 64-step search limit
+and conservative output guard are unchanged. [Frozen-baseline comparisons](evidence/gas-equivalence.json)
+and [paired settlement measurements](evidence/gas-settlement.json) isolate the math
+changes from reserve, timestamp, allowance and compiler differences. The new
+router migration test interposes a swap after the reserve snapshot, interrupts
+event reading after docking, resumes successfully, leaves another strategy active,
+executes a swap on the new router and verifies that another resume sends no writes.
+The workspace regression keeps old authorizations distinct from a new router.
+
+Earlier gas figures below remain historical measurements of the original router.
 
 The integration fixture's two measured swaps used **767,171 gas** (NO to YES) and **576,555 gas** (YES to NO). The final local RPC demo measured **762,392 gas** for its swap of 10 NO to 9.936740437215125 YES. Gas depends on reserves, direction, warm/cold state and arithmetic convergence; these are examples, not upper bounds or optimization claims.
 

@@ -52,6 +52,22 @@ and [exact source verification](evidence/gas-source-verification.json) are recor
 See [gas optimization](gas-optimization.md) for paired benchmarks and custom-position
 recovery. This migration used existing faucet funds and no paid service.
 
+The updated [hosted app](https://krishna-aga.github.io/gaussvm/) then executed
+**10 NO → 9.811808425194647650 YES** in [transaction `0x897d…49ef6`](https://sepolia.etherscan.io/tx/0x897df8356bbd7082acde2fa5c4966b494208eb2a336595bcd98d1c302cf49ef6),
+block **11,683,450**, using **612,134 gas**. The new-router approval confirmed
+separately. The test matched the swap event to actual token balances and observed
+the receipt-triggered YES animation; desktop and 390px mobile captures were
+inspected. [UI and funding evidence](evidence/gas-ui.json) records the successful run.
+The output differs from the earlier trade because that trade already changed
+reserves. Use the controlled benchmarks to compare gas savings, not these two
+different onchain states.
+
+Migration plus this hosted test spent **0.004647049025431842 Sepolia ETH**.
+Total tracked project gas is **0.017019919545932051 Sepolia ETH**, leaving
+**0.082980080454067949 Sepolia ETH** across the two dedicated wallets at block
+11,683,452. No additional funding was required. [Pages publication](https://github.com/krishna-aga/gaussvm/actions/runs/34629267729)
+succeeded at `d1896b4`.
+
 ## ETHOnline market execution before router optimization
 
 The published app exchanged **10 NO → 9.93674043721512635 YES** on the new market in [transaction `0xaa3e…8625`](https://sepolia.etherscan.io/tx/0xaa3e813b024e4b593ac14e62807cf01c0d30cc1f746ea057b161764a5bfd8625), block **11,682,848**, using **762,497 gas**. The successful `Swapped` event matches the taker's actual balances: YES increased from 100 to 109.93674043721512635 and NO decreased from 100 to 90. The YES purchase animation was observed after confirmation. [Current UI evidence](evidence/ethonline-ui.json) records these checks, and [migration evidence](evidence/ethonline-market.json) records the new deployment, old seed's docking and costs.

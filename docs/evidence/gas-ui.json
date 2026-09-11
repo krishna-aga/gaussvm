@@ -1,0 +1,54 @@
+{
+  "chainId": 11155111,
+  "appUrl": "https://krishna-aga.github.io/gaussvm/",
+  "testedAt": "2026-09-11T17:44:01.924Z",
+  "account": "0x5076F136d3cD37B95471DcCFb5cf721f6448521b",
+  "market": "0xb36c73b753424da9e7177a2b6b32310f4241eb4f",
+  "router": "0xc6861469c1c0144d132efcc4a1261c4fd3e38310",
+  "strategy": "0x7b169d41745e52162c0fe71bdbb4b3d4fbee6e8bfdfdf8bf64d8c5f496bdfba1",
+  "question": "Will this project win ETHOnline 2026?",
+  "walletAdapter": "EIP-1193 test adapter; signing stays in the Node process, never the page. Not a browser-extension approval-dialog test.",
+  "transactions": [
+    {
+      "hash": "0x4050562041a2f04c451942c8382701e3dad69b09eccd4b06f9d93289a4113179",
+      "status": "success",
+      "block": "11683449",
+      "gas": "45957",
+      "feeWei": "50925783613614"
+    },
+    {
+      "hash": "0x897df8356bbd7082acde2fa5c4966b494208eb2a336595bcd98d1c302cf49ef6",
+      "status": "success",
+      "block": "11683450",
+      "gas": "612134",
+      "feeWei": "677880711370500"
+    }
+  ],
+  "purchaseFeedback": {
+    "side": "YES",
+    "animationObserved": true,
+    "trigger": "successful swap receipt"
+  },
+  "swap": {
+    "hash": "0x897df8356bbd7082acde2fa5c4966b494208eb2a336595bcd98d1c302cf49ef6",
+    "input": "10000000000000000000",
+    "output": "9811808425194647650",
+    "before": {
+      "yes": "109936740437215126350",
+      "no": "90000000000000000000"
+    },
+    "after": {
+      "yes": "119748548862409774000",
+      "no": "80000000000000000000"
+    }
+  },
+  "result": "passed",
+  "funding": {
+    "blockNumber": "11683452",
+    "makerBalanceWei": "80843951100705312",
+    "traderBalanceWei": "2136129353362637",
+    "rolloutAndSmokeFeeWei": "4647049025431842",
+    "previousTrackedFeeWei": "12372870520500209",
+    "totalTrackedFeeWei": "17019919545932051"
+  }
+}
