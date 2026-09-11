@@ -5,9 +5,13 @@ import { spawnSync,execFileSync } from 'node:child_process';
 import solc from 'solc';
 
 const started=new Date(),clock=performance.now();
-const sources=['contracts/math/Gaussian.sol','contracts/math/PmAmmMath.sol','contracts/test/MathHarness.sol','lib/reference.mjs','test/math.test.mjs','test/economics.test.mjs'];
+const sources=['contracts/math/Gaussian.sol','contracts/math/PmAmmMath.sol','contracts/test/MathHarness.sol','lib/reference.mjs','test/math.test.mjs','test/economics.test.mjs','test/helpers.mjs','scripts/compile.mjs','hardhat.config.ts','package-lock.json'];
 const sha=path=>crypto.createHash('sha256').update(fs.readFileSync(path)).digest('hex');
 const hashes=Object.fromEntries(sources.map(file=>[file,sha(file)]));
+const compilation=spawnSync(process.execPath,['scripts/compile.mjs'],{stdio:'inherit',timeout:120_000});
+if(compilation.status!==0)throw new Error('Audit stopped: current sources could not be compiled.');
+sources.push('artifacts/MathHarness.json');
+hashes['artifacts/MathHarness.json']=sha('artifacts/MathHarness.json');
 const args=['--test','--test-concurrency=1','test/math.test.mjs','test/economics.test.mjs'];
 const result=spawnSync(process.execPath,args,{encoding:'utf8',timeout:120_000});
 const output=(result.stdout??'')+(result.stderr??'');
@@ -17,7 +21,7 @@ fs.writeFileSync('reports/math-audit.log',output);
 const unchanged=sources.every(file=>hashes[file]===sha(file));
 const manifest={schema_version:1,claim_id:'gaussvm-bounded-numerical-comparison',
   repository:{commit:execFileSync('git',['rev-parse','HEAD'],{encoding:'utf8'}).trim(),dirty:execFileSync('git',['status','--porcelain'],{encoding:'utf8'}).trim().length>0},
-  command:`node ${args.join(' ')}`,
+  command:`node scripts/compile.mjs && node ${args.join(' ')}`,
   environment:{software:[`Node ${process.version}`,`solc ${solc.version()}`,'Hardhat 3.16.0','viem 2.56.3'],hardware:`${os.platform()} ${os.arch()}; ${os.cpus()[0]?.model??'unknown CPU'}`},
   mathematics:{assertion_tested:'Bounded CDF/PDF and swap-root comparison; sampled round-trip, monotonicity, splitting and sequential residual checks',
     coefficient_domain:'Signed integer WAD Solidity arithmetic, compared with double-precision Simpson quadrature and bisection',
