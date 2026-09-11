@@ -1,0 +1,67 @@
+{
+  "chainId": 11155111,
+  "appUrl": "https://krishna-aga.github.io/gaussvm/",
+  "testedAt": "2026-09-11T15:39:45.887Z",
+  "account": "0x5076F136d3cD37B95471DcCFb5cf721f6448521b",
+  "market": "0xb36c73b753424da9e7177a2b6b32310f4241eb4f",
+  "router": "0xee9bd9a83feaf9df60fe6ad0ced4bd30c3fd18e9",
+  "strategy": "0x7b169d41745e52162c0fe71bdbb4b3d4fbee6e8bfdfdf8bf64d8c5f496bdfba1",
+  "question": "Will this project win ETHOnline 2026?",
+  "walletAdapter": "EIP-1193 test adapter; signing stays in the Node process, never the page. Not a browser-extension approval-dialog test.",
+  "transactions": [
+    {
+      "hash": "0xa789bef57404dee24fcf340ef9024dce1a87d120a7392bd75b41cff175accf8c",
+      "status": "success",
+      "block": "11682847",
+      "gas": "45957",
+      "feeWei": "50922562165785"
+    },
+    {
+      "hash": "0xaa3e813b024e4b593ac14e62807cf01c0d30cc1f746ea057b161764a5bfd8625",
+      "status": "success",
+      "block": "11682848",
+      "gas": "762497",
+      "feeWei": "825486411284333"
+    }
+  ],
+  "purchaseFeedback": {
+    "side": "YES",
+    "animationObserved": true,
+    "trigger": "successful swap receipt"
+  },
+  "swap": {
+    "hash": "0xaa3e813b024e4b593ac14e62807cf01c0d30cc1f746ea057b161764a5bfd8625",
+    "input": "10000000000000000000",
+    "output": "9936740437215126350",
+    "before": {
+      "yes": "100000000000000000000",
+      "no": "100000000000000000000"
+    },
+    "after": {
+      "yes": "109936740437215126350",
+      "no": "90000000000000000000"
+    }
+  },
+  "result": "passed",
+  "firstAttempt": {
+    "testedAt": "2026-09-11T15:32:59.916Z",
+    "result": "failed",
+    "error": "Timed out waiting for swap confirmation. Token approval and split confirmed, but no swap transaction was submitted.",
+    "transactions": [
+      {
+        "label": "Hosted UI setup (first attempt)",
+        "hash": "0xc67a3af46e5c1156679feb895fbf205f1ff1da92ddc9b7f519445bba0847f608",
+        "block": "11682813",
+        "gas": "45969",
+        "feeWei": "47842339904436"
+      },
+      {
+        "label": "Hosted UI setup (first attempt)",
+        "hash": "0x05d0d2ded83b957ea667c40b206e47cc26b03dbbb958fc5f1a3c3b2d3b5d0084",
+        "block": "11682815",
+        "gas": "110437",
+        "feeWei": "122040124476661"
+      }
+    ]
+  }
+}

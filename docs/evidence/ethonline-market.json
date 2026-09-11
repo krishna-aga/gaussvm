@@ -1,0 +1,113 @@
+{
+  "checkedAt": "2026-09-11T15:40:29.131Z",
+  "chainId": 11155111,
+  "block": "11682848",
+  "question": "Will this project win ETHOnline 2026?",
+  "previousMarket": "0x733662c9da4ff2c6c9407f7fcbb0152a79f626eb",
+  "market": "0xb36c73b753424da9e7177a2b6b32310f4241eb4f",
+  "reused": {
+    "aqua": "0x2f478eb1726c83108f1363f01757bae7dfe9bed6",
+    "router": "0xee9bd9a83feaf9df60fe6ad0ced4bd30c3fd18e9",
+    "collateral": "0x39bc0f0658f0d79b8f923e98fd840a41cd65c85e"
+  },
+  "yes": "0x3250101B123877c69A2C9b2a6c3178f863cE0Fa3",
+  "no": "0x6649436b2F61F6760Dc8638ad41a187cBB3bf4c8",
+  "expiry": 1791730704,
+  "oldSeedDocked": true,
+  "currentAllocations": {
+    "yes": "990063259562784873650",
+    "no": "1010000000000000000000"
+  },
+  "receipts": [
+    {
+      "label": "Deploy BinaryMarket",
+      "hash": "0x398e2e8d01c59206fd3c0fe1b763e5d03a2e79214c7d6e124a60f3d5633f49a5",
+      "block": "11682790",
+      "gas": "1961560",
+      "feeWei": "2026012051854880"
+    },
+    {
+      "label": "faucet",
+      "hash": "0x007b03d2b8b91b416e21a2156fc85c1f1ad8e537707af83baa0f5a8fac182a2f",
+      "block": "11682791",
+      "gas": "33488",
+      "feeWei": "32963976092320"
+    },
+    {
+      "label": "approve",
+      "hash": "0xba98df76a0d7bcc30f35a51a7d491689d4a184115eeee3977322230d2a1378d3",
+      "block": "11682792",
+      "gas": "45969",
+      "feeWei": "50899145645964"
+    },
+    {
+      "label": "split",
+      "hash": "0x26ebd483bbe01fe4540b12876b37ecf89b316783abbb5d20f1019c7c65ae85e4",
+      "block": "11682793",
+      "gas": "161737",
+      "feeWei": "172937358090806"
+    },
+    {
+      "label": "approve",
+      "hash": "0x2dce0e331f553abcd2b27e1c7b9a5191d11db345cf36b2e97a59cb2b0341774e",
+      "block": "11682795",
+      "gas": "45969",
+      "feeWei": "50831960389518"
+    },
+    {
+      "label": "approve",
+      "hash": "0xa2cc39e2d42661bb5d46477a7221285468aafc774e0c1778ff3ad4573153f1fd",
+      "block": "11682796",
+      "gas": "45969",
+      "feeWei": "49217120491077"
+    },
+    {
+      "label": "ship",
+      "hash": "0x844348604e7c3225e08c0133455c5c892987de16598743ceb06a8d8c72a6a36f",
+      "block": "11682797",
+      "gas": "83257",
+      "feeWei": "84182291072961"
+    },
+    {
+      "label": "Dock old seed",
+      "hash": "0x2a1c7fb28c4fafc8a517170b34bc36ad22f020ca1a9a94a0a1ea60de7859730d",
+      "block": "11682799",
+      "gas": "35974",
+      "feeWei": "38462830827944"
+    },
+    {
+      "label": "Hosted UI setup (first attempt)",
+      "hash": "0xc67a3af46e5c1156679feb895fbf205f1ff1da92ddc9b7f519445bba0847f608",
+      "block": "11682813",
+      "gas": "45969",
+      "feeWei": "47842339904436"
+    },
+    {
+      "label": "Hosted UI setup (first attempt)",
+      "hash": "0x05d0d2ded83b957ea667c40b206e47cc26b03dbbb958fc5f1a3c3b2d3b5d0084",
+      "block": "11682815",
+      "gas": "110437",
+      "feeWei": "122040124476661"
+    },
+    {
+      "label": "Hosted UI retry",
+      "hash": "0xa789bef57404dee24fcf340ef9024dce1a87d120a7392bd75b41cff175accf8c",
+      "block": "11682847",
+      "gas": "45957",
+      "feeWei": "50922562165785"
+    },
+    {
+      "label": "Hosted UI retry",
+      "hash": "0xaa3e813b024e4b593ac14e62807cf01c0d30cc1f746ea057b161764a5bfd8625",
+      "block": "11682848",
+      "gas": "762497",
+      "feeWei": "825486411284333"
+    }
+  ],
+  "funding": {
+    "newWorkGasETH": "0.003551798172296685",
+    "priorWorkGasETH": "0.008821072348203524",
+    "totalTrackedGasETH": "0.012372870520500209",
+    "remainingWalletETH": "0.087627129479499791"
+  }
+}

@@ -36,6 +36,14 @@ The current [manifest](../deployments/sepolia.json) contains the three original 
 
 The shared infrastructure is a Sepolia deployment of pinned official Aqua source and the custom SwapVM extension. The separate [canonical Aqua fork evidence](evidence/canonical-aqua-fork.json) uses 1inch's existing Ethereum deployment. These environments have distinct addresses and receipts.
 
+## Current ETHOnline market execution
+
+The published app exchanged **10 NO → 9.93674043721512635 YES** on the new market in [transaction `0xaa3e…8625`](https://sepolia.etherscan.io/tx/0xaa3e813b024e4b593ac14e62807cf01c0d30cc1f746ea057b161764a5bfd8625), block **11,682,848**, using **762,497 gas**. The successful `Swapped` event matches the taker's actual balances: YES increased from 100 to 109.93674043721512635 and NO decreased from 100 to 90. The YES purchase animation was observed after confirmation. [Current UI evidence](evidence/ethonline-ui.json) records these checks, and [migration evidence](evidence/ethonline-market.json) records the new deployment, old seed's docking and costs.
+
+The first attempt confirmed collateral approval and splitting but timed out waiting for swap confirmation without submitting a swap. Its two successful receipts are retained in the evidence. After tightening quote refreshes, a retry from the already-funded wallet completed router approval and swap. This is evidence of the successful retry and the separately tested quote fix; it is not proof of the first attempt's exact cause. The test uses an EIP-1193 adapter with signing in Node, not automated extension dialogs. Desktop/mobile captures were inspected with no horizontal overflow at 390px.
+
+Market replacement, old-seed docking and both public test attempts used **0.003551798172296685 Sepolia ETH** in gas. Total tracked project gas is **0.012372870520500209 Sepolia ETH**, leaving **0.087627129479499791 Sepolia ETH** across the two dedicated wallets at the recorded block. No additional funding or paid service was needed.
+
 ## Initial public execution evidence (retired market)
 
 Before replacement, the published interface executed **10 NO → 9.93674043721512635 YES** in [transaction `0x0018…ba92`](https://sepolia.etherscan.io/tx/0x0018d1e3250a1f86452f5193e4bf4a27836cce26019d054f8662aaa3c2ecba92), block **11,682,691**, using **762,509 gas**. This receipt belongs to the retired question and its old tokens. Assertions matched the event's amounts with the taker's actual before/after balances. Desktop/mobile screenshots were inspected and there was no horizontal overflow at 390px.

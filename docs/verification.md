@@ -22,8 +22,9 @@ Verified locally on 2026-09-11. This record describes executed checks, not an in
 | Canonical Aqua fork | Pass at Ethereum source block 25,954,422: matching Aqua bytecode, position ship and an actual local swap. No public transaction. |
 | Sepolia deployment | The ETHOnline market reuses Aqua/router/gUSD; seven new market/setup receipts plus the old seed's docking are confirmed. 1,000 new YES + 1,000 new NO seeded. |
 | Initial hosted Sepolia UI | Verified 10 NO → 9.93674043721512635 YES on the retired question, with actual event/balance deltas and successful receipts. [Original evidence](evidence/sepolia-ui.json) remains tied to that market. |
+| Current hosted Sepolia UI | The ETHOnline market delivered 9.93674043721512635 YES for 10 NO, with event/balance checks, a receipt-triggered animation and desktop/mobile inspection. The initial setup-only attempt and successful retry are both recorded in [current evidence](evidence/ethonline-ui.json). |
 | Sourcify source verification | All six current contracts have exact creation/runtime matches. See [current source evidence](evidence/ethonline-source-verification.json). |
-| GitHub CI / Pages | Hosted checks and publication passed at `9f9982d`; public HTTPS site serves the Sepolia manifest. |
+| GitHub CI / Pages | [CI](https://github.com/krishna-aga/gaussvm/actions/runs/34617333220) and [Pages](https://github.com/krishna-aga/gaussvm/actions/runs/34617333538) passed for the final runtime at `6b1e18e`; the public entry matches its built bundle. |
 | TypeScript and Vite production build | Pass. Separate Ethereum bundle and self-hosted Latin font; no oversized-chunk warning. |
 | Public static build | Pass; confirmed it excludes local `deployment.json` and restores the local development manifest. |
 | JavaScript dependency audit | **0 known vulnerabilities** reported by npm at verification time. |
