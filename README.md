@@ -95,6 +95,7 @@ reports/            Generated evidence, excluded from commits
 - [Local and Sepolia deployment](docs/deployment.md)
 - [Judge demo and submission evidence](docs/demo.md)
 - [Verification](docs/verification.md)
+- [Implemented design system](DESIGN.md)
 - [Contribution and commit conventions](CONTRIBUTING.md)
 
 ## Attribution and licensing
