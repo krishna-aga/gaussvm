@@ -8,7 +8,6 @@ colors:
   green: "#315b41"
   green-hover: "#284d36"
   on-green: "#f4f7ee"
-  sidebar: "#e3e9e1"
   recessed: "#e6ebe3"
   surface-hover: "#e0e7dc"
   badge-surface: "#dce4d9"
@@ -124,10 +123,10 @@ components:
     rounded: "{rounded.field}"
     padding: "15px 14px 19px"
   navigation-active:
-    backgroundColor: "{colors.sidebar}"
+    backgroundColor: "{colors.surface}"
     textColor: "{colors.green}"
     rounded: "{rounded.navigation}"
-    padding: "14px 13px"
+    padding: "11px 16px"
   token-yes:
     backgroundColor: "{colors.yes-surface}"
     textColor: "{colors.yes-ink}"
@@ -159,7 +158,7 @@ GaussVM uses the user-pinned neumorphic material recorded in [the interface dire
 
 The visual system supports inspection and action. Chain status, manual resolution, quote estimates and transaction evidence remain legible within the material. Depth groups controls and marks interaction; it does not replace text labels, state icons or keyboard focus. Preserve the chosen daylight sage identity when extending the interface.
 
-This document captures `web/src/styles.css`, `web/src/App.tsx` and `web/src/Curve.tsx`, with desktop and mobile review captures as supporting visual evidence. The review handoff reported **ship** for its three fixed findings: contrast, receipt recovery and mobile access. That disposition is limited to those findings; it establishes neither public deployment nor broader contract or economic approval.
+This document captures `web/src/styles.css`, `web/src/App.tsx` and `web/src/Curve.tsx`, with desktop and mobile review captures as supporting visual evidence. The review handoff reported **ship** for its three fixed findings: contrast, receipt recovery and mobile access. That earlier disposition is limited to those findings; it establishes neither public deployment nor broader contract or economic approval. The subsequent first-swap simplification was verified with the updated browser suite and desktop/mobile captures.
 
 **Key Characteristics:**
 
@@ -184,13 +183,13 @@ The palette combines quiet green neutrals with a dark forest action accent; warm
 
 ### Neutral
 
-- **Daylight sage** (`surface`) is the page and raised-panel material. **Sidebar sage** (`sidebar`) slightly separates navigation. **Recessed sage** (`recessed`) identifies amount wells.
+- **Daylight sage** (`surface`) is the page and raised-panel material. **Recessed sage** (`recessed`) identifies amount wells.
 - **Forest ink** (`ink`) carries headings, entered values and primary content. **Readable moss** (`muted`) is the resolved supporting-text color used throughout labels, explanations, axes and the transaction journal.
 - **Light moss** (`badge-surface`, `badge-ink`) supports the explicit illustrative badge. **Outcome sage** (`yes-surface`, `yes-ink`) identifies YES tokens.
 - **Notice sage** (`notice-surface`) supports setup guidance. **Clay notice** (`error-surface`, `error-ink`) and `field-error` distinguish actionable error copy without removing its words or icon.
 - `chart-fill` is used only with fading opacity beneath the line; `chart-grid` supplies faint dashed guides. These are chart structure rather than text colors.
 
-**The Readable Material Rule.** Keep the resolved supporting-text palette when adding content. Computed from the implemented opaque colors, `muted` has contrast ratios of 5.45:1 on `surface`, 5.33:1 on `recessed`, 5.22:1 on `sidebar` and 4.98:1 on `notice-surface`. The primary button pair is 7.17:1. These are specific color-pair checks, not a claim that every interface state has been audited. Disabled controls use reduced opacity and must remain visibly disabled.
+**The Readable Material Rule.** Keep the resolved supporting-text palette when adding content. Computed from the implemented opaque colors, `muted` has contrast ratios of 5.45:1 on `surface`, 5.33:1 on `recessed` and 4.98:1 on `notice-surface`. The primary button pair is 7.17:1. These are specific color-pair checks, not a claim that every interface state has been audited. Disabled controls use reduced opacity and must remain visibly disabled.
 
 The companion `.impeccable/design.json` extends these primitives with component previews, shadows, motion and breakpoints. Its eight-step OKLCH color ramps are synthesized panel previews, not additional colors implemented by the application.
 
@@ -212,20 +211,11 @@ The SVG chart uses a 700-unit view box. Its text is 11 SVG units on desktop and 
 
 ## Layout
 
-The desktop shell has a 222px navigation column beside a flexible workspace. The workspace centers within a 1500px maximum width, with 44px side gutters and 40px top padding. The top bar is 91px tall. The market pairs a flexible curve region with a 340px trade panel and a 30px gap. Liquidity panels use a 1.25:1 column ratio. The research content has an 830px maximum width.
+The application uses a horizontal brand/navigation header, a compact network/wallet row and a centered workspace. Navigation and the wider Liquidity/research workspace have a 1160px maximum width. The Swap workspace has a 656px maximum width including 32px side gutters, placing the primary task in a single column. At 740px and below, navigation wraps beneath the brand and gutters become 20px. The trade panel uses 26px padding on desktop and 22px by 20px on mobile. The first mobile Connect action is visible in the initial 390px by 844px viewport.
 
-The layout responds at the implemented breakpoints:
+The ordered Connect, Get tokens, Swap indicators reflect current wallet/balance state. An empty wallet sees token preparation as the primary action; a funded wallet sees the direction/amount/quote form. Wallet balances and additional tokens live in native expandable details. The research curve and slider moved to an expandable section of How it works. Allocation figures moved to Liquidity. The former sidebar and mobile jump are removed because the curve no longer precedes the swap.
 
-| Condition | Implemented behavior |
-| --- | --- |
-| At least 1550px | Trade panel grows to 380px; the market gap becomes 38px; major panels use 29px padding; workspace top padding becomes 48px. |
-| At most 1190px | Navigation narrows to 190px; workspace side gutters become 27px; trade panel becomes 300px with a 23px gap; the reserve strip uses two columns with the third item spanning both. |
-| At most 960px | Navigation becomes a horizontal row; introductory and footer sidebar content is hidden; top bar becomes 74px; market retains two columns with a 310px trade panel; liquidity panels become equal columns. |
-| At most 740px | Branding and navigation wrap into separate rows; workspace side gutters become 20px; market and liquidity panels stack; the trade panel takes full width; three compact reserve columns return; journal rows wrap; footer stacks. |
-
-Spacing is contextual rather than a rigid eight-point system. Use the extracted repeated values for gutters, panel padding, inline gaps and section separation. Do not equalize all spacing: dense quote details and generous page-group separation have different jobs. Full addresses wrap, command blocks scroll horizontally within their own container, and flexible inputs use `min-width: 0` to avoid widening the page.
-
-At widths of 740px or less, the early **Swap outcomes** jump reaches the trade panel with immediate scrolling and transfers focus to its named section. The target has a 20px scroll margin and `tabIndex={-1}`. This is the direct path to the action when mobile stacking puts the trade panel below the curve. The jump is hidden on desktop; the final two-class selector preserves that visibility against the shared button rule.
+Liquidity retains its two-column position controls and stacks at 740px. The research article retains its 830px measure. Full addresses wrap, code blocks scroll inside their container and amount inputs use `min-width: 0`. The primary execution flow remains narrow at all widths. See [the UX rationale](docs/ux.md).
 
 ## Elevation & Depth
 
@@ -237,7 +227,7 @@ Depth is structural. Broad paired shadows lift the main panels from the same-col
 - **Recessed field:** `inset 4px 4px 9px #d0d7ce, inset -4px -4px 9px #fbfdf9` (`--inset`). Use for input wells, track containers and pressed buttons.
 - **Secondary button:** `4px 4px 9px #cfd7cb, -4px -4px 9px #fff`.
 - **Primary button:** `4px 4px 9px #c3cebe, -4px -4px 9px #fff`.
-- **Active navigation:** `5px 5px 10px #cbd3c7, -5px -5px 10px #f5fff3`.
+- **Active navigation:** `4px 4px 10px #ced5cd, -4px -4px 10px #fff`.
 - **Selected direction:** `3px 3px 7px #c5cec0, -3px -3px 7px #f7fff3`.
 
 Button background and shadow transitions take 150ms; pressing an enabled button applies the recessed shadow. Loading icons rotate over one second with a linear infinite animation. Time scrubbing updates the SVG directly without an animation tween. Under `prefers-reduced-motion: reduce`, all animations and transitions are removed and scrolling uses `auto`; the labels and static state icons remain.
@@ -252,9 +242,9 @@ Icons are small Lucide line drawings paired with text or an accessible name. The
 
 ### Buttons and focus
 
-Buttons are raised and compact, with a 43px minimum height and the frontmatter padding; compact wallet controls use a 38px minimum height and 9px by 13px padding. Full-width trade actions distribute the label and icon across the row. Primary controls use forest green; secondary controls share the surface color; text actions are underlined and transparent. Enabled hover changes the fill, and enabled press uses the inset shadow. Disabled buttons use `opacity: 0.5` and a `not-allowed` cursor.
+Buttons are raised and compact, with a 44px minimum height and the frontmatter padding; compact wallet controls use a 44px minimum height and 9px by 13px padding. Full-width trade actions distribute the label and icon across the row. Primary controls use forest green; secondary controls share the surface color; text actions are underlined and transparent. Enabled hover changes the fill, and enabled press uses the inset shadow. Disabled buttons use `opacity: 0.5` and a `not-allowed` cursor.
 
-Buttons, links and inputs receive a 3px solid focus outline with a 4px offset; the amount input uses a 5px offset. Icon-only actions have accessible labels. Preserve native buttons and links rather than making generic containers clickable. The current small icon controls are not evidence of a universal 44px target-size guarantee.
+Buttons, links and inputs receive a 3px solid focus outline with a 4px offset; the amount input uses a 5px offset. Icon-only actions have accessible labels. Preserve native buttons and links rather than making generic containers clickable. Icon buttons and direction buttons have a 44px minimum height; icon buttons also have a 44px minimum width. This does not assert that every inline text link is a 44px target.
 
 ### Amount fields and direction selector
 
@@ -262,19 +252,19 @@ The amount field is a labeled recessed well with a balance row, a large decimal 
 
 ### Navigation and surfaces
 
-Market, Liquidity and The research are buttons in a named navigation region. The active item combines raised depth, green text and `aria-current="page"`. Desktop navigation is vertical; the responsive layouts described above preserve the same three choices in a row. Panels use descriptive headings and consistent padding; the chart and trade controls remain visually distinct from the flatter reserve and custody information beneath them.
+Swap, Liquidity and How it works are buttons in a named horizontal navigation region. The active item combines raised depth, green text and `aria-current="page"`. The same destinations remain available on mobile. Native details/summary controls expose wallet information and the research curve on demand. Slippage, minimum received, manual resolution and test-token value remain visible in the relevant flow.
 
 ### Curve and chain truth
 
 The signature curve is a labeled SVG, sampled across the supported Gaussian domain and drawn against YES probability. A solid green profile and a dashed ochre constant-product reference have written legends. A vertical marker indicates the displayed probability; shaded area fades toward the baseline. The **ILLUSTRATIVE** badge, visible note and accessible SVG label explicitly identify the drawing as an illustration, not an executable quote or live depth measurement.
 
-The time slider ranges from 5% to 100% remaining and compresses the normalized profile by the square root of the selected fraction. It changes only the illustration. The large implied-probability figure is calculated from fetched allocation and strategy data; a disconnected or unavailable chain does not receive a fabricated value. The chart may center its illustrative marker at 50% when chain probability is unavailable. An actual quote is obtained separately from the router simulation, and its estimate, minimum received and 0.5% slippage protection are shown in the trade panel. The constant-product output is a separate calculated comparison, not a second executable quote.
+The time slider ranges from 5% to 100% remaining and compresses the normalized profile by the square root of the selected fraction. It changes only the illustration. The inline implied-probability figure is calculated from fetched allocation and strategy data; a disconnected or unavailable chain does not receive a fabricated value. The chart may center its illustrative marker at 50% when chain probability is unavailable. An actual quote is obtained separately from the router simulation, and its estimate, minimum received and 0.5% slippage protection are shown in the trade panel. The constant-product output is a separate calculated comparison under How it works, not a second executable quote.
 
 ### Notices and transaction journal
 
 Preview mode names the absence of a deployment and explains local execution. Chain failures expose a retry action; errors appear in a clay notice with `role="alert"`. Field-level quote failure explains the amount/domain problem near the trade action. Test-token value, manual resolution and separate approval/swap transactions stay visible in the relevant flow.
 
-The journal is session state in React, not a durable transaction archive. Its empty state describes future receipt entries without creating sample activity. Rows include an action label, written state and a state-specific icon. Block and gas metadata appear only after receipt retrieval. Local hashes are copyable; explorer links are conditional on a configured transaction URL. A polite live region announces busy work or the latest confirmed transaction.
+A confirmed swap shows an inline success message linking to its actual journal receipt. Pending and unknown receipts never trigger that message. The journal is session state in React, not a durable transaction archive. Its empty state describes future receipt entries without creating sample activity. Rows include an action label, written state and a state-specific icon. Block and gas metadata appear only after receipt retrieval. Local hashes are copyable; explorer links are conditional on a configured transaction URL. A polite live region announces busy work or the latest confirmed transaction.
 
 | Receipt state | Visual and interaction meaning |
 | --- | --- |
@@ -294,7 +284,7 @@ The journal is session state in React, not a durable transaction archive. Its em
 - **Do** keep written states, native controls, keyboard focus and reduced-motion behavior intact.
 - **Do** label the curve as illustrative and keep its time slider separate from actual strategy and quote state.
 - **Do** preserve same-hash receipt recovery and the explicit unknown state when confirmation is unavailable.
-- **Do** keep the mobile path to swapping direct, with both scroll and focus transfer.
+- **Do** keep the next setup or swap action clear, with technical exploration available on demand.
 
 ### Don't:
 

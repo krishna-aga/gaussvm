@@ -88,20 +88,6 @@
           "oklch(95.00% 0.01228 121.70)"
         ]
       },
-      "sidebar": {
-        "role": "neutral",
-        "displayName": "Sidebar sage",
-        "tonalRamp": [
-          "oklch(15.00% 0.01244 137.79)",
-          "oklch(26.43% 0.01244 137.79)",
-          "oklch(37.86% 0.01244 137.79)",
-          "oklch(49.29% 0.01244 137.79)",
-          "oklch(60.71% 0.01244 137.79)",
-          "oklch(72.14% 0.01244 137.79)",
-          "oklch(83.57% 0.01244 137.79)",
-          "oklch(95.00% 0.01244 137.79)"
-        ]
-      },
       "recessed": {
         "role": "neutral",
         "displayName": "Recessed sage",
@@ -388,7 +374,7 @@
       },
       {
         "name": "active-navigation",
-        "value": "5px 5px 10px #cbd3c7, -5px -5px 10px #f5fff3",
+        "value": "4px 4px 10px #ced5cd, -4px -4px 10px #fff",
         "purpose": "Current navigation item."
       },
       {
@@ -407,11 +393,6 @@
         "name": "loading-spin",
         "value": "spin 1s linear infinite",
         "purpose": "Loading icon, rotating to 360deg."
-      },
-      {
-        "name": "mobile-jump",
-        "value": "scrollIntoView({ behavior: \"auto\", block: \"start\" }); focus({ preventScroll: true })",
-        "purpose": "At max-width 740px, immediately reach and focus the trade panel without animated scrolling."
       },
       {
         "name": "reduced-motion",
@@ -436,7 +417,12 @@
         "name": "mobile-stack-max",
         "value": "740px"
       }
-    ]
+    ],
+    "uxRevision": {
+      "date": "2026-09-11",
+      "reference": "docs/ux.md",
+      "layout": "Horizontal navigation; narrow, single-column Connect / Get tokens / Swap flow; expandable wallet details and research curve."
+    }
   },
   "components": [
     {
@@ -445,15 +431,15 @@
       "refersTo": "button-primary",
       "description": "Forest-green execution control with raised rest and inset pressed states.",
       "html": "<button class=\"ds-primary\">Connect to swap <svg width=\"18\" height=\"18\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\" aria-hidden=\"true\"><path d=\"M5 12h14m-7-7 7 7-7 7\"/></svg></button>",
-      "css": ".ds-primary{font-family:\"Manrope Variable\",sans-serif;display:inline-flex;align-items:center;justify-content:center;gap:10px;min-height:43px;padding:11px 16px;border:0;border-radius:9px;font-size:12px;font-weight:600;line-height:1.5;cursor:pointer;transition:box-shadow .15s,background .15s;background:var(--green,#315b41);color:#f4f7ee;box-shadow:4px 4px 9px #c3cebe,-4px -4px 9px #fff}.ds-primary:hover:not(:disabled){background:#284d36}.ds-primary:active:not(:disabled){box-shadow:var(--inset,inset 4px 4px 9px #d0d7ce,inset -4px -4px 9px #fbfdf9)}.ds-primary:disabled{opacity:.5;cursor:not-allowed}.ds-primary:focus-visible,.ds-secondary:focus-visible,.ds-text:focus-visible,.ds-amount input:focus-visible,.ds-nav button:focus-visible,.ds-direction button:focus-visible,.ds-journal button:focus-visible{outline:3px solid #577e52;outline-offset:4px}@media(prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important;scroll-behavior:auto!important}}"
+      "css": ".ds-primary{font-family:\"Manrope Variable\",sans-serif;display:inline-flex;align-items:center;justify-content:center;gap:10px;min-height:44px;padding:11px 16px;border:0;border-radius:9px;font-size:12px;font-weight:600;line-height:1.5;cursor:pointer;transition:box-shadow .15s,background .15s;background:var(--green,#315b41);color:#f4f7ee;box-shadow:4px 4px 9px #c3cebe,-4px -4px 9px #fff}.ds-primary:hover:not(:disabled){background:#284d36}.ds-primary:active:not(:disabled){box-shadow:var(--inset,inset 4px 4px 9px #d0d7ce,inset -4px -4px 9px #fbfdf9)}.ds-primary:disabled{opacity:.5;cursor:not-allowed}.ds-primary:focus-visible,.ds-secondary:focus-visible,.ds-text:focus-visible,.ds-amount input:focus-visible,.ds-nav button:focus-visible,.ds-direction button:focus-visible,.ds-journal button:focus-visible{outline:3px solid #577e52;outline-offset:4px}@media(prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important;scroll-behavior:auto!important}}"
     },
     {
       "name": "Secondary action",
       "kind": "button",
       "refersTo": "button-secondary",
       "description": "Same-material raised control for preparation and secondary actions.",
-      "html": "<button class=\"ds-secondary\">Prepare 100 test sets <span aria-hidden=\"true\">+</span></button>",
-      "css": ".ds-secondary{font-family:\"Manrope Variable\",sans-serif;display:inline-flex;align-items:center;justify-content:center;gap:10px;min-height:43px;padding:11px 16px;border:0;border-radius:9px;font-size:12px;font-weight:600;line-height:1.5;cursor:pointer;transition:box-shadow .15s,background .15s;background:var(--surface,#e9ede8);color:var(--ink,#26372d);box-shadow:4px 4px 9px #cfd7cb,-4px -4px 9px #fff}.ds-secondary:hover:not(:disabled){background:#e0e7dc}.ds-secondary:active:not(:disabled){box-shadow:var(--inset,inset 4px 4px 9px #d0d7ce,inset -4px -4px 9px #fbfdf9)}.ds-secondary:disabled{opacity:.5;cursor:not-allowed}.ds-primary:focus-visible,.ds-secondary:focus-visible,.ds-text:focus-visible,.ds-amount input:focus-visible,.ds-nav button:focus-visible,.ds-direction button:focus-visible,.ds-journal button:focus-visible{outline:3px solid #577e52;outline-offset:4px}@media(prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important;scroll-behavior:auto!important}}"
+      "html": "<button class=\"ds-secondary\">Get more test tokens <span aria-hidden=\"true\">+</span></button>",
+      "css": ".ds-secondary{font-family:\"Manrope Variable\",sans-serif;display:inline-flex;align-items:center;justify-content:center;gap:10px;min-height:44px;padding:11px 16px;border:0;border-radius:9px;font-size:12px;font-weight:600;line-height:1.5;cursor:pointer;transition:box-shadow .15s,background .15s;background:var(--surface,#e9ede8);color:var(--ink,#26372d);box-shadow:4px 4px 9px #cfd7cb,-4px -4px 9px #fff}.ds-secondary:hover:not(:disabled){background:#e0e7dc}.ds-secondary:active:not(:disabled){box-shadow:var(--inset,inset 4px 4px 9px #d0d7ce,inset -4px -4px 9px #fbfdf9)}.ds-secondary:disabled{opacity:.5;cursor:not-allowed}.ds-primary:focus-visible,.ds-secondary:focus-visible,.ds-text:focus-visible,.ds-amount input:focus-visible,.ds-nav button:focus-visible,.ds-direction button:focus-visible,.ds-journal button:focus-visible{outline:3px solid #577e52;outline-offset:4px}@media(prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important;scroll-behavior:auto!important}}"
     },
     {
       "name": "Text action",
@@ -476,8 +462,8 @@
       "kind": "nav",
       "refersTo": "navigation-active",
       "description": "Raised active page, named region, and a responsive row of the same destinations.",
-      "html": "<nav class=\"ds-nav\" aria-label=\"Main navigation\"><button aria-current=\"page\"><svg width=\"19\" height=\"19\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\" aria-hidden=\"true\"><path d=\"M22 12h-4l-3 9L9 3l-3 9H2\"/></svg>Market</button><button>Liquidity</button><button>The research</button></nav>",
-      "css": ".ds-nav{font-family:\"Manrope Variable\",sans-serif;display:flex;flex-direction:column;gap:13px;background:#e3e9e1;padding:20px;max-width:200px}.ds-nav button{font-family:\"Manrope Variable\",sans-serif;display:flex;align-items:center;gap:11px;width:100%;border:0;background:transparent;padding:14px 13px;border-radius:10px;font-size:14px;font-weight:580;line-height:1.6;color:#566457;cursor:pointer}.ds-nav button:hover{background:#dce4d9}.ds-nav button[aria-current]{background:#e3e9e1;box-shadow:5px 5px 10px #cbd3c7,-5px -5px 10px #f5fff3;color:var(--green,#315b41)}@media(max-width:960px){.ds-nav{flex-direction:row;max-width:none;gap:14px}.ds-nav button{width:auto;padding:10px 12px}}@media(max-width:740px){.ds-nav{gap:10px;justify-content:space-between}.ds-nav button{font-size:11px;padding:9px 10px;gap:7px}}.ds-primary:focus-visible,.ds-secondary:focus-visible,.ds-text:focus-visible,.ds-amount input:focus-visible,.ds-nav button:focus-visible,.ds-direction button:focus-visible,.ds-journal button:focus-visible{outline:3px solid #577e52;outline-offset:4px}"
+      "html": "<nav class=\"ds-nav\" aria-label=\"Main navigation\"><button aria-current=\"page\"><svg width=\"19\" height=\"19\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\" aria-hidden=\"true\"><path d=\"M22 12h-4l-3 9L9 3l-3 9H2\"/></svg>Swap</button><button>Liquidity</button><button>How it works</button></nav>",
+      "css": ".ds-nav{font-family:\"Manrope Variable\",sans-serif;display:flex;gap:12px;padding:20px;background:#e9ede8}.ds-nav button{font:inherit;display:flex;align-items:center;justify-content:center;gap:8px;min-height:44px;padding:11px 16px;border:0;border-radius:10px;background:transparent;color:#52634f;font-weight:600;cursor:pointer}.ds-nav button[aria-current]{background:#e9ede8;box-shadow:4px 4px 10px #ced5cd,-4px -4px 10px #fff;color:#315b41}.ds-nav button:focus-visible{outline:3px solid #577e52;outline-offset:4px}@media(max-width:740px){.ds-nav{gap:6px;justify-content:space-between}.ds-nav button{font-size:12px;padding:10px}}"
     },
     {
       "name": "Outcome tags",
@@ -530,7 +516,7 @@
     "rules": [
       {
         "name": "The Readable Material Rule.",
-        "body": "Keep the resolved supporting-text palette when adding content. Computed from the implemented opaque colors, `muted` has contrast ratios of 5.45:1 on `surface`, 5.33:1 on `recessed`, 5.22:1 on `sidebar` and 4.98:1 on `notice-surface`. The primary button pair is 7.17:1. These are specific color-pair checks, not a claim that every interface state has been audited. Disabled controls use reduced opacity and must remain visibly disabled.",
+        "body": "Keep the resolved supporting-text palette when adding content. Computed from the implemented opaque colors, `muted` has contrast ratios of 5.45:1 on `surface`, 5.33:1 on `recessed` and 4.98:1 on `notice-surface`. The primary button pair is 7.17:1. These are specific color-pair checks, not a claim that every interface state has been audited. Disabled controls use reduced opacity and must remain visibly disabled.",
         "section": "colors"
       },
       {
