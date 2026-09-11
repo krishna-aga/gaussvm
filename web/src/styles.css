@@ -6,7 +6,6 @@
   src: url("@fontsource-variable/manrope/files/manrope-latin-wght-normal.woff2")
     format("woff2");
 }
-
 :root {
   font-family: "Manrope Variable", sans-serif;
   color: #26372d;
@@ -107,9 +106,7 @@ button,
 a {
   touch-action: manipulation;
 }
-.button.mobile-swap-jump {
-  display: none;
-}
+
 .attribution {
   font-size: 11px;
   color: #52634f;
@@ -119,25 +116,7 @@ a {
 #trade-panel {
   scroll-margin-top: 20px;
 }
-@media (max-width: 740px) {
-  .button.mobile-swap-jump {
-    display: inline-flex;
-    margin-top: 17px;
-  }
-}
-.app-shell {
-  display: grid;
-  grid-template-columns: 222px minmax(0, 1fr);
-  min-height: 100vh;
-}
-.sidebar {
-  padding: 38px 24px 25px;
-  border-right: 1px solid #d1d9d0;
-  display: flex;
-  flex-direction: column;
-  min-height: 100vh;
-  background: #e3e9e1;
-}
+
 .brand {
   display: flex;
   gap: 0;
@@ -164,76 +143,7 @@ a {
     4px 4px 9px #c5cebf,
     -4px -4px 9px #f9fff5;
 }
-.side-intro {
-  font-size: 12px;
-  margin: 24px 0 44px;
-  line-height: 1.7;
-}
-.nav-item {
-  display: flex;
-  align-items: center;
-  gap: 11px;
-  width: 100%;
-  border: 0;
-  background: transparent;
-  padding: 14px 13px;
-  margin: 0 0 13px;
-  border-radius: 10px;
-  font-weight: 580;
-  color: #566457;
-}
-.nav-item svg:last-child {
-  margin-left: auto;
-  opacity: 0;
-}
-.nav-item:hover {
-  background: #dce4d9;
-}
-.nav-item.active {
-  background: #e3e9e1;
-  box-shadow:
-    5px 5px 10px #cbd3c7,
-    -5px -5px 10px #f5fff3;
-  color: #315b41;
-}
-.nav-item.active svg:last-child {
-  opacity: 1;
-}
-.sidebar-body {
-  flex: 1;
-}
-.sidebar-foot {
-  padding: 26px 6px 5px;
-  border-top: 1px solid #cbd4c8;
-  display: flex;
-  flex-direction: column;
-  align-items: flex-start;
-  gap: 11px;
-}
-.sidebar-foot strong {
-  font-size: 12px;
-  font-weight: 650;
-}
-.sidebar-foot p {
-  font-size: 12px;
-  line-height: 1.8;
-}
-.sidebar-foot a {
-  display: flex;
-  align-items: center;
-  gap: 6px;
-  font-size: 10px;
-  margin-top: 15px;
-}
-.topbar {
-  height: 91px;
-  border-bottom: 1px solid #d4dcd2;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  padding: 0 44px;
-  gap: 20px;
-}
+
 .network {
   display: flex;
   align-items: center;
@@ -269,11 +179,7 @@ a {
   font-variant-numeric: tabular-nums;
   font-size: 12px;
 }
-.workspace {
-  max-width: 1500px;
-  margin: auto;
-  padding: 40px 44px 0;
-}
+
 .page-heading {
   display: flex;
   align-items: center;
@@ -285,17 +191,7 @@ a {
   margin-top: 12px;
   font-size: 13px;
 }
-.version {
-  font-size: 11px;
-  color: #52634f;
-  white-space: nowrap;
-}
-.market-heading {
-  display: flex;
-  justify-content: space-between;
-  gap: 30px;
-  margin-bottom: 29px;
-}
+
 .market-status {
   display: flex;
   align-items: center;
@@ -308,37 +204,7 @@ a {
   margin-left: 10px;
   color: #52634f;
 }
-.market-heading p {
-  font-size: 12px;
-  margin-top: 10px;
-  max-width: 58ch;
-}
-.odds {
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: flex-end;
-  white-space: nowrap;
-  min-width: 170px;
-}
-.odds strong {
-  font-size: 40px;
-  line-height: 1.1;
-  font-weight: 550;
-  letter-spacing: -0.035em;
-  font-variant-numeric: tabular-nums;
-}
-.odds > span {
-  font-size: 10px;
-  color: #52634f;
-  margin-top: 8px;
-}
-.market-grid {
-  display: grid;
-  grid-template-columns: minmax(0, 1fr) 340px;
-  gap: 30px;
-  align-items: start;
-}
+
 .surface {
   background: var(--surface);
   box-shadow: var(--shadow);
@@ -456,23 +322,7 @@ input[type="range"] {
   color: #52634f;
   font-weight: 450;
 }
-.custody-note {
-  display: flex;
-  align-items: center;
-  gap: 15px;
-  padding: 22px 3px;
-}
-.custody-note strong {
-  font-size: 12px;
-}
-.custody-note p {
-  font-size: 11px;
-  margin-top: 4px;
-  max-width: 56ch;
-}
-.custody-note .icon-button {
-  margin-left: auto;
-}
+
 .trade-panel {
   padding: 25px 22px;
 }
@@ -600,7 +450,7 @@ input[type="range"] {
   align-items: center;
   justify-content: center;
   gap: 10px;
-  min-height: 43px;
+  min-height: 44px;
   padding: 11px 16px;
   background: #e9ede8;
   box-shadow:
@@ -995,13 +845,6 @@ footer > span {
   border: 0;
 }
 @media (min-width: 1550px) {
-  .workspace {
-    padding-top: 48px;
-  }
-  .market-grid {
-    grid-template-columns: minmax(0, 1fr) 380px;
-    gap: 38px;
-  }
   .trade-panel {
     padding: 29px;
   }
@@ -1013,22 +856,6 @@ footer > span {
   }
 }
 @media (max-width: 1190px) {
-  .app-shell {
-    grid-template-columns: 190px minmax(0, 1fr);
-  }
-  .sidebar {
-    padding: 32px 18px;
-  }
-  .workspace {
-    padding: 31px 27px 0;
-  }
-  .topbar {
-    padding: 0 27px;
-  }
-  .market-grid {
-    grid-template-columns: minmax(0, 1fr) 300px;
-    gap: 23px;
-  }
   .curve-panel {
     padding: 22px 18px;
   }
@@ -1038,24 +865,14 @@ footer > span {
   h1 {
     font-size: 29px;
   }
-  .market-heading h2 {
-    font-size: 20px;
-  }
-  .odds {
-    min-width: 135px;
-  }
-  .odds strong {
-    font-size: 34px;
-  }
+
   .reserve-strip {
     grid-template-columns: 1fr 1fr;
   }
   .reserve-strip > div:last-child {
     grid-column: 1/-1;
   }
-  .version {
-    display: none;
-  }
+
   .legend {
     gap: 15px;
     font-size: 9px;
@@ -1068,47 +885,6 @@ footer > span {
   }
 }
 @media (max-width: 960px) {
-  .app-shell {
-    grid-template-columns: 1fr;
-  }
-  .sidebar {
-    min-height: auto;
-    flex-direction: row;
-    align-items: center;
-    gap: 20px;
-    padding: 19px 27px;
-    border-right: 0;
-    border-bottom: 1px solid #d1d9d0;
-  }
-  .sidebar-body {
-    display: flex;
-    justify-content: flex-end;
-  }
-  .side-intro,
-  .sidebar-foot {
-    display: none;
-  }
-  .sidebar nav {
-    display: flex;
-    gap: 14px;
-  }
-  .nav-item {
-    margin: 0;
-    width: auto;
-    padding: 10px 12px;
-  }
-  .nav-item svg:last-child {
-    display: none;
-  }
-  .topbar {
-    height: 74px;
-  }
-  .workspace {
-    padding-top: 30px;
-  }
-  .market-grid {
-    grid-template-columns: minmax(0, 1fr) 310px;
-  }
   .position-grid {
     grid-template-columns: 1fr 1fr;
   }
@@ -1120,11 +896,6 @@ footer > span {
   }
 }
 @media (max-width: 740px) {
-  .sidebar {
-    padding: 18px 20px;
-    flex-wrap: wrap;
-    gap: 17px;
-  }
   .brand-mark {
     width: 34px;
     height: 34px;
@@ -1132,28 +903,7 @@ footer > span {
   .brand {
     font-size: 21px;
   }
-  .sidebar-body {
-    flex: 0 0 100%;
-    justify-content: flex-start;
-  }
-  .sidebar nav {
-    gap: 10px;
-    justify-content: space-between;
-    width: 100%;
-  }
-  .nav-item {
-    font-size: 11px;
-    padding: 9px 10px;
-    gap: 7px;
-  }
-  .nav-item svg {
-    width: 16px;
-  }
-  .topbar {
-    height: 69px;
-    padding: 0 20px;
-    gap: 10px;
-  }
+
   .test-label {
     display: none;
   }
@@ -1171,9 +921,7 @@ footer > span {
     font-size: 10px;
     padding: 9px 11px;
   }
-  .workspace {
-    padding: 27px 20px 0;
-  }
+
   .page-heading {
     margin-bottom: 28px;
   }
@@ -1185,40 +933,7 @@ footer > span {
     font-size: 12px;
     line-height: 1.8;
   }
-  .market-heading {
-    flex-direction: column;
-    gap: 18px;
-    margin-bottom: 23px;
-  }
-  .market-heading h2 {
-    font-size: 21px;
-    line-height: 1.45;
-  }
-  .market-heading p {
-    font-size: 11px;
-    line-height: 1.8;
-  }
-  .odds {
-    align-items: flex-start;
-    min-width: 0;
-    flex-direction: row;
-    align-items: baseline;
-    gap: 13px;
-  }
-  .odds strong {
-    font-size: 33px;
-  }
-  .odds > span {
-    font-size: 10px;
-  }
-  .market-grid {
-    display: flex;
-    flex-direction: column;
-    gap: 24px;
-  }
-  .market-left {
-    width: 100%;
-  }
+
   .trade-panel {
     width: 100%;
     padding: 25px 21px;
@@ -1265,15 +980,7 @@ footer > span {
   .reserve-strip > div > span {
     font-size: 9px;
   }
-  .custody-note {
-    padding-bottom: 0;
-  }
-  .custody-note p {
-    font-size: 10px;
-  }
-  .custody-note strong {
-    font-size: 11px;
-  }
+
   .position-grid {
     grid-template-columns: 1fr;
     gap: 24px;
@@ -1343,15 +1050,12 @@ footer > span {
 }
 /* Keep supporting text readable across the complete transaction flow. */
 .test-label,
-.version,
 .subtle-badge {
   font-size: 10px !important;
 }
-.market-heading p,
+
 .trade-disclaimer,
-.small-help,
-.sidebar-foot p,
-.custody-note p {
+.small-help {
   font-size: 12px;
 }
 .quote-details,
@@ -1368,18 +1072,13 @@ footer > span {
 .journal-row > button,
 .journal-row > a,
 .activity-section .section-top > span,
-.odds > span,
-.sidebar-foot a,
 footer {
   font-size: 11px;
 }
 .curve-panel .chart-note {
   font-size: 11px;
 }
-.sidebar-foot strong,
-.custody-note strong {
-  font-size: 13px;
-}
+
 @media (max-width: 740px) {
   .test-label {
     display: none;
@@ -1432,5 +1131,253 @@ footer {
     animation: none !important;
     transition: none !important;
     scroll-behavior: auto !important;
+  }
+}
+
+/* One task at a time: connect, get test tokens, swap. */
+.app-shell {
+  min-height: 100vh;
+}
+.app-navigation {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 24px;
+  max-width: 1160px;
+  margin: auto;
+  padding: 24px 32px 18px;
+}
+.sidebar-body nav {
+  display: flex;
+  gap: 12px;
+}
+.nav-item {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  min-height: 44px;
+  padding: 11px 16px;
+  border: 0;
+  border-radius: 10px;
+  background: transparent;
+  color: var(--muted);
+  font-weight: 600;
+}
+.nav-item:hover {
+  background: #dce4d9;
+}
+.nav-item.active {
+  color: var(--green);
+  background: var(--surface);
+  box-shadow:
+    4px 4px 10px #ced5cd,
+    -4px -4px 10px #fff;
+}
+.topbar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  max-width: 1096px;
+  min-height: 55px;
+  margin: auto;
+  padding: 8px 0;
+  border-bottom: 1px solid #d4dcd2;
+}
+.workspace {
+  max-width: 1160px;
+  margin: auto;
+  padding: 32px 32px 0;
+}
+.workspace.market-workspace {
+  max-width: 656px;
+}
+.page-heading {
+  margin-bottom: 24px;
+}
+.market-heading {
+  margin-bottom: 24px;
+}
+.market-heading h2 {
+  font-size: 18px;
+  line-height: 1.4;
+  margin-bottom: 12px;
+}
+.market-heading p {
+  font-size: 13px;
+  line-height: 1.6;
+}
+.market-heading p strong {
+  font-weight: 550;
+}
+.market-status {
+  font-size: 12px;
+}
+.trade-panel {
+  padding: 26px;
+}
+.trade-panel h2 {
+  font-size: 19px;
+}
+.demo-steps {
+  display: flex;
+  list-style: none;
+  padding: 0;
+  margin: 22px 0;
+  gap: 16px;
+}
+.demo-steps li {
+  display: flex;
+  align-items: center;
+  gap: 7px;
+  font-size: 12px;
+  color: var(--muted);
+}
+.demo-steps li > span {
+  display: grid;
+  place-items: center;
+  width: 24px;
+  height: 24px;
+  border-radius: 50%;
+  background: #dce4d9;
+  font-variant-numeric: tabular-nums;
+}
+.demo-steps li[aria-current] {
+  color: var(--green);
+  font-weight: 700;
+}
+.demo-steps li[aria-current] > span {
+  color: #f4f7ee;
+  background: var(--green);
+}
+.step-help {
+  font-size: 14px;
+  line-height: 1.7;
+  margin-bottom: 22px;
+}
+.swap-success {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 8px;
+  color: var(--green);
+  font-size: 13px;
+  margin-top: 18px;
+}
+#transactions {
+  scroll-margin-top: 20px;
+}
+.wallet-details {
+  margin-top: 20px;
+  border-top: 1px solid #d4dcd2;
+}
+summary {
+  cursor: pointer;
+  min-height: 44px;
+  padding: 12px 0;
+  color: var(--green);
+  font-size: 13px;
+  font-weight: 600;
+}
+summary:focus-visible {
+  outline: 3px solid #577e52;
+  outline-offset: 4px;
+  border-radius: 4px;
+}
+.wallet-details .wallet-balances {
+  margin-top: 0;
+  border-top: 0;
+}
+.swap-footnote {
+  font-size: 13px;
+  margin: 25px 0 8px;
+  line-height: 1.7;
+}
+.learn-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  min-height: 44px;
+}
+.research-curve {
+  margin-bottom: 30px;
+}
+.research-curve > p {
+  margin-top: 20px;
+  font-size: 13px;
+}
+.research-curve .curve-panel {
+  margin: 14px 0 24px;
+}
+.icon-button {
+  min-width: 44px;
+  min-height: 44px;
+}
+.segmented button {
+  min-height: 44px;
+}
+.button.compact {
+  min-height: 44px;
+}
+.trade-disclaimer {
+  font-size: 12px;
+}
+@media (max-width: 1190px) {
+  .topbar {
+    margin: 0 32px;
+  }
+}
+@media (max-width: 740px) {
+  .app-navigation {
+    flex-wrap: wrap;
+    padding: 20px 20px 10px;
+    gap: 20px;
+  }
+  .sidebar-body {
+    width: 100%;
+  }
+  .sidebar-body nav {
+    justify-content: space-between;
+    gap: 6px;
+  }
+  .nav-item {
+    padding: 10px;
+    font-size: 12px;
+    gap: 7px;
+  }
+  .nav-item svg {
+    width: 17px;
+  }
+  .topbar {
+    margin: 0 20px;
+    min-height: 50px;
+  }
+  .workspace {
+    padding: 24px 20px 0;
+  }
+  .page-heading h1 {
+    max-width: none;
+    font-size: 26px;
+  }
+  .page-heading p {
+    margin-top: 8px;
+    line-height: 1.6;
+  }
+  .market-heading {
+    margin-bottom: 22px;
+  }
+  .market-heading h2 {
+    font-size: 17px;
+  }
+  .trade-panel {
+    padding: 22px 20px;
+  }
+  .demo-steps {
+    gap: 12px;
+  }
+  .demo-steps li {
+    font-size: 11px;
+    gap: 5px;
   }
 }

@@ -6,7 +6,6 @@ import {
   BookOpen,
   Check,
   CheckCircle2,
-  ChevronRight,
   CircleHelp,
   Copy,
   ExternalLink,
@@ -516,6 +515,12 @@ export default function App() {
     !!chainError ||
     !state ||
     transactions.some((tx) => tx.state === "unknown");
+  const showTrade = !!session && (!state || state.yes > 0n || state.no > 0n);
+  const demoStep = !session ? 0 : !showTrade ? 1 : 2;
+  const latestTransaction = transactions[0];
+  const swapConfirmed =
+    latestTransaction?.state === "confirmed" &&
+    latestTransaction.label.startsWith("Swap ");
   const cpOut =
     state && parsed > 0n
       ? (parsed * (buyYes ? state.reserveYes : state.reserveNo)) /
@@ -524,7 +529,7 @@ export default function App() {
 
   return (
     <div className="app-shell">
-      <aside className="sidebar">
+      <header className="app-navigation">
         <a className="brand" href="#market" onClick={() => setPage("market")}>
           <span className="brand-mark">
             <Waves size={27} />
@@ -532,16 +537,11 @@ export default function App() {
           Gauss<span>VM</span>
         </a>
         <div className="sidebar-body">
-          <p className="side-intro">
-            A different curve for
-            <br />
-            prediction markets.
-          </p>
           <nav aria-label="Main navigation">
             {[
-              ["market", "Market", Activity],
+              ["market", "Swap", Activity],
               ["position", "Liquidity", Layers3],
-              ["research", "The research", BookOpen],
+              ["research", "How it works", BookOpen],
             ].map(([id, label, Icon]) => (
               <button
                 key={String(id)}
@@ -551,28 +551,11 @@ export default function App() {
               >
                 <Icon size={19} />
                 {String(label)}
-                <ChevronRight size={15} />
               </button>
             ))}
           </nav>
         </div>
-        <div className="sidebar-foot">
-          <FlaskConical size={21} />
-          <strong>Built to be inspected.</strong>
-          <p>
-            Test tokens. Source available.
-            <br />
-            Every swap has a receipt.
-          </p>
-          <a
-            href="https://github.com/1inch/aqua"
-            target="_blank"
-            rel="noreferrer"
-          >
-            Powered by 1inch Aqua <ExternalLink size={13} />
-          </a>
-        </div>
-      </aside>
+      </header>
       <main id="main-content">
         <header className="topbar">
           <div className="network">
@@ -596,7 +579,7 @@ export default function App() {
                   <LogOut size={17} />
                 </button>
               </>
-            ) : (
+            ) : page !== "market" ? (
               <button
                 className="button compact"
                 onClick={() => void connectWallet()}
@@ -607,10 +590,14 @@ export default function App() {
                   ? "Connect demo wallet"
                   : "Connect wallet"}
               </button>
+            ) : (
+              <span className="account">Wallet not connected</span>
             )}
           </div>
         </header>
-        <div className="workspace">
+        <div
+          className={`workspace ${page === "market" ? "market-workspace" : ""}`}
+        >
           {!loading && !deployment && (
             <div className="notice">
               <FlaskConical size={20} />
@@ -651,284 +638,241 @@ export default function App() {
           )}
 
           {page === "market" && (
-            <>
+            <div className="swap-workspace">
               <div className="page-heading">
                 <div>
-                  <h1>Let probability take shape.</h1>
+                  <h1>Swap test outcomes</h1>
                   <p>
-                    Gaussian liquidity. Tokens in your wallet. Execution on
-                    Aqua.
+                    Try Gaussian pricing with a real test-token transaction.
                   </p>
                 </div>
-                <span className="version">GaussVM / 0.1</span>
               </div>
-              <section className="market-heading">
-                <div>
-                  <div className="market-status">
-                    <span className={open ? "dot live" : "dot"} />
-                    <span>{status}</span>
-                    <span>Manual resolution</span>
-                  </div>
-                  <h2>Will the demo resolver choose YES?</h2>
-                  <p>
-                    A deliberately simple test market. The named resolver
-                    chooses the outcome after expiry.
-                  </p>
-                  <button
-                    className="button mobile-swap-jump"
-                    onClick={() => {
-                      const target = document.getElementById("trade-panel");
-                      target?.scrollIntoView({
-                        behavior: "auto",
-                        block: "start",
-                      });
-                      target?.focus({ preventScroll: true });
-                    }}
-                  >
-                    Swap outcomes <ArrowRight size={17} />
-                  </button>
+              <section className="market-heading" aria-label="Demo market">
+                <h2>Will the demo resolver choose YES?</h2>
+                <div className="market-status">
+                  <span className={open ? "dot live" : "dot"} />
+                  <span>{status}</span>
+                  <span>Manual resolution</span>
                 </div>
-                <div className="odds">
+                <p>
+                  The resolver chooses the winning side after expiry.{" "}
                   <strong>
                     {state && probability !== undefined
-                      ? `${(probability * 100).toFixed(1)}%`
-                      : "—"}
+                      ? `${(probability * 100).toFixed(1)}% implied YES probability.`
+                      : ""}
                   </strong>
-                  <span>YES · implied probability</span>
-                </div>
+                </p>
               </section>
-              <div className="market-grid">
-                <div className="market-left">
-                  <section className="curve-panel surface">
-                    <div className="section-top">
-                      <h3>A curve built for outcomes</h3>
-                      <span className="subtle-badge">ILLUSTRATIVE</span>
-                    </div>
-                    <p>More of the curve’s liquidity sits near even odds.</p>
-                    <div className="legend">
-                      <span>
-                        <i className="line-sample" />
-                        pm-AMM shape
-                      </span>
-                      <span>
-                        <i className="line-sample dashed" />
-                        Constant product
-                      </span>
-                    </div>
-                    <Curve
-                      remaining={remaining / 100}
-                      probability={probability ?? 0.5}
-                    />
-                    <div className="slider-row">
-                      <label htmlFor="time">Explore time to expiry</label>
-                      <output htmlFor="time">{remaining}% remaining</output>
-                    </div>
-                    <input
-                      id="time"
-                      type="range"
-                      min="5"
-                      max="100"
-                      value={remaining}
-                      onChange={(e) => setRemaining(Number(e.target.value))}
-                    />
-                    <p className="chart-note">
-                      Normalized liquidity shape. This slider illustrates time
-                      scaling; it does not change the live position or its
-                      quotes.
-                    </p>
-                  </section>
-                  <section
-                    className="reserve-strip"
-                    aria-label="Position reserves"
-                  >
-                    <div>
-                      <span>YES allocation</span>
-                      <strong>
-                        {fmt(state?.reserveYes)} <small>YES</small>
-                      </strong>
-                    </div>
-                    <div>
-                      <span>NO allocation</span>
-                      <strong>
-                        {fmt(state?.reserveNo)} <small>NO</small>
-                      </strong>
-                    </div>
-                    <div>
-                      <span>Pricing instruction</span>
-                      <strong>
-                        {deployment?.timeScaled ? "Time-scaled" : "Static"}{" "}
-                        <small>pm-AMM</small>
-                      </strong>
-                    </div>
-                  </section>
-                  <div className="custody-note">
-                    <Layers3 size={23} />
-                    <div>
-                      <strong>Your wallet is the liquidity pool.</strong>
-                      <p>
-                        Aqua tracks the position’s allocation. Tokens stay with
-                        the maker until a swap settles.
-                      </p>
-                    </div>
-                    <button
-                      className="icon-button"
-                      aria-label="Inspect liquidity position"
-                      onClick={() => setPage("position")}
-                    >
-                      <ArrowRight size={20} />
-                    </button>
-                  </div>
+              <section
+                id="trade-panel"
+                tabIndex={-1}
+                className="trade-panel surface"
+                aria-labelledby="trade-heading"
+              >
+                <div className="section-top">
+                  <h2 id="trade-heading">Make a test swap</h2>
+                  <ArrowDownUp size={19} />
                 </div>
-                <section
-                  id="trade-panel"
-                  tabIndex={-1}
-                  className="trade-panel surface"
-                  aria-labelledby="trade-heading"
-                >
-                  <div className="section-top">
-                    <h3 id="trade-heading">Swap outcomes</h3>
-                    <ArrowDownUp size={19} />
-                  </div>
-                  <div className="segmented" aria-label="Swap direction">
-                    <button
-                      aria-pressed={buyYes}
-                      className={buyYes ? "selected" : ""}
-                      onClick={() => setBuyYes(true)}
+                <ol className="demo-steps" aria-label="Swap progress">
+                  {["Connect", "Get tokens", "Swap"].map((label, index) => (
+                    <li
+                      key={label}
+                      aria-current={demoStep === index ? "step" : undefined}
+                      className={demoStep > index ? "done" : ""}
                     >
-                      Get YES
-                    </button>
-                    <button
-                      aria-pressed={!buyYes}
-                      className={!buyYes ? "selected" : ""}
-                      onClick={() => setBuyYes(false)}
-                    >
-                      Get NO
-                    </button>
-                  </div>
-                  <label className="amount-box">
-                    <span>
-                      You pay{" "}
-                      <small>Balance: {session ? fmt(balanceIn) : "—"}</small>
-                    </span>
-                    <div>
-                      <input
-                        aria-label="Amount to swap"
-                        inputMode="decimal"
-                        value={amount}
-                        onChange={(e) => setAmount(e.target.value)}
-                        autoComplete="off"
-                      />
-                      <strong
-                        className={
-                          inputName === "YES" ? "token yes" : "token no"
-                        }
-                      >
-                        {inputName}
-                      </strong>
-                    </div>
-                  </label>
-                  <div className="swap-divider">
-                    <button
-                      className="icon-button"
-                      onClick={() => setBuyYes(!buyYes)}
-                      aria-label="Reverse swap direction"
-                    >
-                      <ArrowDownUp size={17} />
-                    </button>
-                  </div>
-                  <div className="amount-box receive">
-                    <span>
-                      You receive <small>Estimated</small>
-                    </span>
-                    <div>
-                      <output data-testid="quote">
-                        {quoting ? (
-                          <LoaderCircle className="spin" size={24} />
-                        ) : (
-                          fmt(quote, 6)
-                        )}
-                      </output>
-                      <strong
-                        className={
-                          outputName === "YES" ? "token yes" : "token no"
-                        }
-                      >
-                        {outputName}
-                      </strong>
-                    </div>
-                  </div>
-                  <dl className="quote-details">
-                    <div>
-                      <dt>Slippage protection</dt>
-                      <dd>0.5%</dd>
-                    </div>
-                    <div>
-                      <dt>Minimum received</dt>
-                      <dd>
-                        {fmt(
-                          quote === undefined
-                            ? undefined
-                            : (quote * 995n) / 1000n,
-                          4,
-                        )}{" "}
-                        {outputName}
-                      </dd>
-                    </div>
-                    <div>
-                      <dt>Constant-product comparison</dt>
-                      <dd>{fmt(cpOut, 4)}</dd>
-                    </div>
-                  </dl>
-                  {quoteError && (
-                    <p className="field-error" role="status">
-                      {quoteError}
-                    </p>
-                  )}
-                  {session && insufficient && (
-                    <p className="field-error">
-                      You need more {inputName} tokens. Prepare test tokens
-                      below.
-                    </p>
-                  )}
-                  {!session ? (
-                    <button
-                      className="button primary full"
-                      disabled={!deployment || !!busy || !!chainError}
-                      onClick={() => void connectWallet()}
-                    >
-                      Connect to swap <ArrowRight size={18} />
-                    </button>
-                  ) : (
-                    <button
-                      className="button primary full"
-                      disabled={
-                        disabled ||
-                        !open ||
-                        !quote ||
-                        parsed <= 0n ||
-                        insufficient ||
-                        quoting
-                      }
-                      onClick={() => void swap()}
-                    >
-                      {busy ? (
-                        <>
-                          <LoaderCircle size={17} className="spin" />
-                          {busy}
-                        </>
-                      ) : (
-                        <>
-                          Swap {inputName} for {outputName}
-                          <ArrowRight size={18} />
-                        </>
-                      )}
-                    </button>
-                  )}
-                  <p className="trade-disclaimer">
-                    Test tokens have no monetary value. Approval and swap are
-                    separate transactions. Quotes can change before
-                    confirmation.
+                      <span>
+                        {demoStep > index ? <Check size={14} /> : index + 1}
+                      </span>
+                      {label}
+                    </li>
+                  ))}
+                </ol>
+                {!session && (
+                  <p className="step-help">
+                    Connect a test wallet to begin.{" "}
+                    {deployment && localAvailable(deployment)
+                      ? "No wallet extension or real funds needed."
+                      : "Use a Sepolia wallet with faucet ETH."}
                   </p>
+                )}
+                {session && !showTrade && (
+                  <p className="step-help">
+                    Get 100 YES and 100 NO tokens to try either side of the
+                    market. These test tokens are free and have no monetary
+                    value.
+                  </p>
+                )}
+                {showTrade && (
+                  <>
+                    <div className="segmented" aria-label="Swap direction">
+                      <button
+                        aria-pressed={buyYes}
+                        className={buyYes ? "selected" : ""}
+                        onClick={() => setBuyYes(true)}
+                      >
+                        Get YES
+                      </button>
+                      <button
+                        aria-pressed={!buyYes}
+                        className={!buyYes ? "selected" : ""}
+                        onClick={() => setBuyYes(false)}
+                      >
+                        Get NO
+                      </button>
+                    </div>
+                    <label className="amount-box">
+                      <span>
+                        You pay{" "}
+                        <small>Balance: {session ? fmt(balanceIn) : "—"}</small>
+                      </span>
+                      <div>
+                        <input
+                          aria-label="Amount to swap"
+                          inputMode="decimal"
+                          value={amount}
+                          onChange={(e) => setAmount(e.target.value)}
+                          autoComplete="off"
+                        />
+                        <strong
+                          className={
+                            inputName === "YES" ? "token yes" : "token no"
+                          }
+                        >
+                          {inputName}
+                        </strong>
+                      </div>
+                    </label>
+                    <div className="swap-divider">
+                      <button
+                        className="icon-button"
+                        onClick={() => setBuyYes(!buyYes)}
+                        aria-label="Reverse swap direction"
+                      >
+                        <ArrowDownUp size={17} />
+                      </button>
+                    </div>
+                    <div className="amount-box receive">
+                      <span>
+                        You receive <small>Estimated</small>
+                      </span>
+                      <div>
+                        <output data-testid="quote">
+                          {quoting ? (
+                            <LoaderCircle className="spin" size={24} />
+                          ) : (
+                            fmt(quote, 6)
+                          )}
+                        </output>
+                        <strong
+                          className={
+                            outputName === "YES" ? "token yes" : "token no"
+                          }
+                        >
+                          {outputName}
+                        </strong>
+                      </div>
+                    </div>
+                    <dl className="quote-details">
+                      <div>
+                        <dt>Slippage protection</dt>
+                        <dd>0.5%</dd>
+                      </div>
+                      <div>
+                        <dt>Minimum received</dt>
+                        <dd>
+                          {fmt(
+                            quote === undefined
+                              ? undefined
+                              : (quote * 995n) / 1000n,
+                            4,
+                          )}{" "}
+                          {outputName}
+                        </dd>
+                      </div>
+                    </dl>
+                    {quoteError && (
+                      <p className="field-error" role="status">
+                        {quoteError}
+                      </p>
+                    )}
+                    {session && insufficient && (
+                      <p className="field-error">
+                        Your {inputName} balance is too low. Enter a smaller
+                        amount or get more test tokens below.
+                      </p>
+                    )}
+                  </>
+                )}
+                {!session ? (
+                  <button
+                    className="button primary full"
+                    disabled={!deployment || !!busy || !!chainError}
+                    onClick={() => void connectWallet()}
+                  >
+                    Connect to swap <ArrowRight size={18} />
+                  </button>
+                ) : !showTrade ? (
+                  <button
+                    className="button primary full"
+                    disabled={disabled || !open}
+                    onClick={() => void fund()}
+                  >
+                    {busy ? (
+                      <>
+                        <LoaderCircle size={17} className="spin" />
+                        {busy}
+                      </>
+                    ) : (
+                      <>
+                        Get 100 YES + 100 NO <ArrowRight size={18} />
+                      </>
+                    )}
+                  </button>
+                ) : (
+                  <button
+                    className="button primary full"
+                    disabled={
+                      disabled ||
+                      !open ||
+                      !quote ||
+                      parsed <= 0n ||
+                      insufficient ||
+                      quoting
+                    }
+                    onClick={() => void swap()}
+                  >
+                    {busy ? (
+                      <>
+                        <LoaderCircle size={17} className="spin" />
+                        {busy}
+                      </>
+                    ) : (
+                      <>
+                        Swap {inputName} for {outputName}
+                        <ArrowRight size={18} />
+                      </>
+                    )}
+                  </button>
+                )}
+                <p className="trade-disclaimer">
+                  Test tokens have no monetary value. Approval and swap are
+                  separate transactions. Quotes can change before confirmation.
+                </p>
+                {swapConfirmed && (
+                  <p className="swap-success" role="status">
+                    <CheckCircle2 size={18} />
+                    Swap confirmed. <a href="#transactions">View receipt</a>
+                  </p>
+                )}
+                {transactions.some((tx) => tx.state === "unknown") && (
+                  <p className="field-error">
+                    Confirmation is unavailable.{" "}
+                    <a href="#transactions">Check your receipt</a> before making
+                    another transaction.
+                  </p>
+                )}
+                <details className="wallet-details">
+                  <summary>Your balances &amp; test tokens</summary>
                   <div className="wallet-balances">
                     <span>Your test wallet</span>
                     <strong>
@@ -945,15 +889,25 @@ export default function App() {
                     onClick={() => void fund()}
                     disabled={disabled || !session || !open}
                   >
-                    Prepare 100 test sets <span>+</span>
+                    Get more test tokens <span>+</span>
                   </button>
                   <p className="small-help">
                     Claims faucet gUSD and splits 100 into 100 YES + 100 NO. No
                     purchase required.
                   </p>
-                </section>
-              </div>
-            </>
+                </details>
+              </section>
+              <p className="swap-footnote">
+                Powered by 1inch Aqua + SwapVM. Maker tokens stay in their
+                wallet until a swap settles.
+              </p>
+              <button
+                className="text-button learn-link"
+                onClick={() => setPage("research")}
+              >
+                How does the pricing work? <ArrowRight size={16} />
+              </button>
+            </div>
           )}
 
           {page === "position" && (
@@ -968,6 +922,27 @@ export default function App() {
                 </div>
                 <Layers3 size={34} />
               </div>
+              <section className="reserve-strip" aria-label="Position reserves">
+                <div>
+                  <span>YES allocation</span>
+                  <strong>
+                    {fmt(state?.reserveYes)} <small>YES</small>
+                  </strong>
+                </div>
+                <div>
+                  <span>NO allocation</span>
+                  <strong>
+                    {fmt(state?.reserveNo)} <small>NO</small>
+                  </strong>
+                </div>
+                <div>
+                  <span>Pricing instruction</span>
+                  <strong>
+                    {deployment?.timeScaled ? "Time-scaled" : "Static"}{" "}
+                    <small>pm-AMM</small>
+                  </strong>
+                </div>
+              </section>
               <div className="position-grid">
                 <section className="surface detail-panel">
                   <h2>Active strategy</h2>
@@ -1085,7 +1060,7 @@ export default function App() {
                     className="text-button"
                     onClick={() => setPage("market")}
                   >
-                    Get test tokens on the Market screen
+                    Get test tokens on the Swap screen
                   </button>
                 </section>
               </div>
@@ -1251,6 +1226,52 @@ export default function App() {
                 <BookOpen size={34} />
               </div>
               <article className="research-content">
+                <details className="research-curve">
+                  <summary>Explore the Gaussian curve</summary>
+                  <section className="curve-panel surface">
+                    <div className="section-top">
+                      <h3>A curve built for outcomes</h3>
+                      <span className="subtle-badge">ILLUSTRATIVE</span>
+                    </div>
+                    <p>More of the curve’s liquidity sits near even odds.</p>
+                    <div className="legend">
+                      <span>
+                        <i className="line-sample" />
+                        pm-AMM shape
+                      </span>
+                      <span>
+                        <i className="line-sample dashed" />
+                        Constant product
+                      </span>
+                    </div>
+                    <Curve
+                      remaining={remaining / 100}
+                      probability={probability ?? 0.5}
+                    />
+                    <div className="slider-row">
+                      <label htmlFor="time">Explore time to expiry</label>
+                      <output htmlFor="time">{remaining}% remaining</output>
+                    </div>
+                    <input
+                      id="time"
+                      type="range"
+                      min="5"
+                      max="100"
+                      value={remaining}
+                      onChange={(e) => setRemaining(Number(e.target.value))}
+                    />
+                    <p className="chart-note">
+                      Normalized liquidity shape. This slider illustrates time
+                      scaling; it does not change the live position or its
+                      quotes.
+                    </p>
+                  </section>
+                  <p>
+                    Constant-product comparison for the current {amount}{" "}
+                    {inputName} input: {fmt(cpOut, 4)} {outputName}.
+                    Illustration only; executable quotes come from SwapVM.
+                  </p>
+                </details>
                 <section>
                   <h2>Outcome tokens need a different model.</h2>
                   <p>
@@ -1362,7 +1383,7 @@ export default function App() {
             </>
           )}
 
-          <section className="activity-section">
+          <section id="transactions" className="activity-section" tabIndex={-1}>
             <div className="section-top">
               <h3>Transaction journal</h3>
               <span>
