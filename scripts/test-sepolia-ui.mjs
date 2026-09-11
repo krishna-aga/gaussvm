@@ -63,7 +63,10 @@ try {
   await preparation.or(swap).waitFor();
   if (await preparation.isVisible()) await preparation.click();
   await swap.click();
-  await page.getByRole('status').filter({ hasText: 'Swap confirmed.' }).waitFor();
+  const success = page.getByRole('status').filter({ hasText: 'Swap confirmed.' });
+  const alert = page.getByRole('alert');
+  await success.or(alert).waitFor();
+  if (await alert.isVisible()) throw new Error(await alert.innerText());
   const last = evidence.transactions.at(-1);
   const receipt = await p.getTransactionReceipt({ hash: last.hash });
   assert.equal(receipt.status, 'success');
@@ -95,5 +98,10 @@ try {
   evidence.result = 'passed'; save();
   console.log(`Hosted Sepolia swap verified: ${last.hash}; output ${evidence.swap.output} wei YES`);
 } catch (error) {
+  const page = browser.contexts()[0]?.pages()[0];
+  if (page && !page.isClosed()) {
+    evidence.pageState = await page.locator('body').innerText();
+    await page.screenshot({ path: 'reports/sepolia-ui-failure.png', fullPage: true });
+  }
   evidence.result = 'failed'; evidence.error = error.message; save(); throw error;
 } finally { await browser.close(); }
