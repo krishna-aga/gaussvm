@@ -19,7 +19,8 @@
     "build": "tsc --noEmit && vite build",
     "check": "npm run contracts:build && npm test && npm run build",
     "test:browser": "playwright test",
-    "build:public": "node scripts/build-public.mjs"
+    "build:public": "node scripts/build-public.mjs",
+    "audit:math": "node scripts/audit-math.mjs"
   },
   "dependencies": {
     "@fontsource-variable/manrope": "^5.2.8",
