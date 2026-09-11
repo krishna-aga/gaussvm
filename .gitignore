@@ -7,6 +7,7 @@ dist/
 .env.*
 !.env.example
 deployments/local.json
+deployments/fork.json
 web/public/deployment.json
 reports/*.json
 reports/*.png

@@ -4,14 +4,16 @@ import { hardhat } from 'viem/chains';
 import { loadArtifact } from '../lib/deploy.mjs';
 import { takerData } from '../lib/encoding.mjs';
 
-const d=JSON.parse(fs.readFileSync('deployments/local.json','utf8'));
-const publicClient=createPublicClient({chain:hardhat,transport:http('http://127.0.0.1:8545')});
+const fork=process.argv.includes('--fork');
+const d=JSON.parse(fs.readFileSync(`deployments/${fork?'fork':'local'}.json`,'utf8'));
+const rpc=fork?'http://127.0.0.1:8546':'http://127.0.0.1:8545';
+const publicClient=createPublicClient({chain:hardhat,transport:http(rpc,{timeout:fork?120000:10000})});
 if(await publicClient.getChainId()!==31337) throw new Error('Demo only supports local chain 31337.');
-const wallet=createWalletClient({chain:hardhat,transport:http('http://127.0.0.1:8545')});
+const wallet=createWalletClient({chain:hardhat,transport:http(rpc,{timeout:fork?120000:10000,retryCount:0})});
 const account=(await wallet.getAddresses())[1];
 const c=(name,address)=>({address,abi:loadArtifact(name).abi});
 const collateral=c('DemoCollateral',d.collateral),market=c('BinaryMarket',d.market),yes=c('OutcomeToken',d.yes),no=c('OutcomeToken',d.no),router=c('GaussVM',d.router);
-const evidence={chainId:31337,description:'Fresh local EVM transactions; not public explorer transactions',strategy:d.orderHash,transactions:[]};
+const evidence={chainId:31337,description:fork?'Local fork transactions using the canonical Aqua deployment; not public-chain transactions':'Fresh local EVM transactions; not public explorer transactions',aqua:d.aqua,fork:d.fork,strategy:d.orderHash,transactions:[]};
 async function write(contract,functionName,args=[]) {
   const {request}=await publicClient.simulateContract({...contract,functionName,args,account});
   const hash=await wallet.writeContract(request); const r=await publicClient.waitForTransactionReceipt({hash});
@@ -34,5 +36,6 @@ if(after.yes-before.yes!==output || before.no-after.no!==parseEther('10')) throw
 evidence.swap={quote:output,before,after};
 evidence.swapped=receipt.logs.map(l=>{try{return decodeEventLog({abi:router.abi,...l});}catch{return null;}}).find(l=>l?.eventName==='Swapped');
 fs.mkdirSync('reports',{recursive:true});
-fs.writeFileSync('reports/demo.json',JSON.stringify(evidence,(_,v)=>typeof v==='bigint'?v.toString():v,2));
-console.log(`Verified swap ${receipt.transactionHash}: 10 NO -> ${Number(output)/1e18} YES; ${receipt.gasUsed} gas. Evidence: reports/demo.json`);
+const report=`reports/${fork?'fork-demo':'demo'}.json`;
+fs.writeFileSync(report,JSON.stringify(evidence,(_,v)=>typeof v==='bigint'?v.toString():v,2));
+console.log(`Verified swap ${receipt.transactionHash}: 10 NO -> ${Number(output)/1e18} YES; ${receipt.gasUsed} gas. Evidence: ${report}`);

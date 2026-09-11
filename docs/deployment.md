@@ -12,6 +12,18 @@ Local RPC: `http://127.0.0.1:8545`, chain ID **31337**. Web app: `http://127.0.0
 
 The launcher generates `artifacts/`, `deployments/local.json` and `web/public/deployment.json`. Local manifests and `reports/local-chain.log` are ignored. To replace a stale or resolved market, run `npm run deploy:local` with the node running, then reload the browser. The launcher rejects a different network on port 8545. Vite's port is strict; free port 5173 if occupied.
 
+## Canonical Aqua on a free local fork
+
+```sh
+npm run demo:fork
+```
+
+This independent script starts a temporary Ethereum fork on **localhost:8546**, chain **31337**, reuses canonical Aqua at `0x1111113ccf1426a8e30e2bff5e005d929bf6a90a`, and deploys the custom GaussVM extension and test outcomes locally. It checks that Aqua bytecode matches the source block, ships a position, executes a token swap and asserts balance changes. The fork is stopped when the script completes. The ordinary UI manifest and node at 8545 are unaffected.
+
+The default read-only source is the free public Ethereum RPC at PublicNode. No API key, private key or mainnet wallet is used. Remote reads can be slow or unavailable. Optionally set `FORK_RPC_URL` to another Ethereum RPC and `FORK_BLOCK` to a specific source block in your shell. For example, PowerShell: `$env:FORK_BLOCK='25954422'` before running the command. Historical blocks require a provider that can serve that state. To load variables from an ignored `.env`, use `node --env-file=.env scripts/fork-demo.mjs`.
+
+The run writes ignored `deployments/fork.json`, `reports/fork-demo.json` and `reports/fork-chain.log`. The manifest/evidence contains the source block/hash, canonical Aqua code hash, local transactions and balances, without persisting the remote RPC URL. The fork log may contain upstream error details; review it before sharing. Local swap hashes are not public explorer transactions. [The verified evidence](evidence/canonical-aqua-fork.json) is a committed example, not a substitute for executing the final demo.
+
 ## Optional Sepolia
 
 Ethereum's [network documentation](https://ethereum.org/developers/docs/networks/) identifies Sepolia for application testing and lists free faucets. Eligibility and availability vary. Do not buy test ETH; the local demo remains complete when no faucet is available.
@@ -54,4 +66,4 @@ The workflow is manual, not a deployment on push. Vite's relative base supports 
 - PowerShell works without Bash or Foundry; npm solc compiles Solidity.
 - Playwright requires its Chromium download once. Linux CI uses `npx playwright install --with-deps chromium`.
 - The launcher shuts down only its own children. Pre-existing local nodes are left running.
-- Mainnet, paid RPC, databases, paid hosting and real-value collateral are outside the project.
+- Mainnet writes, paid RPC, databases, paid hosting and real-value collateral are outside the project. The canonical demonstration reads mainnet state into a local fork.

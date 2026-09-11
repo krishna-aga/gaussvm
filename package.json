@@ -16,6 +16,7 @@
     "deploy:local": "node scripts/deploy.mjs",
     "deploy:sepolia": "node --env-file=.env scripts/deploy.mjs --sepolia",
     "demo": "node scripts/demo.mjs",
+    "demo:fork": "node scripts/fork-demo.mjs",
     "build": "tsc --noEmit && vite build",
     "check": "npm run contracts:build && npm test && npm run build",
     "test:browser": "playwright test",
