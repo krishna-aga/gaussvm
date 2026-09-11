@@ -44,7 +44,9 @@ The script refuses a network other than Sepolia **11155111**. It deploys the unm
 
 The verified `deployments/sepolia.json` is committed. The browser uses a public RPC URL instead of exposing an authenticated endpoint. Public RPC/faucet availability and test-gas consumption remain external constraints.
 
-The interface uses an injected wallet on Sepolia and requests a network switch. If the wallet does not know Sepolia, add it in the wallet settings. The deployer is the disclosed resolver. Replace the market after expiry for later demos. Mainnet time cannot be accelerated; the local lifecycle controls remain exclusive to the local demo.
+The interface uses an injected wallet on Sepolia and requests a network switch. If the wallet reports an unknown network, the app requests adding Sepolia with the public RPC and explorer from the deployment configuration. Approve those requests in the wallet. Switching accounts refreshes balances automatically; switching away from Sepolia pauses writes and displays **Switch to Sepolia**. Unchanged provider events do not disconnect the session. Wallet access must still be reconnected after a page reload.
+
+The deployer is the disclosed resolver. Replace the market after expiry for later demos. Public testnet time cannot be accelerated; the local lifecycle controls remain exclusive to the local demo.
 
 ### Source verification and a public UI test
 

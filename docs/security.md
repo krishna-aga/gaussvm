@@ -24,6 +24,7 @@ This is an unaudited local/Sepolia research demo, without a production deploymen
 - Unlocked-account behavior requires localhost page/RPC and chain 31337. Public deployment is restricted to Sepolia.
 - Manifests and restored strategies must contain valid addresses, supported network configuration and a matching encoded order/hash before they reach execution.
 - Reads use a single block snapshot and reject stale responses after wallet/position changes. Writes recheck wallet context; overlapping UI actions are locked.
+- Wallet listeners attach only to the connected provider. Duplicate account/network events are ignored; real changes invalidate the previous operation context. A wrong network blocks writes until switched back, and an account change during approval stops the following swap while preserving any submitted receipt. Local demo sessions ignore unrelated extension events.
 
 ## Residual risks
 
