@@ -8,7 +8,7 @@ web
 
 ## Stack
 
-Proposed React and TypeScript with Vite, viem and Solidity. Stack clarification was offered; selection remains an implementation assumption until answered.
+User-approved React and TypeScript interface, one-command local EVM demo, optional public testnet deployment. Vite, viem and Solidity implement that approach.
 
 ## Users
 
