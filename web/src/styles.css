@@ -107,7 +107,7 @@ button,
 a {
   touch-action: manipulation;
 }
-.mobile-swap-jump {
+.button.mobile-swap-jump {
   display: none;
 }
 .attribution {
@@ -120,7 +120,7 @@ a {
   scroll-margin-top: 20px;
 }
 @media (max-width: 740px) {
-  .mobile-swap-jump {
+  .button.mobile-swap-jump {
     display: inline-flex;
     margin-top: 17px;
   }
