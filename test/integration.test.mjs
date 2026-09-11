@@ -3,6 +3,7 @@ import assert from 'node:assert/strict';
 import { parseEther, decodeEventLog, encodeAbiParameters } from 'viem';
 import { publicClient,wallet,accounts,artifact,read,write,mineAt } from './helpers.mjs';
 import { deploySystem } from '../lib/deploy.mjs';
+import { MARKET_QUESTION } from '../lib/market.mjs';
 import { takerData,makeOrder,encodeOrder,orderHash } from '../lib/encoding.mjs';
 
 const e=parseEther;
@@ -20,6 +21,7 @@ await write(yes,'approve',[router.address,e('500')],trader);
 await write(no,'approve',[router.address,e('500')],trader);
 
 test('Aqua ship leaves LP funds in the maker wallet',async()=>{
+  assert.equal(await read(market,'question'), MARKET_QUESTION);
   assert.equal(await balance(yes,accounts[0]),e('1000'));
   assert.equal(await balance(no,accounts[0]),e('1000'));
   assert.equal(await balance(yes,aqua.address),0n);
@@ -130,4 +132,22 @@ test('timeout cancellation lets holders redeem half per side without resolver co
   const before=await balance(collateral,trader);
   await write(m,'redeem',[e('10'),e('10')],trader);
   assert.equal(await balance(collateral,trader)-before,e('10'));
+});
+
+test('replacement market reuses settlement contracts and retires only the old allocation',async()=>{
+  const next=await deploySystem({publicClient,wallet,maker:accounts[0],existingAqua:system.aqua,
+    existingRouter:system.router,existingCollateral:system.collateral,log:()=>{}});
+  assert.equal(next.aqua,system.aqua);
+  assert.equal(next.router,system.router);
+  assert.equal(next.collateral,system.collateral);
+  assert.notEqual(next.market,system.market);
+  assert.notEqual(next.yes,system.yes);
+  assert.equal(await read(c('BinaryMarket',next.market),'question'),MARKET_QUESTION);
+  assert.deepEqual(next.receipts.filter(r=>r.label.startsWith('Deploy ')).map(r=>r.label),['Deploy BinaryMarket']);
+  await write(aqua,'dock',[system.router,system.orderHash,[system.yes,system.no]]);
+  assert.notEqual(Number((await read(aqua,'rawBalances',[accounts[0],system.router,system.orderHash,system.yes]))[1]),2);
+  assert.equal((await read(aqua,'rawBalances',[accounts[0],next.router,next.orderHash,next.yes]))[0],e('1000'));
+  const q=await publicClient.simulateContract({...router,functionName:'quote',args:[{...next.order,traits:BigInt(next.order.traits)},e('10'),
+    takerData({tokenIn:next.no,yes:next.yes,no:next.no,minOutput:1n})],account:trader});
+  assert(q.result[1]>0n);
 });
