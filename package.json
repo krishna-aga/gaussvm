@@ -1,0 +1,40 @@
+{
+  "name": "gaussvm",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "engines": { "node": ">=22.16.0" },
+  "scripts": {
+    "contracts:build": "node scripts/compile.mjs",
+    "test": "node --test --test-concurrency=1 test/*.test.mjs",
+    "test:math": "node --test test/math.test.mjs",
+    "dev": "node scripts/dev.mjs",
+    "dev:web": "vite --host 127.0.0.1",
+    "chain": "hardhat node --hostname 127.0.0.1",
+    "deploy:local": "node scripts/deploy.mjs",
+    "deploy:sepolia": "node --env-file=.env scripts/deploy.mjs --sepolia",
+    "demo": "node scripts/demo.mjs",
+    "build": "tsc --noEmit && vite build",
+    "check": "npm run contracts:build && npm test && npm run build",
+    "test:browser": "playwright test"
+  },
+  "dependencies": {
+    "@1inch/solidity-utils": "6.9.10",
+    "@openzeppelin/contracts": "5.4.0",
+    "react": "19.1.1",
+    "react-dom": "19.1.1",
+    "viem": "2.37.3",
+    "lucide-react": "0.468.0"
+  },
+  "devDependencies": {
+    "@playwright/test": "1.55.0",
+    "@types/node": "22.18.1",
+    "@types/react": "19.1.12",
+    "@types/react-dom": "19.1.9",
+    "@vitejs/plugin-react": "4.7.0",
+    "hardhat": "2.26.3",
+    "solc": "0.8.30",
+    "typescript": "5.9.2",
+    "vite": "6.3.6"
+  }
+}

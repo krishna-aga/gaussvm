@@ -1,0 +1,6 @@
+[submodule "vendor/swap-vm"]
+	path = vendor/swap-vm
+	url = https://github.com/1inch/swap-vm.git
+[submodule "vendor/aqua"]
+	path = vendor/aqua
+	url = https://github.com/1inch/aqua.git
