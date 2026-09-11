@@ -1,4 +1,4 @@
-// SPDX-License-Identifier: MIT
+// SPDX-License-Identifier: LicenseRef-Degensoft-SwapVM-1.1
 pragma solidity 0.8.30;
 
 /// @notice Bounded WAD normal distribution, evaluated with positive convergent series.

@@ -1,0 +1,19 @@
+GaussVM licensing
+
+The SwapVM extension and corresponding integration source are distributed under
+LicenseRef-Degensoft-SwapVM-1.1. See LICENSES/SwapVM-1.1.txt.
+The official unmodified Aqua dependency retains LicenseRef-Degensoft-Aqua-Source-1.1.
+See LICENSES/Aqua-Source-1.1.txt and vendor/aqua for its complete notices.
+
+GaussVM modifications by Krishna, dated 2026-09-11, comprise the custom Gaussian
+instruction, numerical solver, outcome-token demo, browser and reproducible tooling.
+Upstream submodules remain unmodified and retain all their original notices.
+
+Independent BinaryMarket, OutcomeToken and DemoCollateral code carrying MIT
+headers is additionally available under LICENSES/MIT.txt.
+
+This repository is source available. Do not describe the complete combined product
+as MIT-licensed or imply approval or audit by 1inch, Degensoft or Paradigm.
+
+Powered by SwapVM — © Degensoft Ltd 2025
+Powered by Aqua — © Degensoft Ltd 2025

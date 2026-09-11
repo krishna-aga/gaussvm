@@ -1,4 +1,5 @@
-// SPDX-License-Identifier: MIT
+// SPDX-License-Identifier: LicenseRef-Degensoft-SwapVM-1.1
+// GaussVM extension by Krishna, 2026-09-11. See LICENSES/SwapVM-1.1.txt.
 pragma solidity 0.8.30;
 
 import { SwapVM } from '@1inch/swap-vm/contracts/SwapVM.sol';
