@@ -56,6 +56,11 @@ The existing expiry is retained. The UI accepts only the ETHOnline question and 
 
 ### Source verification and a public UI test
 
+For the optimized router, use `node --env-file=.env scripts/optimize-sepolia.mjs --execute`
+after `npm run check`. This reuses the market and tokens, preserving the seed's
+closing reserves. Read the [migration and recovery instructions](gas-optimization.md#sepolia-router-migration)
+before running it. Source verification and Pages publication follow migration.
+
 `npm run contracts:build` also writes complete compiler input, including pinned imports, to ignored `artifacts/build-info.json`. Run `npm run verify:sepolia` to submit that source to the free Sourcify v2 API and record exact/partial match results in `reports/sepolia-verification.json`. This needs no API key or chain transaction.
 
 `npm run test:sepolia` is an explicit public-chain smoke test, never part of CI. It requires a separately funded `TESTNET_TRADER_PRIVATE_KEY` in ignored `.env`, loads the published website and executes token preparation and a real swap through its wallet path. An EIP-1193 adapter keeps signing in Node; the browser never receives the key. It checks actual event/balance deltas, receipts and mobile overflow, and saves `reports/sepolia-ui.json` plus screenshots. This tests the app's injected-provider interface, not a wallet extension's approval dialogs. Rerunning consumes faucet gas and makes another real test swap.

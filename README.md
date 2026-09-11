@@ -101,6 +101,7 @@ reports/            Generated evidence, excluded from commits
 
 - [Research and partner choices](docs/research.md)
 - [Mathematical specification](docs/math.md)
+- [Gas optimization and exact regression benchmarks](docs/gas-optimization.md)
 - [Architecture and byte encoding](docs/architecture.md)
 - [Security assumptions](docs/security.md)
 - [Local and Sepolia deployment](docs/deployment.md)

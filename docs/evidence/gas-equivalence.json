@@ -1,0 +1,27 @@
+{
+  "reference": {
+    "revision": "4e8cd92dcca618b50a7b2cfa5845eb637b70ff4f",
+    "compilerVersion": "0.8.30+commit.73712a01",
+    "optimizer": {
+      "enabled": true,
+      "runs": 200
+    },
+    "viaIR": true,
+    "evmVersion": "cancun",
+    "sources": {
+      "Gaussian": "b0c3b1863521ed1739fb56e83751417ed1e175a52c23d0b470e605173bcace3f",
+      "PmAmmMath": "6948af721bd8bf51da7021246a27b1104bf0018c972d138609097a0999a359c2"
+    }
+  },
+  "seed": "0x6761757373766d",
+  "successes": 1141,
+  "reverts": 105,
+  "functions": {
+    "cdf": 410,
+    "pdf": 410,
+    "invariant": 178,
+    "quote": 248
+  },
+  "comparison": "Exact ABI return bytes or revert data",
+  "limitation": "Deterministic bounded differential testing, not a proof over every possible input."
+}

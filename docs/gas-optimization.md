@@ -61,8 +61,8 @@ An unrelated historical receipt is not used as the denominator for these savings
 Gas-price changes also affect fees independently of gas used.
 
 Generated reports are `reports/gas-equivalence.json` and
-`reports/gas-settlement.json`. Committed snapshots are linked from the verification
-documentation. Existing independent numerical, economic and lifecycle tests remain
+`reports/gas-settlement.json`. Committed snapshots: [exact comparisons](evidence/gas-equivalence.json)
+and [full swap benchmarks](evidence/gas-settlement.json). Existing independent numerical, economic and lifecycle tests remain
 part of `npm run check`.
 
 ## Sepolia router migration
