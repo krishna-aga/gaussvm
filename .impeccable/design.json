@@ -1,0 +1,558 @@
+{
+  "schemaVersion": 2,
+  "generatedAt": "2026-09-11T13:13:55.107Z",
+  "title": "Design System: GaussVM",
+  "extensions": {
+    "colorMeta": {
+      "surface": {
+        "role": "neutral",
+        "displayName": "Daylight sage",
+        "tonalRamp": [
+          "oklch(15.00% 0.00789 139.44)",
+          "oklch(26.43% 0.00789 139.44)",
+          "oklch(37.86% 0.00789 139.44)",
+          "oklch(49.29% 0.00789 139.44)",
+          "oklch(60.71% 0.00789 139.44)",
+          "oklch(72.14% 0.00789 139.44)",
+          "oklch(83.57% 0.00789 139.44)",
+          "oklch(95.00% 0.00789 139.44)"
+        ]
+      },
+      "ink": {
+        "role": "neutral",
+        "displayName": "Forest ink",
+        "tonalRamp": [
+          "oklch(15.00% 0.02853 158.48)",
+          "oklch(26.43% 0.02853 158.48)",
+          "oklch(37.86% 0.02853 158.48)",
+          "oklch(49.29% 0.02853 158.48)",
+          "oklch(60.71% 0.02853 158.48)",
+          "oklch(72.14% 0.02853 158.48)",
+          "oklch(83.57% 0.02853 158.48)",
+          "oklch(95.00% 0.02853 158.48)"
+        ]
+      },
+      "muted": {
+        "role": "neutral",
+        "displayName": "Readable moss",
+        "tonalRamp": [
+          "oklch(15.00% 0.03773 140.90)",
+          "oklch(26.43% 0.03773 140.90)",
+          "oklch(37.86% 0.03773 140.90)",
+          "oklch(49.29% 0.03773 140.90)",
+          "oklch(60.71% 0.03773 140.90)",
+          "oklch(72.14% 0.03773 140.90)",
+          "oklch(83.57% 0.03773 140.90)",
+          "oklch(95.00% 0.03773 140.90)"
+        ]
+      },
+      "green": {
+        "role": "primary",
+        "displayName": "Forest green",
+        "tonalRamp": [
+          "oklch(15.00% 0.06435 155.40)",
+          "oklch(26.43% 0.06435 155.40)",
+          "oklch(37.86% 0.06435 155.40)",
+          "oklch(49.29% 0.06435 155.40)",
+          "oklch(60.71% 0.06435 155.40)",
+          "oklch(72.14% 0.06435 155.40)",
+          "oklch(83.57% 0.06435 155.40)",
+          "oklch(95.00% 0.06435 155.40)"
+        ]
+      },
+      "green-hover": {
+        "role": "primary",
+        "displayName": "Deep forest hover",
+        "tonalRamp": [
+          "oklch(15.00% 0.05835 155.21)",
+          "oklch(26.43% 0.05835 155.21)",
+          "oklch(37.86% 0.05835 155.21)",
+          "oklch(49.29% 0.05835 155.21)",
+          "oklch(60.71% 0.05835 155.21)",
+          "oklch(72.14% 0.05835 155.21)",
+          "oklch(83.57% 0.05835 155.21)",
+          "oklch(95.00% 0.05835 155.21)"
+        ]
+      },
+      "on-green": {
+        "role": "neutral",
+        "displayName": "Light action text",
+        "tonalRamp": [
+          "oklch(15.00% 0.01228 121.70)",
+          "oklch(26.43% 0.01228 121.70)",
+          "oklch(37.86% 0.01228 121.70)",
+          "oklch(49.29% 0.01228 121.70)",
+          "oklch(60.71% 0.01228 121.70)",
+          "oklch(72.14% 0.01228 121.70)",
+          "oklch(83.57% 0.01228 121.70)",
+          "oklch(95.00% 0.01228 121.70)"
+        ]
+      },
+      "sidebar": {
+        "role": "neutral",
+        "displayName": "Sidebar sage",
+        "tonalRamp": [
+          "oklch(15.00% 0.01244 137.79)",
+          "oklch(26.43% 0.01244 137.79)",
+          "oklch(37.86% 0.01244 137.79)",
+          "oklch(49.29% 0.01244 137.79)",
+          "oklch(60.71% 0.01244 137.79)",
+          "oklch(72.14% 0.01244 137.79)",
+          "oklch(83.57% 0.01244 137.79)",
+          "oklch(95.00% 0.01244 137.79)"
+        ]
+      },
+      "recessed": {
+        "role": "neutral",
+        "displayName": "Recessed sage",
+        "tonalRamp": [
+          "oklch(15.00% 0.01191 133.38)",
+          "oklch(26.43% 0.01191 133.38)",
+          "oklch(37.86% 0.01191 133.38)",
+          "oklch(49.29% 0.01191 133.38)",
+          "oklch(60.71% 0.01191 133.38)",
+          "oklch(72.14% 0.01191 133.38)",
+          "oklch(83.57% 0.01191 133.38)",
+          "oklch(95.00% 0.01191 133.38)"
+        ]
+      },
+      "surface-hover": {
+        "role": "neutral",
+        "displayName": "Hover sage",
+        "tonalRamp": [
+          "oklch(15.00% 0.01649 133.83)",
+          "oklch(26.43% 0.01649 133.83)",
+          "oklch(37.86% 0.01649 133.83)",
+          "oklch(49.29% 0.01649 133.83)",
+          "oklch(60.71% 0.01649 133.83)",
+          "oklch(72.14% 0.01649 133.83)",
+          "oklch(83.57% 0.01649 133.83)",
+          "oklch(95.00% 0.01649 133.83)"
+        ]
+      },
+      "badge-surface": {
+        "role": "neutral",
+        "displayName": "Light moss",
+        "tonalRamp": [
+          "oklch(15.00% 0.01705 137.03)",
+          "oklch(26.43% 0.01705 137.03)",
+          "oklch(37.86% 0.01705 137.03)",
+          "oklch(49.29% 0.01705 137.03)",
+          "oklch(60.71% 0.01705 137.03)",
+          "oklch(72.14% 0.01705 137.03)",
+          "oklch(83.57% 0.01705 137.03)",
+          "oklch(95.00% 0.01705 137.03)"
+        ]
+      },
+      "badge-ink": {
+        "role": "neutral",
+        "displayName": "Moss badge text",
+        "tonalRamp": [
+          "oklch(15.00% 0.04131 147.33)",
+          "oklch(26.43% 0.04131 147.33)",
+          "oklch(37.86% 0.04131 147.33)",
+          "oklch(49.29% 0.04131 147.33)",
+          "oklch(60.71% 0.04131 147.33)",
+          "oklch(72.14% 0.04131 147.33)",
+          "oklch(83.57% 0.04131 147.33)",
+          "oklch(95.00% 0.04131 147.33)"
+        ]
+      },
+      "yes-surface": {
+        "role": "primary",
+        "displayName": "Outcome sage",
+        "tonalRamp": [
+          "oklch(15.00% 0.02457 135.69)",
+          "oklch(26.43% 0.02457 135.69)",
+          "oklch(37.86% 0.02457 135.69)",
+          "oklch(49.29% 0.02457 135.69)",
+          "oklch(60.71% 0.02457 135.69)",
+          "oklch(72.14% 0.02457 135.69)",
+          "oklch(83.57% 0.02457 135.69)",
+          "oklch(95.00% 0.02457 135.69)"
+        ]
+      },
+      "yes-ink": {
+        "role": "primary",
+        "displayName": "YES text",
+        "tonalRamp": [
+          "oklch(15.00% 0.06624 149.58)",
+          "oklch(26.43% 0.06624 149.58)",
+          "oklch(37.86% 0.06624 149.58)",
+          "oklch(49.29% 0.06624 149.58)",
+          "oklch(60.71% 0.06624 149.58)",
+          "oklch(72.14% 0.06624 149.58)",
+          "oklch(83.57% 0.06624 149.58)",
+          "oklch(95.00% 0.06624 149.58)"
+        ]
+      },
+      "no-surface": {
+        "role": "secondary",
+        "displayName": "Warm stone",
+        "tonalRamp": [
+          "oklch(15.00% 0.01831 89.37)",
+          "oklch(26.43% 0.01831 89.37)",
+          "oklch(37.86% 0.01831 89.37)",
+          "oklch(49.29% 0.01831 89.37)",
+          "oklch(60.71% 0.01831 89.37)",
+          "oklch(72.14% 0.01831 89.37)",
+          "oklch(83.57% 0.01831 89.37)",
+          "oklch(95.00% 0.01831 89.37)"
+        ]
+      },
+      "no-ink": {
+        "role": "secondary",
+        "displayName": "NO text",
+        "tonalRamp": [
+          "oklch(15.00% 0.04631 81.24)",
+          "oklch(26.43% 0.04631 81.24)",
+          "oklch(37.86% 0.04631 81.24)",
+          "oklch(49.29% 0.04631 81.24)",
+          "oklch(60.71% 0.04631 81.24)",
+          "oklch(72.14% 0.04631 81.24)",
+          "oklch(83.57% 0.04631 81.24)",
+          "oklch(95.00% 0.04631 81.24)"
+        ]
+      },
+      "notice-surface": {
+        "role": "neutral",
+        "displayName": "Notice sage",
+        "tonalRamp": [
+          "oklch(15.00% 0.02107 134.09)",
+          "oklch(26.43% 0.02107 134.09)",
+          "oklch(37.86% 0.02107 134.09)",
+          "oklch(49.29% 0.02107 134.09)",
+          "oklch(60.71% 0.02107 134.09)",
+          "oklch(72.14% 0.02107 134.09)",
+          "oklch(83.57% 0.02107 134.09)",
+          "oklch(95.00% 0.02107 134.09)"
+        ]
+      },
+      "error-surface": {
+        "role": "secondary",
+        "displayName": "Clay notice",
+        "tonalRamp": [
+          "oklch(15.00% 0.01963 55.13)",
+          "oklch(26.43% 0.01963 55.13)",
+          "oklch(37.86% 0.01963 55.13)",
+          "oklch(49.29% 0.01963 55.13)",
+          "oklch(60.71% 0.01963 55.13)",
+          "oklch(72.14% 0.01963 55.13)",
+          "oklch(83.57% 0.01963 55.13)",
+          "oklch(95.00% 0.01963 55.13)"
+        ]
+      },
+      "error-ink": {
+        "role": "secondary",
+        "displayName": "Clay notice text",
+        "tonalRamp": [
+          "oklch(15.00% 0.07104 48.74)",
+          "oklch(26.43% 0.07104 48.74)",
+          "oklch(37.86% 0.07104 48.74)",
+          "oklch(49.29% 0.07104 48.74)",
+          "oklch(60.71% 0.07104 48.74)",
+          "oklch(72.14% 0.07104 48.74)",
+          "oklch(83.57% 0.07104 48.74)",
+          "oklch(95.00% 0.07104 48.74)"
+        ]
+      },
+      "field-error": {
+        "role": "secondary",
+        "displayName": "Field error clay",
+        "tonalRamp": [
+          "oklch(15.00% 0.10210 42.74)",
+          "oklch(26.43% 0.10210 42.74)",
+          "oklch(37.86% 0.10210 42.74)",
+          "oklch(49.29% 0.10210 42.74)",
+          "oklch(60.71% 0.10210 42.74)",
+          "oklch(72.14% 0.10210 42.74)",
+          "oklch(83.57% 0.10210 42.74)",
+          "oklch(95.00% 0.10210 42.74)"
+        ]
+      },
+      "focus": {
+        "role": "primary",
+        "displayName": "Focus sage",
+        "tonalRamp": [
+          "oklch(15.00% 0.07968 141.70)",
+          "oklch(26.43% 0.07968 141.70)",
+          "oklch(37.86% 0.07968 141.70)",
+          "oklch(49.29% 0.07968 141.70)",
+          "oklch(60.71% 0.07968 141.70)",
+          "oklch(72.14% 0.07968 141.70)",
+          "oklch(83.57% 0.07968 141.70)",
+          "oklch(95.00% 0.07968 141.70)"
+        ]
+      },
+      "chart-comparison": {
+        "role": "secondary",
+        "displayName": "Muted ochre",
+        "tonalRamp": [
+          "oklch(15.00% 0.06898 79.15)",
+          "oklch(26.43% 0.06898 79.15)",
+          "oklch(37.86% 0.06898 79.15)",
+          "oklch(49.29% 0.06898 79.15)",
+          "oklch(60.71% 0.06898 79.15)",
+          "oklch(72.14% 0.06898 79.15)",
+          "oklch(83.57% 0.06898 79.15)",
+          "oklch(95.00% 0.06898 79.15)"
+        ]
+      },
+      "chart-fill": {
+        "role": "primary",
+        "displayName": "Gaussian area sage",
+        "tonalRamp": [
+          "oklch(15.00% 0.06660 151.35)",
+          "oklch(26.43% 0.06660 151.35)",
+          "oklch(37.86% 0.06660 151.35)",
+          "oklch(49.29% 0.06660 151.35)",
+          "oklch(60.71% 0.06660 151.35)",
+          "oklch(72.14% 0.06660 151.35)",
+          "oklch(83.57% 0.06660 151.35)",
+          "oklch(95.00% 0.06660 151.35)"
+        ]
+      },
+      "chart-grid": {
+        "role": "neutral",
+        "displayName": "Chart guide sage",
+        "tonalRamp": [
+          "oklch(15.00% 0.01327 141.80)",
+          "oklch(26.43% 0.01327 141.80)",
+          "oklch(37.86% 0.01327 141.80)",
+          "oklch(49.29% 0.01327 141.80)",
+          "oklch(60.71% 0.01327 141.80)",
+          "oklch(72.14% 0.01327 141.80)",
+          "oklch(83.57% 0.01327 141.80)",
+          "oklch(95.00% 0.01327 141.80)"
+        ]
+      }
+    },
+    "typographyMeta": {
+      "display": {
+        "displayName": "Implied probability",
+        "purpose": "Large chain-derived probability readout with tabular numbers."
+      },
+      "headline": {
+        "displayName": "Page heading",
+        "purpose": "Balanced page titles, with responsive sizes documented in DESIGN.md."
+      },
+      "title": {
+        "displayName": "Market and section title",
+        "purpose": "Market question and major content headings."
+      },
+      "section": {
+        "displayName": "Panel heading",
+        "purpose": "Curve and trade panel headings."
+      },
+      "body": {
+        "displayName": "Body",
+        "purpose": "Root Manrope typography; operational explanations use contextual smaller sizes."
+      },
+      "label": {
+        "displayName": "Supporting label",
+        "purpose": "Resolved readable metadata, quote details and journal labels."
+      },
+      "button": {
+        "displayName": "Action label",
+        "purpose": "Primary and secondary button labels."
+      },
+      "amount": {
+        "displayName": "Token amount",
+        "purpose": "Decimal input and estimated quote with tabular numbers."
+      },
+      "address": {
+        "displayName": "Contract address",
+        "purpose": "Monospace addresses and strategy hashes with wrapping."
+      }
+    },
+    "shadows": [
+      {
+        "name": "raised-surface",
+        "value": "8px 8px 20px #ced5cd, -8px -8px 20px #fff",
+        "purpose": "Major curve, trade and detail panels."
+      },
+      {
+        "name": "recessed-field",
+        "value": "inset 4px 4px 9px #d0d7ce, inset -4px -4px 9px #fbfdf9",
+        "purpose": "Input wells, direction track, formula panel and enabled button press."
+      },
+      {
+        "name": "secondary-button",
+        "value": "4px 4px 9px #cfd7cb, -4px -4px 9px #fff",
+        "purpose": "Raised same-material secondary controls."
+      },
+      {
+        "name": "primary-button",
+        "value": "4px 4px 9px #c3cebe, -4px -4px 9px #fff",
+        "purpose": "Forest-green primary controls."
+      },
+      {
+        "name": "active-navigation",
+        "value": "5px 5px 10px #cbd3c7, -5px -5px 10px #f5fff3",
+        "purpose": "Current navigation item."
+      },
+      {
+        "name": "selected-direction",
+        "value": "3px 3px 7px #c5cec0, -3px -3px 7px #f7fff3",
+        "purpose": "Pressed direction choice in the inset track."
+      }
+    ],
+    "motion": [
+      {
+        "name": "button-transition",
+        "value": "box-shadow 0.15s, background 0.15s",
+        "purpose": "Enabled button fill and depth state changes; CSS default easing applies."
+      },
+      {
+        "name": "loading-spin",
+        "value": "spin 1s linear infinite",
+        "purpose": "Loading icon, rotating to 360deg."
+      },
+      {
+        "name": "mobile-jump",
+        "value": "scrollIntoView({ behavior: \"auto\", block: \"start\" }); focus({ preventScroll: true })",
+        "purpose": "At max-width 740px, immediately reach and focus the trade panel without animated scrolling."
+      },
+      {
+        "name": "reduced-motion",
+        "value": "animation: none !important; transition: none !important; scroll-behavior: auto !important",
+        "purpose": "Applied to every element and pseudo-element when prefers-reduced-motion is reduce."
+      }
+    ],
+    "breakpoints": [
+      {
+        "name": "wide-min",
+        "value": "1550px"
+      },
+      {
+        "name": "intermediate-max",
+        "value": "1190px"
+      },
+      {
+        "name": "navigation-row-max",
+        "value": "960px"
+      },
+      {
+        "name": "mobile-stack-max",
+        "value": "740px"
+      }
+    ]
+  },
+  "components": [
+    {
+      "name": "Primary action",
+      "kind": "button",
+      "refersTo": "button-primary",
+      "description": "Forest-green execution control with raised rest and inset pressed states.",
+      "html": "<button class=\"ds-primary\">Connect to swap <svg width=\"18\" height=\"18\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\" aria-hidden=\"true\"><path d=\"M5 12h14m-7-7 7 7-7 7\"/></svg></button>",
+      "css": ".ds-primary{font-family:\"Manrope Variable\",sans-serif;display:inline-flex;align-items:center;justify-content:center;gap:10px;min-height:43px;padding:11px 16px;border:0;border-radius:9px;font-size:12px;font-weight:600;line-height:1.5;cursor:pointer;transition:box-shadow .15s,background .15s;background:var(--green,#315b41);color:#f4f7ee;box-shadow:4px 4px 9px #c3cebe,-4px -4px 9px #fff}.ds-primary:hover:not(:disabled){background:#284d36}.ds-primary:active:not(:disabled){box-shadow:var(--inset,inset 4px 4px 9px #d0d7ce,inset -4px -4px 9px #fbfdf9)}.ds-primary:disabled{opacity:.5;cursor:not-allowed}.ds-primary:focus-visible,.ds-secondary:focus-visible,.ds-text:focus-visible,.ds-amount input:focus-visible,.ds-nav button:focus-visible,.ds-direction button:focus-visible,.ds-journal button:focus-visible{outline:3px solid #577e52;outline-offset:4px}@media(prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important;scroll-behavior:auto!important}}"
+    },
+    {
+      "name": "Secondary action",
+      "kind": "button",
+      "refersTo": "button-secondary",
+      "description": "Same-material raised control for preparation and secondary actions.",
+      "html": "<button class=\"ds-secondary\">Prepare 100 test sets <span aria-hidden=\"true\">+</span></button>",
+      "css": ".ds-secondary{font-family:\"Manrope Variable\",sans-serif;display:inline-flex;align-items:center;justify-content:center;gap:10px;min-height:43px;padding:11px 16px;border:0;border-radius:9px;font-size:12px;font-weight:600;line-height:1.5;cursor:pointer;transition:box-shadow .15s,background .15s;background:var(--surface,#e9ede8);color:var(--ink,#26372d);box-shadow:4px 4px 9px #cfd7cb,-4px -4px 9px #fff}.ds-secondary:hover:not(:disabled){background:#e0e7dc}.ds-secondary:active:not(:disabled){box-shadow:var(--inset,inset 4px 4px 9px #d0d7ce,inset -4px -4px 9px #fbfdf9)}.ds-secondary:disabled{opacity:.5;cursor:not-allowed}.ds-primary:focus-visible,.ds-secondary:focus-visible,.ds-text:focus-visible,.ds-amount input:focus-visible,.ds-nav button:focus-visible,.ds-direction button:focus-visible,.ds-journal button:focus-visible{outline:3px solid #577e52;outline-offset:4px}@media(prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important;scroll-behavior:auto!important}}"
+    },
+    {
+      "name": "Text action",
+      "kind": "button",
+      "refersTo": "button-text",
+      "description": "Underlined forest-green recovery or contextual action. No extra raised surface.",
+      "html": "<button class=\"ds-text\">Check receipt</button>",
+      "css": ".ds-text{font-family:\"Manrope Variable\",sans-serif;border:0;background:transparent;display:inline-flex;align-items:center;gap:7px;padding:7px 0;font-size:11px;font-weight:450;line-height:1.6;color:var(--green,#315b41);text-align:left;text-decoration:underline;text-underline-offset:4px;cursor:pointer}.ds-text:disabled{opacity:.5;cursor:not-allowed}.ds-primary:focus-visible,.ds-secondary:focus-visible,.ds-text:focus-visible,.ds-amount input:focus-visible,.ds-nav button:focus-visible,.ds-direction button:focus-visible,.ds-journal button:focus-visible{outline:3px solid #577e52;outline-offset:4px}"
+    },
+    {
+      "name": "Amount input",
+      "kind": "input",
+      "refersTo": "input-amount",
+      "description": "Recessed decimal amount field; token text and label remain explicit.",
+      "html": "<label class=\"ds-amount\"><span>You pay <small>Balance: —</small></span><div><input aria-label=\"Amount to swap\" inputmode=\"decimal\" autocomplete=\"off\" value=\"10\"><strong class=\"ds-amount-token\">NO</strong></div></label>",
+      "css": ".ds-amount{font-family:\"Manrope Variable\",sans-serif;display:block;max-width:320px;padding:15px 14px 19px;border-radius:12px;box-shadow:var(--inset,inset 4px 4px 9px #d0d7ce,inset -4px -4px 9px #fbfdf9);background:#e6ebe3;color:var(--ink,#26372d)}.ds-amount>span{display:flex;justify-content:space-between;align-items:center;color:var(--muted,#52634f);font-size:11px;margin-bottom:12px}.ds-amount small{font-size:11px}.ds-amount>div{display:flex;align-items:center;gap:10px;min-width:0}.ds-amount input{font-family:\"Manrope Variable\",sans-serif;padding:0;background:transparent;border:0;min-width:0;width:100%;font-size:27px;font-weight:550;line-height:1.6;letter-spacing:-.03em;font-variant-numeric:tabular-nums;color:var(--ink,#26372d);caret-color:var(--green,#315b41)}.ds-amount-token{font-size:11px;letter-spacing:.015em;border-radius:7px;padding:4px 9px;background:#e2ddd0;color:#706044}.ds-primary:focus-visible,.ds-secondary:focus-visible,.ds-text:focus-visible,.ds-amount input:focus-visible,.ds-nav button:focus-visible,.ds-direction button:focus-visible,.ds-journal button:focus-visible{outline:3px solid #577e52;outline-offset:4px}.ds-amount input:focus-visible{outline-offset:5px}"
+    },
+    {
+      "name": "Navigation",
+      "kind": "nav",
+      "refersTo": "navigation-active",
+      "description": "Raised active page, named region, and a responsive row of the same destinations.",
+      "html": "<nav class=\"ds-nav\" aria-label=\"Main navigation\"><button aria-current=\"page\"><svg width=\"19\" height=\"19\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\" aria-hidden=\"true\"><path d=\"M22 12h-4l-3 9L9 3l-3 9H2\"/></svg>Market</button><button>Liquidity</button><button>The research</button></nav>",
+      "css": ".ds-nav{font-family:\"Manrope Variable\",sans-serif;display:flex;flex-direction:column;gap:13px;background:#e3e9e1;padding:20px;max-width:200px}.ds-nav button{font-family:\"Manrope Variable\",sans-serif;display:flex;align-items:center;gap:11px;width:100%;border:0;background:transparent;padding:14px 13px;border-radius:10px;font-size:14px;font-weight:580;line-height:1.6;color:#566457;cursor:pointer}.ds-nav button:hover{background:#dce4d9}.ds-nav button[aria-current]{background:#e3e9e1;box-shadow:5px 5px 10px #cbd3c7,-5px -5px 10px #f5fff3;color:var(--green,#315b41)}@media(max-width:960px){.ds-nav{flex-direction:row;max-width:none;gap:14px}.ds-nav button{width:auto;padding:10px 12px}}@media(max-width:740px){.ds-nav{gap:10px;justify-content:space-between}.ds-nav button{font-size:11px;padding:9px 10px;gap:7px}}.ds-primary:focus-visible,.ds-secondary:focus-visible,.ds-text:focus-visible,.ds-amount input:focus-visible,.ds-nav button:focus-visible,.ds-direction button:focus-visible,.ds-journal button:focus-visible{outline:3px solid #577e52;outline-offset:4px}"
+    },
+    {
+      "name": "Outcome tags",
+      "kind": "chip",
+      "refersTo": "token-yes",
+      "description": "Written YES and NO tags use distinct sage and warm-stone materials.",
+      "html": "<span class=\"ds-tag-yes\">YES</span> <span class=\"ds-tag-no\">NO</span>",
+      "css": ".ds-tag-yes,.ds-tag-no{font-family:\"Manrope Variable\",sans-serif;display:inline-block;font-size:11px;font-weight:700;line-height:1.6;letter-spacing:.015em;border-radius:7px;padding:4px 9px}.ds-tag-yes{background:#d4dfcf;color:#315739}.ds-tag-no{background:#e2ddd0;color:#706044}"
+    },
+    {
+      "name": "Raised panel",
+      "kind": "card",
+      "refersTo": "surface",
+      "description": "Shared daylight material with broad paired shadows; preview uses the detail-panel padding.",
+      "html": "<section class=\"ds-panel\"><h2>Active strategy</h2><p>Aqua tracks the position’s allocation. Tokens stay with the maker until a swap settles.</p></section>",
+      "css": ".ds-panel{font-family:\"Manrope Variable\",sans-serif;padding:28px;background:var(--surface,#e9ede8);color:var(--ink,#26372d);box-shadow:var(--shadow,8px 8px 20px #ced5cd,-8px -8px 20px #fff);border-radius:16px;max-width:440px}.ds-panel h2{font-size:21px;font-weight:650;line-height:1.25;letter-spacing:-.025em;margin:0 0 17px;text-wrap:balance}.ds-panel p{font-size:12px;line-height:1.9;max-width:72ch;color:var(--muted,#52634f);margin:0 0 22px}@media(max-width:740px){.ds-panel{padding:24px 20px}}"
+    },
+    {
+      "name": "Direction selector",
+      "kind": "custom",
+      "description": "Native pressed-state buttons share a recessed track; selected direction is raised.",
+      "html": "<div class=\"ds-direction\" aria-label=\"Swap direction\"><button aria-pressed=\"true\">Get YES</button><button aria-pressed=\"false\">Get NO</button></div>",
+      "css": ".ds-direction{display:flex;max-width:320px;box-shadow:var(--inset,inset 4px 4px 9px #d0d7ce,inset -4px -4px 9px #fbfdf9);padding:5px;border-radius:11px;margin:24px 0 23px;gap:6px;background:var(--surface,#e9ede8)}.ds-direction button{font-family:\"Manrope Variable\",sans-serif;width:50%;border:0;background:transparent;padding:8px;border-radius:8px;color:#576957;font-size:12px;font-weight:650;line-height:1.6;cursor:pointer}.ds-direction button[aria-pressed=\"true\"]{box-shadow:3px 3px 7px #c5cec0,-3px -3px 7px #f7fff3;background:var(--surface,#e9ede8);color:#294b34}.ds-primary:focus-visible,.ds-secondary:focus-visible,.ds-text:focus-visible,.ds-amount input:focus-visible,.ds-nav button:focus-visible,.ds-direction button:focus-visible,.ds-journal button:focus-visible{outline:3px solid #577e52;outline-offset:4px}"
+    },
+    {
+      "name": "Illustrative curve",
+      "kind": "custom",
+      "description": "A static specimen of the normalized Gaussian illustration; not an executable quote. The app owns time scrubbing and chain-derived probability.",
+      "html": "<section class=\"ds-curve-panel\"><div><h3>A curve built for outcomes</h3><span class=\"ds-illustrative\">ILLUSTRATIVE</span></div><svg class=\"ds-curve\" viewBox=\"0 0 700 255\" role=\"img\" aria-label=\"Illustrative Gaussian liquidity shape with 100 percent lifetime remaining. Not an executable quote.\"><defs><linearGradient id=\"ds-gaussian-fill\" x1=\"0\" y1=\"0\" x2=\"0\" y2=\"1\"><stop offset=\"0%\" stop-color=\"#527b5c\" stop-opacity=\".28\"/><stop offset=\"100%\" stop-color=\"#527b5c\" stop-opacity=\".015\"/></linearGradient></defs><g><line x1=\"52\" x2=\"648\" y1=\"165.75\" y2=\"165.75\" stroke=\"#ccd3cb\" stroke-dasharray=\"3 6\"/><text x=\"34\" y=\"170.75\" text-anchor=\"end\">25</text></g><g><line x1=\"52\" x2=\"648\" y1=\"129.5\" y2=\"129.5\" stroke=\"#ccd3cb\" stroke-dasharray=\"3 6\"/><text x=\"34\" y=\"134.5\" text-anchor=\"end\">50</text></g><g><line x1=\"52\" x2=\"648\" y1=\"93.25\" y2=\"93.25\" stroke=\"#ccd3cb\" stroke-dasharray=\"3 6\"/><text x=\"34\" y=\"98.25\" text-anchor=\"end\">75</text></g><g><line x1=\"52\" x2=\"648\" y1=\"57\" y2=\"57\" stroke=\"#ccd3cb\" stroke-dasharray=\"3 6\"/><text x=\"34\" y=\"62\" text-anchor=\"end\">100</text></g><path d=\"M52.80,196.83 L52.98,196.21 L53.19,195.51 L53.43,194.75 L53.72,193.91 L54.07,192.98 L54.47,191.97 L54.94,190.85 L55.50,189.63 L56.14,188.30 L56.89,186.85 L57.75,185.27 L58.74,183.56 L59.87,181.71 L61.17,179.71 L62.65,177.55 L64.32,175.23 L66.22,172.74 L68.35,170.07 L70.74,167.23 L73.41,164.21 L76.39,161.01 L79.70,157.62 L83.36,154.05 L87.39,150.30 L91.82,146.38 L96.66,142.30 L101.94,138.06 L107.68,133.68 L113.89,129.17 L120.58,124.56 L127.78,119.87 L135.48,115.11 L143.70,110.33 L152.44,105.54 L161.70,100.78 L171.47,96.08 L181.75,91.49 L192.51,87.03 L203.76,82.75 L215.45,78.68 L227.58,74.86 L240.11,71.33 L253.00,68.12 L266.22,65.27 L279.72,62.80 L293.48,60.74 L307.43,59.12 L321.54,57.95 L335.74,57.24 L350.00,57.00 L364.26,57.24 L378.46,57.95 L392.57,59.12 L406.52,60.74 L420.28,62.80 L433.78,65.27 L447.00,68.12 L459.89,71.33 L472.42,74.86 L484.55,78.68 L496.24,82.75 L507.49,87.03 L518.25,91.49 L528.53,96.08 L538.30,100.78 L547.56,105.54 L556.30,110.33 L564.52,115.11 L572.22,119.87 L579.42,124.56 L586.11,129.17 L592.32,133.68 L598.06,138.06 L603.34,142.30 L608.18,146.38 L612.61,150.30 L616.64,154.05 L620.30,157.62 L623.61,161.01 L626.59,164.21 L629.26,167.23 L631.65,170.07 L633.78,172.74 L635.68,175.23 L637.35,177.55 L638.83,179.71 L640.13,181.71 L641.26,183.56 L642.25,185.27 L643.11,186.85 L643.86,188.30 L644.50,189.63 L645.06,190.85 L645.53,191.97 L645.93,192.98 L646.28,193.91 L646.57,194.75 L646.81,195.51 L647.02,196.21 L647.20,196.83 L648,202 L52,202 Z\" fill=\"url(#ds-gaussian-fill)\"/><path d=\"M52,57 H648\" fill=\"none\" stroke=\"#9b8054\" stroke-width=\"2\" stroke-dasharray=\"7 7\"/><path d=\"M52.80,196.83 L52.98,196.21 L53.19,195.51 L53.43,194.75 L53.72,193.91 L54.07,192.98 L54.47,191.97 L54.94,190.85 L55.50,189.63 L56.14,188.30 L56.89,186.85 L57.75,185.27 L58.74,183.56 L59.87,181.71 L61.17,179.71 L62.65,177.55 L64.32,175.23 L66.22,172.74 L68.35,170.07 L70.74,167.23 L73.41,164.21 L76.39,161.01 L79.70,157.62 L83.36,154.05 L87.39,150.30 L91.82,146.38 L96.66,142.30 L101.94,138.06 L107.68,133.68 L113.89,129.17 L120.58,124.56 L127.78,119.87 L135.48,115.11 L143.70,110.33 L152.44,105.54 L161.70,100.78 L171.47,96.08 L181.75,91.49 L192.51,87.03 L203.76,82.75 L215.45,78.68 L227.58,74.86 L240.11,71.33 L253.00,68.12 L266.22,65.27 L279.72,62.80 L293.48,60.74 L307.43,59.12 L321.54,57.95 L335.74,57.24 L350.00,57.00 L364.26,57.24 L378.46,57.95 L392.57,59.12 L406.52,60.74 L420.28,62.80 L433.78,65.27 L447.00,68.12 L459.89,71.33 L472.42,74.86 L484.55,78.68 L496.24,82.75 L507.49,87.03 L518.25,91.49 L528.53,96.08 L538.30,100.78 L547.56,105.54 L556.30,110.33 L564.52,115.11 L572.22,119.87 L579.42,124.56 L586.11,129.17 L592.32,133.68 L598.06,138.06 L603.34,142.30 L608.18,146.38 L612.61,150.30 L616.64,154.05 L620.30,157.62 L623.61,161.01 L626.59,164.21 L629.26,167.23 L631.65,170.07 L633.78,172.74 L635.68,175.23 L637.35,177.55 L638.83,179.71 L640.13,181.71 L641.26,183.56 L642.25,185.27 L643.11,186.85 L643.86,188.30 L644.50,189.63 L645.06,190.85 L645.53,191.97 L645.93,192.98 L646.28,193.91 L646.57,194.75 L646.81,195.51 L647.02,196.21 L647.20,196.83\" fill=\"none\" stroke=\"#315b41\" stroke-width=\"3\"/><text x=\"52\" y=\"229\" text-anchor=\"middle\">0%</text><text x=\"201\" y=\"229\" text-anchor=\"middle\">25%</text><text x=\"350\" y=\"229\" text-anchor=\"middle\">50%</text><text x=\"499\" y=\"229\" text-anchor=\"middle\">75%</text><text x=\"648\" y=\"229\" text-anchor=\"middle\">100%</text><text x=\"350\" y=\"253\" text-anchor=\"middle\">YES probability</text></svg><p>Normalized liquidity shape. Illustration only; it does not change the live position or its quotes.</p></section>",
+      "css": ".ds-curve-panel{font-family:\"Manrope Variable\",sans-serif;max-width:700px;padding:25px 24px 21px;background:var(--surface,#e9ede8);color:var(--ink,#26372d);box-shadow:var(--shadow,8px 8px 20px #ced5cd,-8px -8px 20px #fff);border-radius:16px}.ds-curve-panel>div{display:flex;align-items:center;justify-content:space-between;gap:12px}.ds-curve-panel h3{margin:0;font-size:17px;font-weight:650;line-height:1.25;letter-spacing:-.015em;text-wrap:balance}.ds-illustrative{font-size:10px;letter-spacing:.1em;background:#dce4d9;padding:4px 7px;border-radius:4px;color:#4f6551}.ds-curve{width:100%;height:auto;margin-top:17px;display:block;overflow:visible}.ds-curve text{font-family:\"Manrope Variable\",sans-serif;fill:#52634f;font-size:11px}.ds-curve-panel p{font-size:11px;line-height:1.75;max-width:70ch;margin:4px 0 0;color:var(--muted,#52634f)}@media(max-width:740px){.ds-curve-panel{padding:23px 17px 19px}.ds-curve-panel h3{font-size:14px}.ds-illustrative{font-size:8px}.ds-curve{margin-top:21px}.ds-curve text{font-size:20px}.ds-curve-panel p{line-height:1.8}}"
+    },
+    {
+      "name": "Receipt recovery row",
+      "kind": "custom",
+      "description": "Visual specimen of the unknown state. In the app, Check receipt retrieves the same submitted hash and new transaction actions remain disabled.",
+      "html": "<div class=\"ds-journal\"><svg width=\"19\" height=\"19\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\" aria-hidden=\"true\"><circle cx=\"12\" cy=\"12\" r=\"10\"/><path d=\"M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3m.08 4h.01\"/></svg><div><strong>Swap outcomes</strong><span>Confirmation unavailable</span></div><button>Check receipt</button></div>",
+      "css": ".ds-journal{font-family:\"Manrope Variable\",sans-serif;display:flex;align-items:center;gap:13px;padding:14px 0;border-bottom:1px solid #d4ddcf;background:var(--surface,#e9ede8);color:var(--ink,#26372d)}.ds-journal>svg{color:#496e4b;flex-shrink:0}.ds-journal>div{display:flex;flex-direction:column;gap:4px}.ds-journal strong{font-size:12px;font-weight:550;line-height:1.6}.ds-journal span{font-size:11px;color:var(--muted,#52634f)}.ds-journal button{font-family:\"Manrope Variable\",sans-serif;margin-left:auto;border:0;background:transparent;display:inline-flex;align-items:center;gap:5px;padding:7px 0;font-size:11px;font-weight:450;line-height:1.6;color:var(--green,#315b41);text-align:left;text-decoration:underline;text-underline-offset:4px;cursor:pointer}.ds-journal button:disabled{opacity:.5;cursor:not-allowed}@media(max-width:740px){.ds-journal{gap:9px;flex-wrap:wrap}.ds-journal>div{flex:1;min-width:170px}.ds-journal strong{font-size:11px}.ds-journal button{font-size:10px;margin-left:32px}}.ds-primary:focus-visible,.ds-secondary:focus-visible,.ds-text:focus-visible,.ds-amount input:focus-visible,.ds-nav button:focus-visible,.ds-direction button:focus-visible,.ds-journal button:focus-visible{outline:3px solid #577e52;outline-offset:4px}"
+    }
+  ],
+  "narrative": {
+    "northStar": "The Daylight Probability Instrument",
+    "overview": "GaussVM uses the user-pinned neumorphic material recorded in [the interface direction](docs/design-direction.md): pale sage surfaces, paired daylight shadows, recessed fields and forest-green execution controls. The effect is calm, tactile and precise. Manrope connects the softly rounded controls to clear labels and measured numerical readouts; the Gaussian curve supplies the distinctive visual form without raster decoration.\n\nThe visual system supports inspection and action. Chain status, manual resolution, quote estimates and transaction evidence remain legible within the material. Depth groups controls and marks interaction; it does not replace text labels, state icons or keyboard focus. Preserve the chosen daylight sage identity when extending the interface.",
+    "keyCharacteristics": [
+      "Pale sage surfaces with paired raised and inset shadows.",
+      "Forest-green actions, dark readable supporting text and restrained ochre comparison marks.",
+      "Self-hosted Manrope with tabular transaction and balance figures.",
+      "Explicit separation between curve illustration, executable quote and chain receipt.",
+      "Responsive navigation, stacked mobile panels and direct access to swapping."
+    ],
+    "rules": [
+      {
+        "name": "The Readable Material Rule.",
+        "body": "Keep the resolved supporting-text palette when adding content. Computed from the implemented opaque colors, `muted` has contrast ratios of 5.45:1 on `surface`, 5.33:1 on `recessed`, 5.22:1 on `sidebar` and 4.98:1 on `notice-surface`. The primary button pair is 7.17:1. These are specific color-pair checks, not a claim that every interface state has been audited. Disabled controls use reduced opacity and must remain visibly disabled.",
+        "section": "colors"
+      },
+      {
+        "name": "The Receipt Evidence Rule.",
+        "body": "A timeout is not failure evidence. Preserve the submitted hash, offer receipt recovery, and allow only the retrieved receipt to establish confirmed or failed state. The 60-second receipt wait and wallet replacement handling belong to transaction behavior; elapsed time or a changing illustration must never become a success indicator. Because the journal is session-only, this recovery guarantee is limited to the current mounted session.",
+        "section": "components"
+      }
+    ],
+    "dos": [
+      "**Do** preserve the pinned daylight sage neumorphic material, self-hosted Manrope and forest-green execution emphasis.",
+      "**Do** use the resolved dark supporting-text colors alongside the paired shadows; inspect the final cascade when extending responsive styles.",
+      "**Do** keep written states, native controls, keyboard focus and reduced-motion behavior intact.",
+      "**Do** label the curve as illustrative and keep its time slider separate from actual strategy and quote state.",
+      "**Do** preserve same-hash receipt recovery and the explicit unknown state when confirmation is unavailable.",
+      "**Do** keep the mobile path to swapping direct, with both scroll and focus transfer."
+    ],
+    "donts": [
+      "**Don't** infer transaction success from submission, timeout, an estimate or the curve illustration.",
+      "**Don't** fabricate balances, market history, receipt metadata, trading activity or public deployment status.",
+      "**Don't** hide test-asset value, manual-resolution authority or approval/swap separation behind a visual treatment.",
+      "**Don't** replace text and icons with color-only status cues or remove focus to preserve a soft shadow.",
+      "**Don't** present the session journal as persistent history or the limited visual review disposition as a security or economic approval."
+    ]
+  }
+}

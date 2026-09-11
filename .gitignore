@@ -11,7 +11,8 @@ web/public/deployment.json
 reports/*.json
 reports/*.png
 reports/*.log
-.impeccable/
+.impeccable/*
+!.impeccable/design.json
 test-results/
 playwright-report/
 *.tsbuildinfo
