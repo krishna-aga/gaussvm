@@ -9,6 +9,7 @@ function files(dir) {
 function resolveImport(name) {
   const resolved = name.startsWith('@1inch/swap-vm/') ? name.replace('@1inch/swap-vm/', 'vendor/swap-vm/')
     : name.startsWith('@1inch/aqua/') ? name.replace('@1inch/aqua/', 'vendor/aqua/')
+    : name.startsWith('@1inch/solidity-utils/') ? name.replace('@1inch/solidity-utils/', 'vendor/solidity-utils/')
     : path.join('node_modules', name);
   try { return { contents: fs.readFileSync(resolved, 'utf8') }; }
   catch { return { error: `Missing ${resolved}. Run git submodule update --init --recursive and npm ci.` }; }

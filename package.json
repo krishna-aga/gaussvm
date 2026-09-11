@@ -19,22 +19,22 @@
     "test:browser": "playwright test"
   },
   "dependencies": {
-    "@1inch/solidity-utils": "6.9.10",
     "@openzeppelin/contracts": "5.4.0",
     "react": "19.1.1",
     "react-dom": "19.1.1",
-    "viem": "2.37.3",
+    "viem": "2.56.3",
     "lucide-react": "0.468.0"
   },
   "devDependencies": {
-    "@playwright/test": "1.55.0",
+    "@playwright/test": "1.63.0",
     "@types/node": "22.18.1",
     "@types/react": "19.1.12",
     "@types/react-dom": "19.1.9",
     "@vitejs/plugin-react": "4.7.0",
-    "hardhat": "2.26.3",
+    "hardhat": "3.16.0",
     "solc": "0.8.30",
     "typescript": "5.9.2",
-    "vite": "6.3.6"
-  }
+    "vite": "6.4.3"
+  },
+  "overrides": { "tmp": "0.2.6", "ws": "8.21.1" }
 }

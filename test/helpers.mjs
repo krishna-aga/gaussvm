@@ -1,9 +1,12 @@
 import fs from 'node:fs';
-import hre from 'hardhat';
+import { network } from 'hardhat';
+import { after } from 'node:test';
 import { createPublicClient, createWalletClient, custom } from 'viem';
 import { hardhat } from 'viem/chains';
 
-export const transport = custom({ request: args => hre.network.provider.request(args) });
+const connection = await network.create();
+after(() => connection.close());
+export const transport = custom({ request: args => connection.provider.request(args) });
 export const publicClient = createPublicClient({ chain: hardhat, transport });
 export const wallet = createWalletClient({ chain: hardhat, transport });
 export const accounts = await wallet.getAddresses();
@@ -22,6 +25,6 @@ export async function write(contract, functionName, args = [], account = account
   return receipt;
 }
 export async function mineAt(timestamp) {
-  await hre.network.provider.send('evm_setNextBlockTimestamp', [Number(timestamp)]);
-  await hre.network.provider.send('evm_mine');
+  await connection.provider.request({method:'evm_setNextBlockTimestamp',params:[Number(timestamp)]});
+  await connection.provider.request({method:'evm_mine',params:[]});
 }
