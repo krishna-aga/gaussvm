@@ -15,6 +15,7 @@ const d = JSON.parse(fs.readFileSync('deployments/sepolia.json', 'utf8'));
 assert(validateDeployment(d) && d.chainId === sepolia.id, 'Valid Sepolia deployment required');
 const served = await (await fetch(`${appUrl}deployment.json?check=${Date.now()}`)).json();
 assert.equal(served.orderHash, d.orderHash, 'Hosted deployment must match the tested contracts');
+assert.equal(served.router.toLowerCase(), d.router.toLowerCase(), 'Hosted router must match the tested router');
 const account = privateKeyToAccount(process.env.TESTNET_TRADER_PRIVATE_KEY);
 assert.notEqual(account.address.toLowerCase(), d.maker.toLowerCase(), 'Use a separate taker wallet');
 const p = createPublicClient({ chain: sepolia, transport: http(d.rpcUrl), pollingInterval: 4000 });

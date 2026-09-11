@@ -30,6 +30,23 @@ test('interrupted receipt waits restore as unknown without inventing confirmatio
   assert.equal(tx.hash,hash);assert.equal(tx.state,'unknown');assert.equal(tx.block,undefined);
 });
 
+test('router changes isolate authorizations and legacy history restores receipts only',()=>{
+  const db=storage(),custom=deployment({maker:a(8),start:101,timeScaled:true});
+  writeWorkspace(db,workspaceKey(seed),{positions:[positionFrom(custom)],selected:custom.orderHash,transactions:[]});
+  const next=deployment({router:a(20)});
+  assert.notEqual(workspaceKey(seed),workspaceKey(next));
+  assert.equal(readWorkspace(db,next).positions.length,1);
+  const hash=`0x${'cd'.repeat(32)}`;
+  db.setItem(`gaussvm:workspace:v1:${seed.chainId}:${seed.market.toLowerCase()}:${seed.orderHash.toLowerCase()}`,
+    JSON.stringify({version:1,positions:[positionFrom(custom)],selected:custom.orderHash,
+      transactions:[{label:'Swap',hash,account:a(8),state:'confirmed'}]}));
+  const restored=readWorkspace(db,next);
+  assert.equal(restored.positions.length,1);
+  assert.equal(restored.selected,next.orderHash);
+  assert.equal(restored.transactions[0].hash,hash);
+  assert.match(restored.warning,/Previous receipts restored/);
+});
+
 test('replacement receipts distinguish gas repricing from cancellation or another operation',()=>{
   assert.equal(receiptState({replacement:'repriced'},'success'),'confirmed');
   assert.equal(receiptState({replacement:'cancelled'},'success'),'cancelled');
