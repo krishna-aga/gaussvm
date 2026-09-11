@@ -1,0 +1,17 @@
+node_modules/
+artifacts/
+cache/
+dist/
+.research/
+.env
+.env.*
+!.env.example
+deployments/local.json
+web/public/deployment.json
+reports/*.json
+reports/*.png
+reports/*.log
+.impeccable/
+test-results/
+playwright-report/
+*.tsbuildinfo
