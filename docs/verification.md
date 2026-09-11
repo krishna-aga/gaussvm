@@ -9,6 +9,7 @@ Verified locally on 2026-09-11. This record describes executed checks, not an in
 - Hardhat 3.16.0, viem 2.56.3, Playwright 1.63.0 / Chromium.
 - A separate clean Git clone at `8a03eda` fetched the exact three upstream submodules, installed with `npm ci`, and passed `npm run check`. The subsequent `a772188` change only corrects CSS specificity for the mobile jump control.
 - The bounded numerical audit at `a772188e5b2137d26b98a32aed5ffba89b33ac0e` recorded a clean source tree, freshly compiled MathHarness artifact, tool versions and input hashes.
+- A subsequent qualification/UX pass added the canonical Aqua fork demonstration and replaced the initial market layout with a guided Swap flow. The earlier clean-clone and numerical manifest remain evidence for their recorded revisions, not an assertion that those manifests cover later edits.
 
 ## Results that ran
 
@@ -17,6 +18,7 @@ Verified locally on 2026-09-11. This record describes executed checks, not an in
 | Solidity compilation | Pass. GaussVM deployed runtime: 16,226 bytes, below the EVM 24,576-byte limit. |
 | Contract / mathematical / economic suite | **16 tests passed**, including real official-Aqua transfers in both directions. |
 | Browser suite | **5 scenarios passed**: swaps, mobile/reduced motion, no-deployment preview, receipt failure/recovery, maker lifecycle. |
+| Canonical Aqua fork | Pass at Ethereum source block 25,954,422: matching Aqua bytecode, position ship and an actual local swap. No public transaction. |
 | TypeScript and Vite production build | Pass. Separate Ethereum bundle and self-hosted Latin font; no oversized-chunk warning. |
 | Public static build | Pass; confirmed it excludes local `deployment.json` and restores the local development manifest. |
 | JavaScript dependency audit | **0 known vulnerabilities** reported by npm at verification time. |
@@ -44,7 +46,9 @@ The integration fixture's two measured swaps used **767,171 gas** (NO to YES) an
 
 ## Browser behavior exercised
 
-The tests execute both swap directions, limited approvals, complete-set preparation and merge, real maker ship/dock, local expiry advancement, resolution and redemption. They verify insufficient-balance prevention, failed RPC disabling execution, unavailable-deployment preview, mobile overflow and focus of the early swap jump. The desktop/mobile pair passed again after the final shortcut visibility correction. An injected receipt-watcher RPC failure preserves an unknown transaction; restoring RPC and selecting Check receipt observes its successful receipt.
+The tests execute both swap directions, limited approvals, complete-set preparation and merge, real maker ship/dock, local expiry advancement, resolution and redemption. The updated five-scenario suite passed after UX simplification, including Connect → Get tokens → Swap progression, the first mobile action in the viewport with at least 44px height, no horizontal overflow, hidden-until-expanded research curve, insufficient-balance prevention and RPC outage. An injected receipt-watcher RPC failure preserves an unknown transaction; restoring RPC and selecting Check receipt observes its successful receipt.
+
+The canonical fork demonstration used **761,917 gas** for 10 NO → 9.936740437215125 YES. Its source provenance and receipt are in [evidence/canonical-aqua-fork.json](evidence/canonical-aqua-fork.json). The initial attempt timed out on a free remote RPC; the successful run used longer localhost request timeouts. This path depends on upstream historical-state availability.
 
 The nine integration tests passed again after strengthening assertions to match the specific slippage, deadline, exact-output and program-parser errors. Malformed and unknown-opcode orders are allocated through Aqua first, so missing allocation cannot substitute for the intended rejection.
 

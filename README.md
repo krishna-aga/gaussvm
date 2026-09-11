@@ -23,8 +23,8 @@ npm run dev
 
 Open **http://127.0.0.1:5173**. This compiles Solidity, starts a localhost EVM, deploys official Aqua and GaussVM, seeds a 1,000 YES + 1,000 NO position and starts the interface. It never connects to mainnet. Ctrl+C stops the services it started. A pre-existing local node is reused with a fresh market.
 
-1. Select **Connect demo wallet**.
-2. Select **Prepare 100 test sets**. Faucet gUSD is claimed if needed; 100 gUSD becomes 100 YES and 100 NO.
+1. Select **Connect to swap**.
+2. Select **Get 100 YES + 100 NO**. Faucet gUSD is claimed if needed; 100 gUSD becomes 100 YES and 100 NO. A funded wallet skips this step.
 3. Swap NO for YES, then reverse direction. The journal shows actual hashes, blocks and gas.
 4. Open **Liquidity** to inspect addresses, ship a static/time-scaled position, dock a maker position or merge complete sets.
 5. To resolve, switch to the local maker wallet, advance the local clock to expiry, choose YES/NO and redeem. Restart the demo for a fresh market.
@@ -36,6 +36,8 @@ npm run demo
 ```
 
 The script performs a real EVM swap, asserts that balance changes equal quoted amounts, and writes receipts, event logs and before/after balances to `reports/demo.json`. These hashes belong to the local chain, not a public explorer.
+
+For submission evidence against **Aqua's canonical deployed address**, run `npm run demo:fork`. It reads Ethereum into an isolated localhost fork, deploys the custom SwapVM extension and executes a real local swap. No real funds or public transactions are used. The verified run and all outstanding submission requirements are in [qualification](docs/qualification.md).
 
 The remote is configured as `https://github.com/krishna-aga/gaussvm.git`, but the implementation is intentionally kept local at the owner's request. Once pushed, clone with `git clone --recurse-submodules https://github.com/krishna-aga/gaussvm.git`. ZIP downloads omit the required upstream submodules.
 
@@ -95,6 +97,9 @@ reports/            Generated evidence, excluded from commits
 - [Local and Sepolia deployment](docs/deployment.md)
 - [Judge demo and submission evidence](docs/demo.md)
 - [Verification](docs/verification.md)
+- [Qualification requirements and submission checklist](docs/qualification.md)
+- [AI assistance and human contribution disclosure](docs/ai-usage.md)
+- [UX changes informed by Laws of UX](docs/ux.md)
 - [Implemented design system](DESIGN.md)
 - [Contribution and commit conventions](CONTRIBUTING.md)
 

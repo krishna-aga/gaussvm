@@ -6,11 +6,11 @@
 
 **0:25–0:50:** Open Liquidity. Show maker, Aqua, router and strategy addresses. Explain that ship records allocation while funds remain in the maker wallet.
 
-**0:50–1:40:** Connect the demo trader, prepare test sets, swap 10 NO for YES, and reverse direction. Show real receipts. Run `npm run demo` in another terminal and open `reports/demo.json` for quoted output, balance deltas and event logs. Explicitly identify the local EVM.
+**0:50–1:40:** Open Swap, select Connect to swap, then Get 100 YES + 100 NO. Swap 10 NO for YES, then reverse direction. Show the receipt. Present the `npm run demo:fork` execution and `reports/fork-demo.json` to show settlement through canonical Aqua. Identify the source block and distinguish local fork transactions from public-chain transactions. Remote RPC waits may be cut out of the recording, without speeding up playback or hiding which operations ran.
 
 **1:40–2:15:** Show `contracts/GaussVM.sol` and the 162-byte program in the architecture guide. The custom instruction reads reserves, checks the pair/expiry and computes output; official SwapVM/Aqua settle it.
 
-**2:15–2:40:** Scrub the illustrative time slider and explain that it does not mutate the live order. Optionally ship a time-scaled position. The integration test advances time and executes that strategy onchain.
+**2:15–2:40:** Open How it works → Explore the Gaussian curve. Scrub the illustrative time slider and explain that it does not mutate the live order. Optionally ship a time-scaled position. The integration test advances time and executes that strategy onchain.
 
 **2:40–3:00:** Show resolution/redemption or its passing tests. State manual resolver trust, numerical bounds, unaudited status and the difference between the cash-retaining extension and the paper's complete LVR result.
 
@@ -25,9 +25,11 @@
 | Tests or UI | Both implemented. |
 | Genuine Git history | Focused local commits as Krishna, without fabricated dates. |
 
-The [event page](https://ethglobal.com/events/ethonline2026/prizes) remains authoritative. This is evidence mapping, not a prize guarantee. The supplied rules allow local forks; this implementation demonstrates a fresh local EVM running official source deployments. It is not represented as a mainnet fork or canonical live Aqua deployment. Confirm that format with the sponsor if they require canonical-instance evidence beyond source fidelity.
+The [event page](https://ethglobal.com/events/ethonline2026/prizes/1inch) remains authoritative. This is evidence mapping, not a prize guarantee. The supplied rules allow local forks. `npm run demo:fork` now provides a verified canonical-Aqua fork path; `npm run dev` remains the fast, independent local source-deployment UI path. Describe these environments accurately.
 
-Before submission, push the existing commits once the correct account is connected; verify permitted build dates and disclose pre-existing work; rerun checks from a clean clone; record a video visibly executing a transfer; include actual environment and explorer links only if deployed. Do not claim an unimplemented oracle, additional sponsor integration or economic audit.
+Before submission, complete [qualification.md](qualification.md), including [AI disclosure and human contributions](ai-usage.md). The CLI is now connected as krishna-aga; publication still awaits the owner's instruction. Retain the existing history, disclose reused work, check the published clone and record actual transfers with human narration. Do not claim an unimplemented oracle, additional sponsor integration or economic audit.
+
+The required video is **2–4 minutes**, at least **720p**, with no AI voiceover. Submission is due **13 September 2026 at 21:30 IST**. See the [official submission guide](https://ethglobal.com/events/ethonline2026/info/details).
 
 ## Suggested description
 
