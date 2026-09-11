@@ -1,0 +1,58 @@
+{
+  "startedAt": "2026-09-11T17:40:41.197Z",
+  "chainId": 11155111,
+  "sourceRouter": "0xee9bd9a83feaf9df60fe6ad0ced4bd30c3fd18e9",
+  "deployment": {
+    "hash": "0x8afcd80eb27f0bad2ffdfc396fde6319c031e579d98ce0050600ef506114c8d1",
+    "label": "Deploy GaussVM",
+    "blockNumber": "11683433",
+    "gasUsed": "3599944",
+    "feeWei": "3764673477501600"
+  },
+  "migration": {
+    "sourceRouter": "0xee9bd9a83feaf9df60fe6ad0ced4bd30c3fd18e9",
+    "nextRouter": "0xc6861469c1c0144d132efcc4a1261c4fd3e38310",
+    "orderHash": "0x7b169d41745e52162c0fe71bdbb4b3d4fbee6e8bfdfdf8bf64d8c5f496bdfba1",
+    "steps": {
+      "Dock previous router seed": {
+        "hash": "0x33b6ad4b511be7fc02065b0a2906e43c6dacf4bb8963723d8a4a21e4f23c80f5",
+        "label": "Dock previous router seed",
+        "blockNumber": "11683434",
+        "gasUsed": "35974",
+        "feeWei": "36133359244030"
+      },
+      "Approve migrated NO allocation": {
+        "hash": "0xe82c787e2b725376930b289bb7008b21a26c16967309911652b8269bfd2a3950",
+        "label": "Approve migrated NO allocation",
+        "blockNumber": "11683436",
+        "gasUsed": "28869",
+        "feeWei": "31409119422903"
+      },
+      "Ship optimized router seed": {
+        "hash": "0xe7c8000570c9b91304463d3c2df70d344522750b7cd331b4c1288b920653b37d",
+        "label": "Ship optimized router seed",
+        "blockNumber": "11683437",
+        "gasUsed": "83281",
+        "feeWei": "86026574279195"
+      }
+    },
+    "snapshot": {
+      "blockNumber": "11683433",
+      "balances": [
+        "990063259562784873650",
+        "1010000000000000000000"
+      ]
+    },
+    "allocations": [
+      "990063259562784873650",
+      "1010000000000000000000"
+    ],
+    "completedAt": "2026-09-11T17:41:53.907Z"
+  },
+  "commit": "d5d68e0dce6171e3904406dd727b4b0b8759d6c0",
+  "bytecodeHash": "0x1b9d756b880d095f2d48c4c8ace24a8b7226dc8bc440170ab67e0ce5e27a6fe0",
+  "makerBalanceBefore": "84762193631153040",
+  "nextRouter": "0xc6861469c1c0144d132efcc4a1261c4fd3e38310",
+  "makerBalanceAfter": "80843951100705312",
+  "completedAt": "2026-09-11T17:41:54.579Z"
+}

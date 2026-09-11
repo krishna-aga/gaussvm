@@ -24,7 +24,7 @@ The initial position has 1,000 YES + 1,000 NO allocated through Aqua. Allocation
 | Contract | Sepolia address |
 | --- | --- |
 | Official Aqua source deployment | [`0x2f478eb1726c83108f1363f01757bae7dfe9bed6`](https://sepolia.etherscan.io/address/0x2f478eb1726c83108f1363f01757bae7dfe9bed6) |
-| GaussVM router | [`0xee9bd9a83feaf9df60fe6ad0ced4bd30c3fd18e9`](https://sepolia.etherscan.io/address/0xee9bd9a83feaf9df60fe6ad0ced4bd30c3fd18e9) |
+| Optimized GaussVM router | [`0xc6861469c1c0144d132efcc4a1261c4fd3e38310`](https://sepolia.etherscan.io/address/0xc6861469c1c0144d132efcc4a1261c4fd3e38310) |
 | Binary market | [`0xb36c73b753424da9e7177a2b6b32310f4241eb4f`](https://sepolia.etherscan.io/address/0xb36c73b753424da9e7177a2b6b32310f4241eb4f) |
 | Faucet gUSD | [`0x39bc0f0658f0d79b8f923e98fd840a41cd65c85e`](https://sepolia.etherscan.io/address/0x39bc0f0658f0d79b8f923e98fd840a41cd65c85e) |
 | YES | [`0x3250101B123877c69A2C9b2a6c3178f863cE0Fa3`](https://sepolia.etherscan.io/address/0x3250101B123877c69A2C9b2a6c3178f863cE0Fa3) |
@@ -32,11 +32,27 @@ The initial position has 1,000 YES + 1,000 NO allocated through Aqua. Allocation
 
 Maker/resolver: `0xA816Fdc3ec3b1C32C7b22B18d9Bec2Ee88B7C431`. The dedicated test taker is `0x5076F136d3cD37B95471DcCFb5cf721f6448521b`. Their keys are retained only in the owner's ignored local `.env`; no signing key is committed, uploaded to CI or included in the frontend.
 
-The current [manifest](../deployments/sepolia.json) contains the three original infrastructure deployment receipts and seven new market/setup receipts. All six current contracts have **exact creation and runtime matches** on Sourcify; [open the GaussVM source](https://repo.sourcify.dev/11155111/0xee9bd9a83feaf9df60fe6ad0ced4bd30c3fd18e9) or inspect the [verification evidence](evidence/ethonline-source-verification.json). Source verification establishes source/bytecode correspondence, not a security audit.
+The current [manifest](../deployments/sepolia.json) retains market/setup receipts and records the optimized router deployment and migration. All six current contracts have **exact creation and runtime matches** on Sourcify; [open the GaussVM source](https://repo.sourcify.dev/11155111/0xc6861469c1c0144d132efcc4a1261c4fd3e38310) or inspect the [verification evidence](evidence/gas-source-verification.json). Source verification establishes source/bytecode correspondence, not a security audit.
 
 The shared infrastructure is a Sepolia deployment of pinned official Aqua source and the custom SwapVM extension. The separate [canonical Aqua fork evidence](evidence/canonical-aqua-fork.json) uses 1inch's existing Ethereum deployment. These environments have distinct addresses and receipts.
 
-## Current ETHOnline market execution
+## Optimized router rollout
+
+On 11 September 2026, the new router was deployed in [transaction `0x8afc…c8d1`](https://sepolia.etherscan.io/tx/0x8afcd80eb27f0bad2ffdfc396fde6319c031e579d98ce0050600ef506114c8d1).
+The market, question, YES/NO tokens, collateral, Aqua, resolver, expiry and encoded
+seed order are unchanged. The old seed was docked and its closing **990.063259562784873650
+YES + 1,010 NO** allocations were shipped to the optimized router. Other positions
+on the old router were not migrated or closed. Old addresses and receipts remain
+in the [pre-optimization manifest](../deployments/archive/sepolia-pre-gas.json).
+
+Deployment, docking, the limited NO allowance update and shipping consumed
+**0.003918242530447728 Sepolia ETH** across four confirmed transactions. A rerun
+sent no further transactions. [Migration evidence](evidence/gas-router-migration.json)
+and [exact source verification](evidence/gas-source-verification.json) are recorded.
+See [gas optimization](gas-optimization.md) for paired benchmarks and custom-position
+recovery. This migration used existing faucet funds and no paid service.
+
+## ETHOnline market execution before router optimization
 
 The published app exchanged **10 NO → 9.93674043721512635 YES** on the new market in [transaction `0xaa3e…8625`](https://sepolia.etherscan.io/tx/0xaa3e813b024e4b593ac14e62807cf01c0d30cc1f746ea057b161764a5bfd8625), block **11,682,848**, using **762,497 gas**. The successful `Swapped` event matches the taker's actual balances: YES increased from 100 to 109.93674043721512635 and NO decreased from 100 to 90. The YES purchase animation was observed after confirmation. [Current UI evidence](evidence/ethonline-ui.json) records these checks, and [migration evidence](evidence/ethonline-market.json) records the new deployment, old seed's docking and costs.
 

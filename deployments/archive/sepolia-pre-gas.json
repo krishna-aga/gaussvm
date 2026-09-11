@@ -5,7 +5,7 @@
   "deployedAt": "2026-09-11T15:29:52.150Z",
   "blockNumber": "11682790",
   "aqua": "0x2f478eb1726c83108f1363f01757bae7dfe9bed6",
-  "router": "0xc6861469c1c0144d132efcc4a1261c4fd3e38310",
+  "router": "0xee9bd9a83feaf9df60fe6ad0ced4bd30c3fd18e9",
   "collateral": "0x39bc0f0658f0d79b8f923e98fd840a41cd65c85e",
   "market": "0xb36c73b753424da9e7177a2b6b32310f4241eb4f",
   "yes": "0x3250101B123877c69A2C9b2a6c3178f863cE0Fa3",
@@ -39,6 +39,12 @@
       "hash": "0xf144d058e9bbbace30b8a334f1ca115e02844e69149dc362caac29a8720268cd",
       "blockNumber": "11682644",
       "gasUsed": "488945"
+    },
+    {
+      "label": "Deploy GaussVM",
+      "hash": "0x728204b4262b7b27a1512b1b89493905a464e0ad5036bf4d778b487c41dd5100",
+      "blockNumber": "11682645",
+      "gasUsed": "3601934"
     },
     {
       "label": "Deploy BinaryMarket",
@@ -81,37 +87,7 @@
       "hash": "0x844348604e7c3225e08c0133455c5c892987de16598743ceb06a8d8c72a6a36f",
       "blockNumber": "11682797",
       "gasUsed": "83257"
-    },
-    {
-      "hash": "0x8afcd80eb27f0bad2ffdfc396fde6319c031e579d98ce0050600ef506114c8d1",
-      "label": "Deploy GaussVM",
-      "blockNumber": "11683433",
-      "gasUsed": "3599944",
-      "feeWei": "3764673477501600"
-    },
-    {
-      "hash": "0x33b6ad4b511be7fc02065b0a2906e43c6dacf4bb8963723d8a4a21e4f23c80f5",
-      "label": "Dock previous router seed",
-      "blockNumber": "11683434",
-      "gasUsed": "35974",
-      "feeWei": "36133359244030"
-    },
-    {
-      "hash": "0xe82c787e2b725376930b289bb7008b21a26c16967309911652b8269bfd2a3950",
-      "label": "Approve migrated NO allocation",
-      "blockNumber": "11683436",
-      "gasUsed": "28869",
-      "feeWei": "31409119422903"
-    },
-    {
-      "hash": "0xe7c8000570c9b91304463d3c2df70d344522750b7cd331b4c1288b920653b37d",
-      "label": "Ship optimized router seed",
-      "blockNumber": "11683437",
-      "gasUsed": "83281",
-      "feeWei": "86026574279195"
     }
   ],
-  "rpcUrl": "https://ethereum-sepolia-rpc.publicnode.com",
-  "previousRouter": "0xee9bd9a83feaf9df60fe6ad0ced4bd30c3fd18e9",
-  "routerUpdatedAt": "2026-09-11T17:41:53.907Z"
+  "rpcUrl": "https://ethereum-sepolia-rpc.publicnode.com"
 }
