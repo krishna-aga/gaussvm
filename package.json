@@ -3,7 +3,9 @@
   "version": "0.1.0",
   "private": true,
   "type": "module",
-  "engines": { "node": ">=22.16.0" },
+  "engines": {
+    "node": ">=22.16.0"
+  },
   "scripts": {
     "contracts:build": "node scripts/compile.mjs",
     "test": "node --test --test-concurrency=1 test/*.test.mjs",
@@ -16,14 +18,16 @@
     "demo": "node scripts/demo.mjs",
     "build": "tsc --noEmit && vite build",
     "check": "npm run contracts:build && npm test && npm run build",
-    "test:browser": "playwright test"
+    "test:browser": "playwright test",
+    "build:public": "node scripts/build-public.mjs"
   },
   "dependencies": {
+    "@fontsource-variable/manrope": "^5.2.8",
     "@openzeppelin/contracts": "5.4.0",
+    "lucide-react": "0.468.0",
     "react": "19.1.1",
     "react-dom": "19.1.1",
-    "viem": "2.56.3",
-    "lucide-react": "0.468.0"
+    "viem": "2.56.3"
   },
   "devDependencies": {
     "@playwright/test": "1.63.0",
@@ -36,5 +40,8 @@
     "typescript": "5.9.2",
     "vite": "6.4.3"
   },
-  "overrides": { "tmp": "0.2.6", "ws": "8.21.1" }
+  "overrides": {
+    "tmp": "0.2.7",
+    "ws": "8.21.1"
+  }
 }
