@@ -1,0 +1,61 @@
+{
+  "chainId": 11155111,
+  "checkedAt": "2026-09-11T15:01:53.812Z",
+  "service": "Sourcify v2",
+  "contracts": [
+    {
+      "name": "aqua",
+      "address": "0x2f478eb1726c83108f1363f01757bae7dfe9bed6",
+      "match": "exact_match",
+      "creationMatch": "exact_match",
+      "runtimeMatch": "exact_match",
+      "verifiedAt": "2026-09-11T15:00:27Z",
+      "url": "https://repo.sourcify.dev/11155111/0x2f478eb1726c83108f1363f01757bae7dfe9bed6"
+    },
+    {
+      "name": "router",
+      "address": "0xee9bd9a83feaf9df60fe6ad0ced4bd30c3fd18e9",
+      "match": "exact_match",
+      "creationMatch": "exact_match",
+      "runtimeMatch": "exact_match",
+      "verifiedAt": "2026-09-11T15:00:52Z",
+      "url": "https://repo.sourcify.dev/11155111/0xee9bd9a83feaf9df60fe6ad0ced4bd30c3fd18e9"
+    },
+    {
+      "name": "collateral",
+      "address": "0x39bc0f0658f0d79b8f923e98fd840a41cd65c85e",
+      "match": "exact_match",
+      "creationMatch": "exact_match",
+      "runtimeMatch": "exact_match",
+      "verifiedAt": "2026-09-11T15:01:00Z",
+      "url": "https://repo.sourcify.dev/11155111/0x39bc0f0658f0d79b8f923e98fd840a41cd65c85e"
+    },
+    {
+      "name": "market",
+      "address": "0x733662c9da4ff2c6c9407f7fcbb0152a79f626eb",
+      "match": "exact_match",
+      "creationMatch": "exact_match",
+      "runtimeMatch": "exact_match",
+      "verifiedAt": "2026-09-11T15:01:05Z",
+      "url": "https://repo.sourcify.dev/11155111/0x733662c9da4ff2c6c9407f7fcbb0152a79f626eb"
+    },
+    {
+      "name": "yes",
+      "address": "0x1007922A41C3d2494b3e3e93D615935Ea2ab8830",
+      "match": "exact_match",
+      "creationMatch": "exact_match",
+      "runtimeMatch": "exact_match",
+      "verifiedAt": "2026-09-11T15:01:10Z",
+      "url": "https://repo.sourcify.dev/11155111/0x1007922A41C3d2494b3e3e93D615935Ea2ab8830"
+    },
+    {
+      "name": "no",
+      "address": "0x527d1F97a33e6B0E51759b77EAf76c4a61371EA1",
+      "match": "exact_match",
+      "creationMatch": "exact_match",
+      "runtimeMatch": "exact_match",
+      "verifiedAt": "2026-09-11T15:01:14Z",
+      "url": "https://repo.sourcify.dev/11155111/0x527d1F97a33e6B0E51759b77EAf76c4a61371EA1"
+    }
+  ]
+}

@@ -4,10 +4,16 @@
 
 GaussVM turns [Paradigm's pm-AMM research](https://www.paradigm.xyz/writing/pm-amm) into an executable test-token position. A custom SwapVM instruction prices YES/NO trades using the Gaussian invariant. Official Aqua contracts account for the maker's allocation and transfer tokens between wallets.
 
-Built for **ETHOnline 2026**, with **1inch's Build an Aqua App** as the primary track. This is a working local research prototype, not an audited protocol or a promise of LP returns. The time-scaled mode is explicitly distinguished from the paper's complete economic result.
+Built for **ETHOnline 2026**, with **1inch's Build an Aqua App** as the primary track. This is a working local/testnet research prototype, not an audited protocol or a promise of LP returns. The time-scaled mode is explicitly distinguished from the paper's complete economic result.
 
 Powered by Aqua — © Degensoft Ltd 2025  
 Powered by SwapVM — © Degensoft Ltd 2025
+
+## Live Sepolia app
+
+**[Open GaussVM](https://krishna-aga.github.io/gaussvm/)** · [Deployed contracts and public evidence](docs/live-deployment.md)
+
+Connect an Ethereum wallet on **Sepolia**, with free faucet ETH for gas. Select **Get 100 YES + 100 NO**, then make a swap. The app uses worthless test assets, and receipts link to Sepolia Etherscan. Hosting uses free GitHub Pages; no mainnet assets or paid service is needed. The current market expires **11 October 2026 at 14:58:24 UTC**.
 
 ## Run the complete demo
 
@@ -39,7 +45,7 @@ The script performs a real EVM swap, asserts that balance changes equal quoted a
 
 For submission evidence against **Aqua's canonical deployed address**, run `npm run demo:fork`. It reads Ethereum into an isolated localhost fork, deploys the custom SwapVM extension and executes a real local swap. No real funds or public transactions are used. The verified run and all outstanding submission requirements are in [qualification](docs/qualification.md).
 
-The remote is configured as `https://github.com/krishna-aga/gaussvm.git`, but the implementation is intentionally kept local at the owner's request. Once pushed, clone with `git clone --recurse-submodules https://github.com/krishna-aga/gaussvm.git`. ZIP downloads omit the required upstream submodules.
+Clone the published history with `git clone --recurse-submodules https://github.com/krishna-aga/gaussvm.git`. ZIP downloads omit the required upstream submodules.
 
 ## What is implemented
 
@@ -71,9 +77,9 @@ Browser tests provision a fresh market each run, then resolve it in the lifecycl
 
 ## Testnet and hosting
 
-Local operation is entirely free. Optional **Sepolia-only** deployment uses faucet ETH and a test-only key in an ignored `.env`. No public contract or website deployment is claimed in this local delivery. See [deployment instructions](docs/deployment.md).
+Local operation is entirely free. The public **Sepolia-only** deployment uses faucet ETH, a test-only key in ignored `.env`, a free public RPC and GitHub Pages. All six deployed contracts have exact source-code matches on Sourcify. See [live deployment](docs/live-deployment.md) and [deployment instructions](docs/deployment.md).
 
-`npm run build:public` produces an honest research preview without a Sepolia manifest. With a verified `deployments/sepolia.json`, it uses that deployment. It excludes localhost deployment details from public artifacts. A manual GitHub Pages workflow is included for free static hosting after the repository is pushed.
+`npm run build:public` uses the committed `deployments/sepolia.json` and excludes localhost configuration. Without a Sepolia manifest it produces a research preview. The manual GitHub Pages workflow publishes the static app; `npm run dev` continues to create an independent local market.
 
 ## Repository map
 

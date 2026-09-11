@@ -27,7 +27,7 @@
 
 The [event page](https://ethglobal.com/events/ethonline2026/prizes/1inch) remains authoritative. This is evidence mapping, not a prize guarantee. The supplied rules allow local forks. `npm run demo:fork` now provides a verified canonical-Aqua fork path; `npm run dev` remains the fast, independent local source-deployment UI path. Describe these environments accurately.
 
-Before submission, complete [qualification.md](qualification.md), including [AI disclosure and human contributions](ai-usage.md). The CLI is now connected as krishna-aga; publication still awaits the owner's instruction. Retain the existing history, disclose reused work, check the published clone and record actual transfers with human narration. Do not claim an unimplemented oracle, additional sponsor integration or economic audit.
+The repository and [Sepolia app](live-deployment.md) are published under krishna-aga with the existing history preserved. Before submission, complete [qualification.md](qualification.md), including [AI disclosure and human contributions](ai-usage.md). Disclose reused work and record actual transfers with human narration. Do not claim an unimplemented oracle, additional sponsor integration or economic audit.
 
 The required video is **2–4 minutes**, at least **720p**, with no AI voiceover. Submission is due **13 September 2026 at 21:30 IST**. See the [official submission guide](https://ethglobal.com/events/ethonline2026/info/details).
 

@@ -1,0 +1,83 @@
+{
+  "chainId": 11155111,
+  "appUrl": "https://krishna-aga.github.io/gaussvm/",
+  "testedAt": "2026-09-11T15:07:34.671Z",
+  "account": "0x5076F136d3cD37B95471DcCFb5cf721f6448521b",
+  "market": "0x733662c9da4ff2c6c9407f7fcbb0152a79f626eb",
+  "router": "0xee9bd9a83feaf9df60fe6ad0ced4bd30c3fd18e9",
+  "strategy": "0x44f6cbdec193c3f68f4a7d98a727a279060db12148ce8910ea7bd32a467260bd",
+  "walletAdapter": "EIP-1193 test adapter; signing stays in the Node process, never the page. Not a browser-extension approval-dialog test.",
+  "transactions": [
+    {
+      "hash": "0x49d6134c67136c5eb50ffdb06853e8032cc2d312c8e329a8f26ac270099445d4",
+      "status": "success",
+      "block": "11682690",
+      "gas": "45957",
+      "feeWei": "44268136823067"
+    },
+    {
+      "hash": "0x0018d1e3250a1f86452f5193e4bf4a27836cce26019d054f8662aaa3c2ecba92",
+      "status": "success",
+      "block": "11682691",
+      "gas": "762509",
+      "feeWei": "826163055355187"
+    }
+  ],
+  "swap": {
+    "hash": "0x0018d1e3250a1f86452f5193e4bf4a27836cce26019d054f8662aaa3c2ecba92",
+    "input": "10000000000000000000",
+    "output": "9936740437215126350",
+    "before": {
+      "yes": "100000000000000000000",
+      "no": "100000000000000000000"
+    },
+    "after": {
+      "yes": "109936740437215126350",
+      "no": "90000000000000000000"
+    }
+  },
+  "result": "passed",
+  "preparation": [
+    {
+      "hash": "0xdc3a8903bc08136879638e521e4cf158c2e8090a5e0e27a643c2f87da30ef615",
+      "status": "success",
+      "block": "11682672",
+      "gas": "50588",
+      "feeWei": "51695196538460"
+    },
+    {
+      "hash": "0xe85eaf450677ea42342f4f6257f4759c0d8ebd7d0e66d820c28f729083172576",
+      "status": "success",
+      "block": "11682674",
+      "gas": "45969",
+      "feeWei": "49753831872360"
+    },
+    {
+      "hash": "0x51e12e05bafb93206fe61d7a70c177a10fb1582d42e211f6d3875b4c475da028",
+      "status": "success",
+      "block": "11682675",
+      "gas": "110437",
+      "feeWei": "116892493232960"
+    }
+  ],
+  "initialAttempt": "Three setup transactions confirmed; first browser run timed out waiting for the swap-success assertion. Retried from the funded taker and verified the approval and swap. The smoke runner now reports visible alerts immediately.",
+  "funding": {
+    "hash": "0xb6c39bcc373f6370749da2528c908646a169b3563de93130877235730ee5c80b",
+    "from": "0xA816Fdc3ec3b1C32C7b22B18d9Bec2Ee88B7C431",
+    "to": "0x5076F136d3cD37B95471DcCFb5cf721f6448521b",
+    "valueWei": "5000000000000000",
+    "gas": "21000",
+    "feeWei": "22305994494000"
+  },
+  "gasAccounting": {
+    "unit": "Sepolia ETH; faucet tokens only",
+    "userProvided": "0.1",
+    "deployment": "0.00770999363988749",
+    "uiPreparationAndSwap": "0.001088772713822034",
+    "traderFundingGas": "0.000022305994494",
+    "totalGasSpent": "0.008821072348203524",
+    "remainingDeployer": "0.08726770036561851",
+    "remainingTaker": "0.003911227286177966",
+    "totalRemaining": "0.091178927651796476"
+  }
+}

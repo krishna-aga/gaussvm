@@ -24,11 +24,11 @@ The default read-only source is the free public Ethereum RPC at PublicNode. No A
 
 The run writes ignored `deployments/fork.json`, `reports/fork-demo.json` and `reports/fork-chain.log`. The manifest/evidence contains the source block/hash, canonical Aqua code hash, local transactions and balances, without persisting the remote RPC URL. The fork log may contain upstream error details; review it before sharing. Local swap hashes are not public explorer transactions. [The verified evidence](evidence/canonical-aqua-fork.json) is a committed example, not a substitute for executing the final demo.
 
-## Optional Sepolia
+## Public Sepolia
 
 Ethereum's [network documentation](https://ethereum.org/developers/docs/networks/) identifies Sepolia for application testing and lists free faucets. Eligibility and availability vary. Do not buy test ETH; the local demo remains complete when no faucet is available.
 
-The script is implemented but **has not been broadcast or verified on public Sepolia** in this delivery. It requires a funded test-only wallet supplied by the developer.
+The contracts were deployed on **2026-09-11**, seeded with 1,000 YES + 1,000 NO and source-verified on Sourcify. The live app is **https://krishna-aga.github.io/gaussvm/**. Addresses, expiry and transaction evidence are recorded in [live-deployment.md](live-deployment.md). The instructions below create a new deployment; visiting the existing app does not require a private key or running a deploy script.
 
 1. Create a dedicated test wallet and obtain free Sepolia ETH.
 2. Copy `.env.example` to `.env`. Set `TESTNET_PRIVATE_KEY` locally and a Sepolia `SEPOLIA_RPC_URL`. Never commit the key.
@@ -40,11 +40,17 @@ npm run deploy:sepolia
 npm run dev:web
 ```
 
-The script refuses a network other than Sepolia **11155111**. It deploys the unmodified official Aqua source, test collateral, custom GaussVM router and a seven-day demo market, then seeds a position through approvals, split and ship. Every receipt and the order hash are checked. This does not claim a canonical mainnet Aqua address.
+The script refuses a network other than Sepolia **11155111**. It deploys the unmodified official Aqua source, test collateral, custom GaussVM router and a thirty-day demo market, then seeds a position through approvals, split and ship. Every receipt and the order hash are checked. This does not claim a canonical mainnet Aqua address. Submitted hashes are logged before waiting for receipts; inspect an interrupted transaction before retrying the deployment, since rerunning creates a new system.
 
-The public `deployments/sepolia.json` may be committed after verifying its addresses and explorer receipts. The browser uses a public RPC URL instead of exposing an authenticated endpoint. Complete a real wallet swap before claiming a working public deployment. Public RPC/faucet availability and test-gas consumption remain external constraints.
+The verified `deployments/sepolia.json` is committed. The browser uses a public RPC URL instead of exposing an authenticated endpoint. Public RPC/faucet availability and test-gas consumption remain external constraints.
 
-The interface uses an injected wallet on Sepolia and requests a network switch. If the wallet does not know Sepolia, add it in the wallet settings. The deployer is the disclosed resolver. A seven-day market must be replaced after expiry for later demos.
+The interface uses an injected wallet on Sepolia and requests a network switch. If the wallet does not know Sepolia, add it in the wallet settings. The deployer is the disclosed resolver. Replace the market after expiry for later demos. Mainnet time cannot be accelerated; the local lifecycle controls remain exclusive to the local demo.
+
+### Source verification and a public UI test
+
+`npm run contracts:build` also writes complete compiler input, including pinned imports, to ignored `artifacts/build-info.json`. Run `npm run verify:sepolia` to submit that source to the free Sourcify v2 API and record exact/partial match results in `reports/sepolia-verification.json`. This needs no API key or chain transaction.
+
+`npm run test:sepolia` is an explicit public-chain smoke test, never part of CI. It requires a separately funded `TESTNET_TRADER_PRIVATE_KEY` in ignored `.env`, loads the published website and executes token preparation and a real swap through its wallet path. An EIP-1193 adapter keeps signing in Node; the browser never receives the key. It checks actual event/balance deltas, receipts and mobile overflow, and saves `reports/sepolia-ui.json` plus screenshots. This tests the app's injected-provider interface, not a wallet extension's approval dialogs. Rerunning consumes faucet gas and makes another real test swap.
 
 ## Free static hosting
 
@@ -56,7 +62,7 @@ npm run build:public
 
 Without a Sepolia manifest, the artifact displays a research preview and disables chain actions. With one, it uses Sepolia. The build excludes localhost manifests, then restores the local development copy.
 
-After pushing under the correct GitHub account, set **Settings → Pages → Source → GitHub Actions** and run **Publish research demo to GitHub Pages** manually. Inspect the workflow's returned URL. The expected repository URL is `https://krishna-aga.github.io/gaussvm/`; it is **not a claimed live URL** until published and verified.
+The public repository has **Settings → Pages → Source → GitHub Actions** configured. After pushing a frontend or Sepolia-manifest update, run **Publish research demo to GitHub Pages** manually and inspect its result. The live URL is `https://krishna-aga.github.io/gaussvm/` with HTTPS enforced. Standard GitHub-hosted runners and Pages are used; no paid plan or larger runner is needed.
 
 The workflow is manual, not a deployment on push. Vite's relative base supports the repository subpath. Only `dist/` is published; source directories, logs and `.env` are excluded.
 

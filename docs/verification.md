@@ -20,6 +20,10 @@ Verified locally on 2026-09-11. This record describes executed checks, not an in
 | Contract / mathematical / economic / workspace suite | **21 tests passed**: 16 onchain/numerical tests and 5 configuration, persistence and receipt-state tests. Includes real official-Aqua transfers in both directions. |
 | Browser suite | **7 scenarios passed**: swaps/export, mobile/reduced motion, no-deployment preview, receipt failure/reload/recovery, malformed configuration, cancellation/reload, saved positions and maker lifecycle. |
 | Canonical Aqua fork | Pass at Ethereum source block 25,954,422: matching Aqua bytecode, position ship and an actual local swap. No public transaction. |
+| Sepolia deployment | Ten successful public deployment/setup receipts; 1,000 YES + 1,000 NO seeded. Creation inputs match local artifacts. |
+| Hosted Sepolia UI | Verified 10 NO → 9.93674043721512635 YES with actual event/balance deltas, successful receipts and desktop/mobile review. See [public execution evidence](evidence/sepolia-ui.json). |
+| Sourcify source verification | All six contracts have exact creation/runtime matches. See [source evidence](evidence/sepolia-source-verification.json). |
+| GitHub CI / Pages | Hosted checks and publication passed at `9f9982d`; public HTTPS site serves the Sepolia manifest. |
 | TypeScript and Vite production build | Pass. Separate Ethereum bundle and self-hosted Latin font; no oversized-chunk warning. |
 | Public static build | Pass; confirmed it excludes local `deployment.json` and restores the local development manifest. |
 | JavaScript dependency audit | **0 known vulnerabilities** reported by npm at verification time. |
@@ -55,10 +59,12 @@ The canonical fork demonstration used **761,917 gas** for 10 NO → 9.9367404372
 
 The nine integration tests passed again after strengthening assertions to match the specific slippage, deadline, exact-output and program-parser errors. Malformed and unknown-opcode orders are allocated through Aqua first, so missing allocation cannot substitute for the intended rejection.
 
-The journal is a validated browser cache scoped to the deployment, not a complete chain indexer. Pending entries restore as unknown. Storage failures are surfaced and tested; clearing browser data can remove cached history. Injected-wallet rejection/account switching and public Sepolia transactions have not been tested with an external wallet. The cancellation test uses the local unlocked-account RPC. There is no claimed full browser/device matrix.
+The journal is a validated browser cache scoped to the deployment, not a complete chain indexer. Pending entries restore as unknown. Storage failures are surfaced and tested; clearing browser data can remove cached history. The cancellation test uses the local unlocked-account RPC. The hosted Sepolia smoke test uses an EIP-1193 adapter, with private-key signing confined to Node; an external wallet extension's rejection/account-switch dialogs were not tested. There is no claimed full browser/device matrix.
+
+The first public browser run confirmed faucet, collateral approval and splitting but timed out waiting for the swap-success assertion. Retrying from the funded taker passed, with router approval and swap receipts. Both attempts' submitted hashes are preserved in the public evidence; the smoke runner now reports visible alerts immediately. Sepolia swap gas was **762,509**. Live dates, addresses, exact source matches and test-gas accounting are in [live-deployment.md](live-deployment.md).
 
 ## Remaining external verification
 
-No GitHub push, GitHub Actions run, website publication, public Sepolia deployment or external-wallet test was performed. Git commits remain local as requested. CI and Pages workflows are provided; their hosted executions must be checked after publication. No paid resource was used.
+The repository was published under `krishna-aga` when public deployment was authorized. [GitHub CI](https://github.com/krishna-aga/gaussvm/actions/runs/34613773365) and [Pages publication](https://github.com/krishna-aga/gaussvm/actions/runs/34613771748) passed at `9f9982d`. The HTTPS site serves the Sepolia deployment; contracts and source verification are recorded in [live deployment](live-deployment.md). No paid resource or mainnet write was used. Browser-extension approval dialogs remain outside the executed test matrix.
 
 Solidity prints an upstream EIP-1153 transient-storage caution. The inherited SwapVM lock is cleared after execution, but this warning is not proof that every possible composed use is safe. No audit, formal proof, real-market LVR study or production certification is claimed.

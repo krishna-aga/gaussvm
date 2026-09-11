@@ -14,7 +14,7 @@ Primary target: **1inch — Build an Aqua App ($5,000)** in the From Scratch poo
 | Official Aqua / SwapVM contracts | Pinned upstream sources; GaussVM inherits official SwapVM. The canonical Aqua fork run uses the existing published Aqua address, without replacing its code. | Verified locally and on a fork |
 | Demonstrate the final position in scripts or UI | `npm run demo`, `npm run demo:fork`, integration tests and the React interface. | Executed |
 | Present onchain token transfers during the final demo | Both demo scripts mine actual swaps and assert wallet balance changes. The recorded fork run uses canonical Aqua. | Evidence ready; final recorded presentation pending |
-| Proper Git history | Focused commits began 2026-09-11, authored as Krishna. No backdating, squashing into one submission commit or manufactured history. | Present locally; publication pending |
+| Proper Git history | Focused commits began 2026-09-11, authored as Krishna. No backdating, squashing into one submission commit or manufactured history. | Published in krishna-aga/gaussvm |
 | SwapVM usage improves scoring | Opcode `0x80` executes in the actual quote/swap path. This is a scoring preference, not a prize guarantee. | Implemented |
 
 ## Canonical contract evidence
@@ -46,7 +46,7 @@ The participant guide describes an attendance stake and a support route for fina
 
 - [ ] Confirm registered track, participant acceptance, team and check-ins.
 - [ ] Record verifiable human contributions and any pre-event project work in `ai-usage.md`.
-- [ ] Publish the existing Git history when the owner authorizes it. The CLI is authenticated as `krishna-aga` with ADMIN permission; the standing instruction remains local-only.
+- [x] Publish the existing Git history under `krishna-aga`, as authorized for the public deployment. The original commit history is preserved.
 - [ ] Run checks from the published clone and record the canonical-Aqua fork demo with human narration.
 - [ ] Submit the repository, disclosures, 2–4 minute video and selected 1inch prize before the deadline.
 - [ ] Save the actual submission confirmation. No submission is claimed until then.
