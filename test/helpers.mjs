@@ -6,7 +6,8 @@ import { hardhat } from 'viem/chains';
 
 const connection = await network.create();
 after(() => connection.close());
-export const transport = custom({ request: args => connection.provider.request(args) });
+// Local deterministic reverts should surface immediately, not be retried as RPC failures.
+export const transport = custom({ request: args => connection.provider.request(args) }, { retryCount: 0 });
 export const publicClient = createPublicClient({ chain: hardhat, transport });
 export const wallet = createWalletClient({ chain: hardhat, transport });
 export const accounts = await wallet.getAddresses();

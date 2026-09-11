@@ -23,7 +23,14 @@ library Gaussian {
     }
 
     function cdf(int256 z) internal pure returns (int256) {
-        int256 density = pdf(z);
+        (int256 cumulative,) = cdfAndPdf(z);
+        return cumulative;
+    }
+
+    /// @dev Reuse the density when the invariant needs both functions. Integer
+    /// operations and rounding are identical to the standalone evaluations.
+    function cdfAndPdf(int256 z) internal pure returns (int256 cumulative, int256 density) {
+        density = pdf(z);
         int256 a = z < 0 ? -z : z;
         int256 square = a * a / WAD;
         int256 term = a;
@@ -35,6 +42,6 @@ library Gaussian {
             if (term == 0) break;
         }
         int256 area = density * sum / WAD;
-        return z < 0 ? WAD / 2 - area : WAD / 2 + area;
+        cumulative = z < 0 ? WAD / 2 - area : WAD / 2 + area;
     }
 }
