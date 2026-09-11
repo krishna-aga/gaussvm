@@ -88,6 +88,8 @@ test("mobile: readable layout, reduced motion, illustration and research navigat
     path: ".impeccable/review/mobile.png",
     fullPage: true,
   });
+  await page.getByRole('button',{name:'Swap outcomes',exact:true}).click();
+  await expect(page.locator('#trade-panel')).toBeFocused();
   await page.getByRole("button", { name: "The research", exact: true }).click();
   await expect(
     page.getByRole("heading", { name: "From a paper to a position." }),
@@ -113,4 +115,48 @@ test("unconfigured deployment shows an honest research preview", async ({
     page.getByRole("button", { name: "Connect to swap", exact: true }),
   ).toBeDisabled();
   await expect(page.getByTestId("quote")).toHaveText("—");
+});
+
+test('submitted transaction survives receipt-watcher failure and can be reconciled',async({page})=>{
+  await page.goto('/');
+  await expect(page.getByText('Trading open',{exact:true})).toBeVisible();
+  await page.getByRole('button',{name:'Connect demo wallet',exact:true}).click();
+  await page.getByRole('button',{name:'Liquidity',exact:true}).click();
+  let failReceipt=true;
+  await page.route('http://127.0.0.1:8545/',async route=>{
+    const data=route.request().postDataJSON();
+    if(data.method==='eth_getTransactionReceipt'&&failReceipt){
+      return route.fulfill({contentType:'application/json',body:JSON.stringify({jsonrpc:'2.0',id:data.id,error:{code:-32000,message:'Injected receipt watcher outage'}})});
+    }
+    return route.continue();
+  });
+  await page.getByRole('button',{name:'Merge 10 pairs',exact:true}).click();
+  await expect(page.getByText('Confirmation unavailable',{exact:true})).toBeVisible({timeout:70000});
+  await expect(page.getByRole('button',{name:'Merge 10 pairs',exact:true})).toBeDisabled();
+  failReceipt=false;
+  await page.getByRole('button',{name:'Check receipt',exact:true}).click();
+  await expect(page.getByText('Confirmation unavailable',{exact:true})).toHaveCount(0);
+  await expect(page.getByText(/confirmed · Block/)).toBeVisible();
+  await expect(page.getByRole('button',{name:'Merge 10 pairs',exact:true})).toBeEnabled();
+});
+
+test('maker can ship and dock a position, resolve at expiry, and redeem through the UI',async({page})=>{
+  await page.goto('/');
+  await expect(page.getByText('Trading open',{exact:true})).toBeVisible();
+  await page.getByRole('button',{name:'Connect demo wallet',exact:true}).click();
+  await page.getByRole('button',{name:'Liquidity',exact:true}).click();
+  await page.getByRole('button',{name:'Use the local maker wallet',exact:true}).click();
+  await page.getByRole('checkbox',{name:'Use experimental time scaling'}).check();
+  await page.getByRole('button',{name:'Approve & ship position'}).click();
+  await expect(page.getByText('Time-scaled',{exact:false}).first()).toBeVisible();
+  await page.getByRole('button',{name:'Liquidity',exact:true}).click();
+  await page.getByRole('button',{name:'Close active position',exact:true}).click();
+  await expect(page.getByRole('button',{name:'Close active position',exact:true})).toBeDisabled();
+  await page.getByRole('button',{name:'Advance to expiry',exact:true}).click();
+  await expect(page.getByRole('button',{name:'Resolve YES',exact:true})).toBeEnabled();
+  await page.getByRole('button',{name:'Resolve YES',exact:true}).click();
+  await expect(page.getByRole('button',{name:'Redeem all outcomes',exact:true})).toBeEnabled();
+  await page.getByRole('button',{name:'Redeem all outcomes',exact:true}).click();
+  await expect(page.getByRole('button',{name:'Redeem all outcomes',exact:true})).toBeDisabled();
+  await expect(page.getByText('Redeem outcomes',{exact:true})).toBeVisible();
 });

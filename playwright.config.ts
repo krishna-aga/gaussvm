@@ -1,5 +1,6 @@
 import { defineConfig } from "@playwright/test";
 export default defineConfig({
+  globalSetup: './test/browser/setup.ts',
   testDir: "./test/browser",
   timeout: 90_000,
   workers: 1,

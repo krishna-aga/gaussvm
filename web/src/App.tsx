@@ -62,7 +62,7 @@ type ChainState = {
 type Transaction = {
   label: string;
   hash: Hash;
-  state: "pending" | "confirmed" | "failed";
+  state: "pending" | "confirmed" | "failed" | "unknown";
   gas?: string;
   block?: string;
 };
@@ -301,10 +301,65 @@ export default function App() {
       args,
       account: session.account,
     });
-    const hash = await session.wallet.writeContract(request);
+    let hash = await session.wallet.writeContract(request);
     setTransactions((t) => [{ label, hash, state: "pending" }, ...t]);
+    let receipt;
     try {
-      const receipt = await p.waitForTransactionReceipt({ hash });
+      receipt = await p.waitForTransactionReceipt({
+        hash,
+        timeout: 60_000,
+        onReplaced: (replacement) => {
+          const oldHash = hash;
+          hash = replacement.transaction.hash;
+          setTransactions((t) =>
+            t.map((tx) =>
+              tx.hash === oldHash
+                ? {
+                    ...tx,
+                    hash,
+                    label:
+                      replacement.reason === "cancelled"
+                        ? `${label} (wallet cancellation)`
+                        : label,
+                  }
+                : tx,
+            ),
+          );
+        },
+      });
+    } catch {
+      setTransactions((t) =>
+        t.map((tx) => (tx.hash === hash ? { ...tx, state: "unknown" } : tx)),
+      );
+      throw new Error(
+        "Transaction submitted, but confirmation is unavailable. It may have completed. Use Check receipt in the journal before sending another transaction.",
+      );
+    }
+    setTransactions((t) =>
+      t.map((tx) =>
+        tx.hash === hash
+          ? {
+              ...tx,
+              state: receipt.status === "success" ? "confirmed" : "failed",
+              gas: receipt.gasUsed.toString(),
+              block: receipt.blockNumber.toString(),
+            }
+          : tx,
+      ),
+    );
+    if (receipt.status !== "success") throw new Error("Transaction reverted.");
+  }
+  const recheck = (hash: Hash) =>
+    action("Checking receipt", async () => {
+      if (!deployment) return;
+      let receipt;
+      try {
+        receipt = await getClient(deployment).getTransactionReceipt({ hash });
+      } catch {
+        throw new Error(
+          "Confirmation is still unavailable. The transaction is not known to have failed; check this same hash again later.",
+        );
+      }
       setTransactions((t) =>
         t.map((tx) =>
           tx.hash === hash
@@ -317,12 +372,7 @@ export default function App() {
             : tx,
         ),
       );
-      if (receipt.status !== "success")
-        throw new Error("Transaction reverted.");
-    } catch (e) {
-      throw e;
-    }
-  }
+    });
   async function approve(token: Address, spender: Address, quantity: bigint) {
     if (!deployment || !session) return;
     const allowed = await getClient(deployment).readContract({
@@ -461,7 +511,11 @@ export default function App() {
             : open
               ? "Trading open"
               : "Trading closed";
-  const disabled = !!busy || !!chainError || !state;
+  const disabled =
+    !!busy ||
+    !!chainError ||
+    !state ||
+    transactions.some((tx) => tx.state === "unknown");
   const cpOut =
     state && parsed > 0n
       ? (parsed * (buyYes ? state.reserveYes : state.reserveNo)) /
@@ -506,7 +560,7 @@ export default function App() {
           <FlaskConical size={21} />
           <strong>Built to be inspected.</strong>
           <p>
-            Test tokens. Open source.
+            Test tokens. Source available.
             <br />
             Every swap has a receipt.
           </p>
@@ -620,6 +674,19 @@ export default function App() {
                     A deliberately simple test market. The named resolver
                     chooses the outcome after expiry.
                   </p>
+                  <button
+                    className="button mobile-swap-jump"
+                    onClick={() => {
+                      const target = document.getElementById("trade-panel");
+                      target?.scrollIntoView({
+                        behavior: "auto",
+                        block: "start",
+                      });
+                      target?.focus({ preventScroll: true });
+                    }}
+                  >
+                    Swap outcomes <ArrowRight size={17} />
+                  </button>
                 </div>
                 <div className="odds">
                   <strong>
@@ -713,6 +780,8 @@ export default function App() {
                   </div>
                 </div>
                 <section
+                  id="trade-panel"
+                  tabIndex={-1}
                   className="trade-panel surface"
                   aria-labelledby="trade-heading"
                 >
@@ -1317,18 +1386,31 @@ export default function App() {
                       <CheckCircle2 size={19} />
                     ) : tx.state === "failed" ? (
                       <XCircle size={19} />
+                    ) : tx.state === "unknown" ? (
+                      <CircleHelp size={19} />
                     ) : (
                       <LoaderCircle className="spin" size={19} />
                     )}
                     <div>
                       <strong>{tx.label}</strong>
                       <span>
-                        {tx.state}
+                        {tx.state === "unknown"
+                          ? "Confirmation unavailable"
+                          : tx.state}
                         {tx.block
                           ? ` · Block ${tx.block} · ${Number(tx.gas).toLocaleString()} gas`
                           : ""}
                       </span>
                     </div>
+                    {tx.state === "unknown" && (
+                      <button
+                        className="text-button"
+                        disabled={!!busy}
+                        onClick={() => void recheck(tx.hash)}
+                      >
+                        Check receipt
+                      </button>
+                    )}
                     {deployment && txUrl(deployment, tx.hash) ? (
                       <a
                         href={txUrl(deployment, tx.hash)}
@@ -1370,6 +1452,10 @@ export default function App() {
               Research demo
             </span>
           </footer>
+          <p className="attribution">
+            Powered by Aqua — © Degensoft Ltd 2025 · Powered by SwapVM — ©
+            Degensoft Ltd 2025
+          </p>
         </div>
       </main>
       <div className="sr-only" role="status" aria-live="polite">

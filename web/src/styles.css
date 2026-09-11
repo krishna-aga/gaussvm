@@ -15,7 +15,7 @@
   font-weight: 450;
   --surface: #e9ede8;
   --ink: #26372d;
-  --muted: #607066;
+  --muted: #52634f;
   --green: #315b41;
   --shadow: 8px 8px 20px #ced5cd, -8px -8px 20px #fff;
   --inset: inset 4px 4px 9px #d0d7ce, inset -4px -4px 9px #fbfdf9;
@@ -106,6 +106,24 @@ button {
 button,
 a {
   touch-action: manipulation;
+}
+.mobile-swap-jump {
+  display: none;
+}
+.attribution {
+  font-size: 11px;
+  color: #52634f;
+  padding-bottom: 24px;
+  line-height: 1.8;
+}
+#trade-panel {
+  scroll-margin-top: 20px;
+}
+@media (max-width: 740px) {
+  .mobile-swap-jump {
+    display: inline-flex;
+    margin-top: 17px;
+  }
 }
 .app-shell {
   display: grid;
@@ -236,7 +254,7 @@ a {
 .test-label {
   font-size: 9px;
   letter-spacing: 0.07em;
-  color: #657164;
+  color: #52634f;
   padding-left: 12px;
   border-left: 1px solid #bac5b6;
   margin-left: 7px;
@@ -269,7 +287,7 @@ a {
 }
 .version {
   font-size: 11px;
-  color: #657266;
+  color: #52634f;
   white-space: nowrap;
 }
 .market-heading {
@@ -288,7 +306,7 @@ a {
 }
 .market-status > span:last-child {
   margin-left: 10px;
-  color: #616d62;
+  color: #52634f;
 }
 .market-heading p {
   font-size: 12px;
@@ -312,7 +330,7 @@ a {
 }
 .odds > span {
   font-size: 10px;
-  color: #657166;
+  color: #52634f;
   margin-top: 8px;
 }
 .market-grid {
@@ -337,7 +355,7 @@ a {
 }
 .section-top > span {
   font-size: 11px;
-  color: #607065;
+  color: #52634f;
 }
 .subtle-badge {
   font-size: 8px !important;
@@ -383,7 +401,7 @@ a {
 }
 .curve text {
   font-family: "Manrope Variable", sans-serif;
-  fill: #647263;
+  fill: #52634f;
   font-size: 11px;
 }
 .slider-row {
@@ -426,7 +444,7 @@ input[type="range"] {
 }
 .reserve-strip > div > span {
   font-size: 10px;
-  color: #5d6e60;
+  color: #52634f;
 }
 .reserve-strip strong {
   font-size: 19px;
@@ -435,7 +453,7 @@ input[type="range"] {
 }
 .reserve-strip small {
   font-size: 10px;
-  color: #677565;
+  color: #52634f;
   font-weight: 450;
 }
 .custody-note {
@@ -494,13 +512,13 @@ input[type="range"] {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  color: #546350;
+  color: #52634f;
   font-size: 10px;
   margin-bottom: 12px;
 }
 .amount-box small {
   font-size: 9px;
-  color: #63745f;
+  color: #52634f;
 }
 .amount-box > div {
   display: flex;
@@ -570,7 +588,7 @@ input[type="range"] {
   gap: 10px;
 }
 .quote-details dt {
-  color: #5d6c59;
+  color: #52634f;
 }
 .quote-details dd {
   margin: 0;
@@ -677,7 +695,7 @@ input[type="range"] {
   width: 100%;
   display: flex;
   gap: 17px;
-  color: #597052;
+  color: #52634f;
   font-variant-numeric: tabular-nums;
 }
 .small-help {
@@ -730,7 +748,7 @@ input[type="range"] {
   align-items: center;
   gap: 12px;
   padding: 24px 0 12px;
-  color: #6c7b67;
+  color: #52634f;
 }
 .empty-journal p {
   font-size: 11px;
@@ -759,7 +777,7 @@ input[type="range"] {
 }
 .journal-row span {
   font-size: 10px;
-  color: #5c7056;
+  color: #52634f;
 }
 .journal-row > a,
 .journal-row > button {
@@ -777,7 +795,7 @@ footer {
   align-items: center;
   justify-content: space-between;
   gap: 20px;
-  color: #61735b;
+  color: #52634f;
   font-size: 10px;
   padding: 32px 0 24px;
   margin-top: 22px;
@@ -816,7 +834,7 @@ footer > span {
 }
 .address-list dt {
   font-size: 10px;
-  color: #5e7357;
+  color: #52634f;
   margin-bottom: 5px;
 }
 .address-list dd {
@@ -863,7 +881,7 @@ footer > span {
 }
 .position-amount > span {
   font-size: 11px;
-  color: #5e7058;
+  color: #52634f;
 }
 .position-amount strong {
   font-size: 23px;
@@ -893,7 +911,7 @@ footer > span {
 }
 .local-controls small {
   font-size: 10px;
-  color: #61745a;
+  color: #52634f;
 }
 .research-content {
   max-width: 830px;
@@ -948,7 +966,7 @@ footer > span {
 }
 .execution-list span {
   font-size: 12px;
-  color: #607358;
+  color: #52634f;
   margin-top: 4px;
 }
 .research-content ul {
