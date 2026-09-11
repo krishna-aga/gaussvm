@@ -254,6 +254,8 @@ The amount field is a labeled recessed well with a balance row, a large decimal 
 
 Swap, Liquidity and How it works are buttons in a named horizontal navigation region. The active item combines raised depth, green text and `aria-current="page"`. The same destinations remain available on mobile. Native details/summary controls expose wallet information and the research curve on demand. Slippage, minimum received, manual resolution and test-token value remain visible in the relevant flow.
 
+When multiple positions have been created in this browser, Liquidity exposes a labeled native select with a 44px minimum height. The selected position survives reload. Changing it clears stale balances and quotes while the new position loads; switching is disabled during an operation or unresolved receipt.
+
 ### Curve and chain truth
 
 The signature curve is a labeled SVG, sampled across the supported Gaussian domain and drawn against YES probability. A solid green profile and a dashed ochre constant-product reference have written legends. A vertical marker indicates the displayed probability; shaded area fades toward the baseline. The **ILLUSTRATIVE** badge, visible note and accessible SVG label explicitly identify the drawing as an illustration, not an executable quote or live depth measurement.
@@ -264,16 +266,17 @@ The time slider ranges from 5% to 100% remaining and compresses the normalized p
 
 Preview mode names the absence of a deployment and explains local execution. Chain failures expose a retry action; errors appear in a clay notice with `role="alert"`. Field-level quote failure explains the amount/domain problem near the trade action. Test-token value, manual resolution and separate approval/swap transactions stay visible in the relevant flow.
 
-A confirmed swap shows an inline success message linking to its actual journal receipt. Pending and unknown receipts never trigger that message. The journal is session state in React, not a durable transaction archive. Its empty state describes future receipt entries without creating sample activity. Rows include an action label, written state and a state-specific icon. Block and gas metadata appear only after receipt retrieval. Local hashes are copyable; explorer links are conditional on a configured transaction URL. A polite live region announces busy work or the latest confirmed transaction.
+A confirmed swap shows an inline success message linking to its actual journal receipt. Pending and unknown receipts never trigger that message. Positions and the journal are cached in this browser per deployment, with visible storage-failure feedback and a JSON receipt download. This cache is not a full chain indexer or cross-device archive. Its empty state describes future receipt entries without creating sample activity. Rows include an action label, submitting account, written state and a state-specific icon. Block and gas metadata appear only after receipt retrieval. Local hashes are copyable; explorer links are conditional on a configured transaction URL. A polite live region announces busy work or the latest confirmed transaction.
 
 | Receipt state | Visual and interaction meaning |
 | --- | --- |
 | Pending | A submitted hash exists; a spinner and the written pending label show that confirmation is still awaited. |
-| Confirmed | A retrieved receipt reports success; the check icon, block and gas describe that receipt. |
+| Confirmed | A retrieved receipt reports success for the original operation or its gas repricing; the check icon, block and gas describe that receipt. |
 | Failed | A retrieved receipt reports failure; a failure icon and written state communicate the result. |
+| Cancelled / replaced | A replacement receipt confirms cancellation or a different operation. A failure icon and written state explain that the original action did not complete; subsequent setup steps stop. |
 | Unknown | Receipt waiting was unavailable, including timeout; a question icon and **Confirmation unavailable** label preserve uncertainty. **Check receipt** retries retrieval for the same hash. New transaction actions are disabled while any unknown entry remains. |
 
-**The Receipt Evidence Rule.** A timeout is not failure evidence. Preserve the submitted hash, offer receipt recovery, and allow only the retrieved receipt to establish confirmed or failed state. The 60-second receipt wait and wallet replacement handling belong to transaction behavior; elapsed time or a changing illustration must never become a success indicator. Because the journal is session-only, this recovery guarantee is limited to the current mounted session.
+**The Receipt Evidence Rule.** A timeout is not failure evidence. Preserve the submitted hash and offer receipt recovery. A successful replacement receipt must be classified before treating the original operation as successful. Pending entries restore as unknown after reload. The 60-second wait is a UI deadline; elapsed time or a changing illustration must never become a success indicator. Browser storage can be cleared, and replacements that occur while the app is closed may require wallet or explorer investigation.
 
 ## Do's and Don'ts
 
@@ -292,4 +295,4 @@ A confirmed swap shows an inline success message linking to its actual journal r
 - **Don't** fabricate balances, market history, receipt metadata, trading activity or public deployment status.
 - **Don't** hide test-asset value, manual-resolution authority or approval/swap separation behind a visual treatment.
 - **Don't** replace text and icons with color-only status cues or remove focus to preserve a soft shadow.
-- **Don't** present the session journal as persistent history or the limited visual review disposition as a security or economic approval.
+- **Don't** present the browser cache as a complete transaction archive or the limited visual review disposition as a security or economic approval.

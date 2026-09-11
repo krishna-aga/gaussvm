@@ -521,7 +521,7 @@
       },
       {
         "name": "The Receipt Evidence Rule.",
-        "body": "A timeout is not failure evidence. Preserve the submitted hash, offer receipt recovery, and allow only the retrieved receipt to establish confirmed or failed state. The 60-second receipt wait and wallet replacement handling belong to transaction behavior; elapsed time or a changing illustration must never become a success indicator. Because the journal is session-only, this recovery guarantee is limited to the current mounted session.",
+        "body": "A timeout is not failure evidence. Preserve the submitted hash and offer receipt recovery. A successful replacement receipt must be classified before treating the original operation as successful. Pending entries restore as unknown after reload. The 60-second wait is a UI deadline; elapsed time or a changing illustration must never become a success indicator. Browser storage can be cleared, and replacements that occur while the app is closed may require wallet or explorer investigation.",
         "section": "components"
       }
     ],
@@ -531,14 +531,14 @@
       "**Do** keep written states, native controls, keyboard focus and reduced-motion behavior intact.",
       "**Do** label the curve as illustrative and keep its time slider separate from actual strategy and quote state.",
       "**Do** preserve same-hash receipt recovery and the explicit unknown state when confirmation is unavailable.",
-      "**Do** keep the mobile path to swapping direct, with both scroll and focus transfer."
+      "**Do** keep the next setup or swap action clear, with technical exploration available on demand."
     ],
     "donts": [
       "**Don't** infer transaction success from submission, timeout, an estimate or the curve illustration.",
       "**Don't** fabricate balances, market history, receipt metadata, trading activity or public deployment status.",
       "**Don't** hide test-asset value, manual-resolution authority or approval/swap separation behind a visual treatment.",
       "**Don't** replace text and icons with color-only status cues or remove focus to preserve a soft shadow.",
-      "**Don't** present the session journal as persistent history or the limited visual review disposition as a security or economic approval."
+      "**Don't** present the browser cache as a complete transaction archive or the limited visual review disposition as a security or economic approval."
     ]
   }
 }

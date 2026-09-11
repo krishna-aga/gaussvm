@@ -10,6 +10,8 @@ This is an unaudited local/Sepolia research demo, without a production deploymen
 - **Aqua/SwapVM:** source is pinned, not rewritten. Official settlement and locks retain their upstream assumptions.
 - **Numerics:** the guard has bounded experimental evidence, not a certified all-input error proof.
 - **Confirmation:** receipt lookup failure is unknown, not transaction failure. The journal preserves the hash and blocks further writes until receipt rechecking resolves it.
+- **Wallet replacements:** successful cancellation or unrelated replacement receipts are not treated as success for the requested action. Subsequent setup/swap steps stop. Gas-only repricing can complete the original operation.
+- **Browser history:** localStorage contains public addresses, strategy definitions and receipt metadata, never private keys. It is a convenience cache, not independent chain evidence or a synchronized ledger. Clearing/blocking browser data limits recovery; failures are visible. A replacement made while the app was closed may leave the original hash unresolved and require wallet/explorer investigation.
 
 ## Implemented controls
 
@@ -20,6 +22,8 @@ This is an unaudited local/Sepolia research demo, without a production deploymen
 - Failed transfers atomically roll back token and Aqua accounting changes.
 - UI approvals request only needed quantities when allowance is insufficient.
 - Unlocked-account behavior requires localhost page/RPC and chain 31337. Public deployment is restricted to Sepolia.
+- Manifests and restored strategies must contain valid addresses, supported network configuration and a matching encoded order/hash before they reach execution.
+- Reads use a single block snapshot and reject stale responses after wallet/position changes. Writes recheck wallet context; overlapping UI actions are locked.
 
 ## Residual risks
 

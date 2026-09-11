@@ -57,7 +57,11 @@ Aqua allocation is virtual accounting. Makers can withdraw tokens or revoke allo
 
 Vite serves a static React application. There is no hosted backend, indexer, paid API, database, server-side wallet or API key. `deployment.json` contains only public addresses and metadata. Local mode uses unlocked Hardhat accounts only when both page and RPC are localhost and chain ID is 31337. Sepolia uses the user's injected wallet.
 
-The transaction journal is session-local and records transactions initiated by the page. It is not an index of every historical trade. Reloading returns to the deployment manifest's seeded strategy; newly shipped positions remain onchain but are not a persistent UI catalog in this version.
+The browser workspace is keyed by chain, market and the manifest's seed-order hash. It stores created strategy definitions, the selected strategy and receipt entries in localStorage. Strategy restoration rebuilds the expected order and checks its hash against the fixed deployment; saved data cannot replace settlement/token/RPC addresses. The seed remains selectable under Liquidity. Fresh deployments get independent workspaces.
+
+Submitted transaction hashes are saved synchronously before the next React render. Reloaded pending waits become unknown, never confirmed. Rechecking reads the receipt from the chain. Cancellation and unrelated replacement receipts have their own terminal states and stop multi-transaction operations; a successful gas repricing can continue. The journal includes the submitting address and can be downloaded as JSON. It records activity initiated here, not all historical trades. Storage can be cleared or disabled; the interface shows failures, and private keys are never stored. It does not provide cross-device synchronization or a multi-market indexer.
+
+Balance/allocation reads share one block snapshot. Refresh generations discard delayed results from previous wallets or selected positions. Before each write, the app checks the current wallet/position context and chain; a synchronous action lock prevents duplicate clicks from starting overlapping operations.
 
 ## Lifecycle
 

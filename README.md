@@ -52,9 +52,10 @@ The remote is configured as `https://github.com/krishna-aga/gaussvm.git`, but th
 | Two strategy modes | Static L or normalized square-root time scale, with documented inactive complete-set offset. |
 | Neumorphic interface | Live balances/quotes, limited approvals, swaps, position controls, mobile layout and research explorer. |
 | Receipt recovery | Failed confirmation lookup preserves an unknown result; recheck the same hash before another write. |
+| Saved workspace | Created positions, selection and receipts survive reload in the same browser; receipts export as JSON. |
 | Reproducible tooling | Local deployment, transfer evidence, numerical/integration/browser tests, CI and optional free static hosting. |
 
-The curve slider is illustrative and cannot change an executable order. The journal covers the current browser session. A newly shipped strategy becomes selected for that session; refreshing returns to the manifest's seed. There is no multi-market indexer or persistent position catalog.
+The curve slider is illustrative and cannot change an executable order. Created positions and their selected strategy are saved per deployment in this browser. Use **Liquidity → Trading position** to switch between saved positions and the seed. The journal records this browser's transactions and offers **Download receipts**; it is not an index of all market activity. Reconnect your wallet after reloading. Interrupted receipt waits return as unknown and must be checked before another write. Clearing browser data removes this local history, and storage failures are shown explicitly.
 
 ## Verification
 
@@ -95,6 +96,7 @@ reports/            Generated evidence, excluded from commits
 - [Architecture and byte encoding](docs/architecture.md)
 - [Security assumptions](docs/security.md)
 - [Local and Sepolia deployment](docs/deployment.md)
+- [Troubleshooting and recovery](docs/troubleshooting.md)
 - [Judge demo and submission evidence](docs/demo.md)
 - [Verification](docs/verification.md)
 - [Qualification requirements and submission checklist](docs/qualification.md)
