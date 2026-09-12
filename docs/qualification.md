@@ -1,54 +1,46 @@
-# ETHOnline 2026 qualification review
+# 1inch Build an Aqua App — technical qualification
 
-Checked 2026-09-11. **Technical evidence is available; final submission eligibility is not yet fully confirmed.** A passing test suite cannot certify participant registration, human contributions, submission or judging decisions.
+Scope checked against the [official 1inch challenge](https://ethglobal.com/events/ethonline2026/prizes/1inch) on **2026-09-12**. GaussVM exclusively targets **Build an Aqua App ($5,000)**. Krishna Agarwal is the solo builder and is handling the event submission.
 
-## Target prize
+## Requirements and evidence
 
-Primary target: **1inch — Build an Aqua App ($5,000)** in the From Scratch pool, subject to the team's actual registration and build history. The separate **$2,000 Continuity** prize is for registered Continuity participants. No other sponsor integration or prize eligibility is claimed. The supplied partner list does not require integrating every sponsor.
-
-[Official 1inch requirements](https://ethglobal.com/events/ethonline2026/prizes/1inch)
-
-| Requirement | Current evidence | Status |
-| --- | --- | --- |
-| Custom Aqua app with a sophisticated position | Complementary collateral-backed YES/NO positions; Gaussian exact-input pricing; static and experimental time-scaled modes. | Implemented |
-| Official Aqua / SwapVM contracts | Pinned upstream sources; GaussVM inherits official SwapVM. The canonical Aqua fork run uses the existing published Aqua address, without replacing its code. | Verified locally and on a fork |
-| Demonstrate the final position in scripts or UI | `npm run demo`, `npm run demo:fork`, integration tests and the React interface. | Executed |
-| Present onchain token transfers during the final demo | Both demo scripts mine actual swaps and assert wallet balance changes. The recorded fork run uses canonical Aqua. | Evidence ready; final recorded presentation pending |
-| Proper Git history | Focused commits began 2026-09-11, authored as Krishna. No backdating, squashing into one submission commit or manufactured history. | Published in krishna-aga/gaussvm |
-| SwapVM usage improves scoring | Opcode `0x80` executes in the actual quote/swap path. This is a scoring preference, not a prize guarantee. | Implemented |
-
-## Canonical contract evidence
-
-`npm run demo:fork` starts an isolated local Ethereum fork at port 8546, checks Aqua's source-block bytecode against the fork, deploys the permitted custom SwapVM extension, ships a position and executes a swap. All signed transactions stay on localhost, chain 31337. The mainnet connection is read-only. The regular UI/node remain separate.
-
-The successful run forked block **25,954,422**, used Aqua **`0x1111113ccf1426a8e30e2bff5e005d929bf6a90a`**, and swapped **10 NO → 9.936740437215125 YES** using **761,917 gas**. See [committed evidence summary](evidence/canonical-aqua-fork.json). Full receipt logs regenerate into `reports/fork-demo.json`. The swap hash belongs to the local fork and will not exist on Etherscan.
-
-The address is published in [the pinned official Aqua README](https://github.com/1inch/aqua/blob/9c5c42e5840e8741fba3597c48456c9510212b66/README.md#deployments). The ordinary offline demo deploys unmodified Aqua source at a fresh address; it is not described as a canonical deployment. Use the fork demonstration in the submission to avoid that distinction being ambiguous.
-
-## Event-wide submission requirements
-
-Sources: [submission guidance](https://ethglobal.com/events/ethonline2026/info/details), [participant guide](https://ethglobal.com/events/ethonline2026/info/start), [rules](https://ethglobal.com/rules).
-
-| Requirement | Action / status |
+| Track requirement | Implementation and executable evidence |
 | --- | --- |
-| Submission deadline | **13 September 2026, 12:00 EDT = 16:00 UTC = 21:30 IST.** Submit through the Hacker Dashboard. |
-| Correct track and build period | Confirm the registered track and disclose any earlier project-specific work. Git timestamps support this repository's history but cannot establish activity outside it. |
-| Participant eligibility | Each participant must meet acceptance/attendance requirements. Confirm dashboard check-ins and team details. These have not been inspected. |
-| Repository and reused work | Publish the existing history; retain submodules, licenses, planning files and attribution. See [AI usage](ai-usage.md) and [third-party notices](../THIRD_PARTY_NOTICES.md). |
-| Demo video | Record **2–4 minutes**, at least **720p**, with human narration and actual execution. Do not use AI voiceover or speed up playback. Video not yet supplied. |
-| Partner selection | Select 1inch explicitly in the submission form and describe the integration. Up to three partners are allowed; only 1inch is currently supported. |
-| AI transparency and team contribution | Disclose the substantial generated implementation. Meaningful team contribution is required and is **not yet documented sufficiently to certify eligibility**. See [ai-usage.md](ai-usage.md). |
-| Finalist presentation, if chosen | Prepare the four-minute live demo and three-minute Q&A. Partner judging is asynchronous. |
+| Custom Aqua app implementing a sophisticated DeFi position | Collateral-backed YES/NO outcomes, Gaussian exact-input pricing, static and time-scaled strategies, shared wallet allocations and complete-set merge/redemption. `npm run demo:track` exercises the entire position. |
+| Official Aqua / SwapVM contracts | Official Aqua and SwapVM sources are pinned as unmodified Git submodules. `GaussVM.sol` inherits official SwapVM and overrides dispatch for Gaussian opcode `0x80`. `npm run demo:fork` uses Aqua's actual canonical deployment on a local Ethereum fork. |
+| Demonstrate final positions through tests, scripts or UI | `npm run check` includes contract, numerical, economic, gas-regression and full-lifecycle track checks. `npm run test:browser` exercises the interface. A [Sepolia app](https://krishna-aga.github.io/gaussvm/) is also available. |
+| Present onchain token transfers during the demo; local forks allowed | The track runner mines three swaps and asserts exact maker/taker deltas, matching Aqua Pushed/Pulled and SwapVM Swapped events, the output ERC-20 Transfer, no residual custody and isolated strategy accounting. Its canonical-fork mode provides the same proof against official deployed Aqua. Show this execution and the resulting report in the demo. |
+| Proper Git history; no single-commit entry on the final day | The repository already has 47 incremental commits from 2026-09-11 before this track-readiness pass, covering research, contracts, interface, tests, deployment and optimization. Existing commits and dates are preserved. Subsequent work uses ordinary focused commits. |
+| SwapVM projects receive higher scoring | Opcode `0x80` runs in the actual quote/swap path, with official order validation, slippage/deadline enforcement, locking and Aqua settlement. This establishes implementation evidence, not a judging outcome. |
 
-The participant guide describes an attendance stake and a support route for financial constraints. This is separate from the free software infrastructure. No stake, payment or account submission was made by the coding assistant.
+## Reproduce the evidence
 
-## Completion checklist
+```sh
+npm ci
+git submodule update --init --recursive
+npm run check
+npx playwright install chromium
+npm run test:browser
+npm run demo:fork
+```
 
-- [ ] Confirm registered track, participant acceptance, team and check-ins.
-- [ ] Record verifiable human contributions and any pre-event project work in `ai-usage.md`.
-- [x] Publish the existing Git history under `krishna-aga`, as authorized for the public deployment. The original commit history is preserved.
-- [ ] Run checks from the published clone and record the canonical-Aqua fork demo with human narration.
-- [ ] Submit the repository, disclosures, 2–4 minute video and selected 1inch prize before the deadline.
-- [ ] Save the actual submission confirmation. No submission is claimed until then.
+`npm run demo:track` also runs the lifecycle independently, without the UI or a node already running. It creates and closes its own EVM. The fork command uses a separate localhost node on port 8546. Both commands use test tokens and deliberately simulate resolution on a disposable chain; neither changes the public market or the normal UI's local market.
 
-Public Sepolia and website hosting are optional for the stated 1inch requirements because local forks are expressly allowed. No production deployment, real funds or extra sponsor SDK is necessary to demonstrate this track.
+| Artifact | What it establishes |
+| --- | --- |
+| `reports/aqua-track.json` | Local-source lifecycle with nine checked milestones, three swaps, exact balance/event checks and source hashes. |
+| `reports/aqua-track-fork.json` | The same lifecycle using canonical Aqua, including source block, bytecode hash and actual local-fork receipts. |
+| [Current canonical fork evidence](evidence/canonical-aqua-track.json) | Saved report for the track-readiness run, tied to its recorded source hashes. |
+| [Earlier canonical fork evidence](evidence/canonical-aqua-fork.json) | Historical one-swap demonstration on the pre-optimization router; retained with its original source block and gas measurement. |
+| [Public Sepolia evidence](live-deployment.md) | Existing public contract addresses, source verification and live swap receipts. |
+| [Verification record](verification.md) | Executed checks with their scope and limitations. |
+
+The canonical Aqua address is **`0x1111113ccf1426a8e30e2bff5e005d929bf6a90a`**, published in the [pinned upstream README](https://github.com/1inch/aqua/blob/9c5c42e5840e8741fba3597c48456c9510212b66/README.md#deployments). The fork runner checks that the code at that address matches the Ethereum source block. It deploys the custom SwapVM extension, as the challenge permits. No code is injected or replaced at Aqua's address.
+
+The fork connection reads Ethereum; all signed transactions stay on localhost, chain 31337. Fork hashes do not exist on Etherscan. Free RPC historical-state availability can affect reruns; use `FORK_RPC_URL` or `FORK_BLOCK` when necessary. Regular local mode deploys the official Aqua source at a fresh address and does not describe that address as canonical.
+
+## Track scope and presentation
+
+The strongest demonstration is the executable position: shared wallet liquidity → custom Gaussian pricing → real Aqua transfers → maker-controlled docking → outcome redemption. The [1inch brief](1inch-track.md) explains the track fit and the [demo guide](demo.md) provides a timed walkthrough.
+
+Numerical bounds, manual resolution, collateral custody and experimental time scaling remain explicit. No yield, audit or prize guarantee is claimed. Attribution, source licenses and [AI contribution disclosure](ai-usage.md) remain in the repository. Event registration, video upload and final submission are handled by Krishna; this document records technical evidence, not an application confirmation.

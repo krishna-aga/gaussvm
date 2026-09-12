@@ -16,7 +16,7 @@ ETHOnline judges and developers evaluating a reproducible, testnet-only predicti
 
 ## Product Purpose
 
-Show Gaussian prediction-market pricing executing through official 1inch Aqua and a custom SwapVM instruction, including observable token transfers.
+Show Gaussian prediction-market pricing executing through official 1inch Aqua and a custom SwapVM instruction, including observable token transfers. The sole target is the $5,000 Build an Aqua App track. Krishna Agarwal is the solo builder.
 
 ## Capabilities and Constraints
 

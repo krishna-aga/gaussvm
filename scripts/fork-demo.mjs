@@ -58,7 +58,7 @@ try {
   // No remote RPC URL/key is persisted. The regular UI deployment is left intact.
   fs.mkdirSync('deployments',{recursive:true});
   fs.writeFileSync('deployments/fork.json',JSON.stringify(result,null,2));
-  await run('scripts/demo.mjs',['--fork']);
+  await run('scripts/track-demo.mjs',['--fork']);
   console.log(`Canonical Aqua fork verified at Ethereum block ${block}. No public transaction was sent.`);
 } catch(error) {
   console.error(error.shortMessage || error.message);

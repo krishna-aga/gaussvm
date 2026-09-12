@@ -1,6 +1,31 @@
 # Verification record
 
-Verified locally on 2026-09-11. This record describes executed checks, not an independent security audit.
+Track-readiness verification refreshed on 2026-09-12. Earlier measurements below retain their original scope. This record describes executed checks, not an independent security audit.
+
+## 1inch track readiness — 2026-09-12
+
+The project scope is exclusively **1inch — Build an Aqua App ($5,000)**. This pass adds a standalone lifecycle evidence runner and makes the canonical fork run the same lifecycle. The Solidity contracts, pricing and deployed public market are unchanged.
+
+`npm run demo:track` passed **9 checked milestones** on an isolated local EVM: noncustodial shipping, two strategies sharing wallet inventory, both static swap directions, an elapsed-time quote change, a time-scaled swap, noncustodial docking, complete-set merging and full redemption. Each of the three swaps checks exact maker/taker deltas, Aqua events, the Swapped event, output transfer, zero residual custody and unchanged accounting for the other strategy.
+
+`npm run demo:fork` passed the same **9 checks and 3 swaps** against canonical Aqua at Ethereum source block **25,959,307**. The deployed Aqua code hash matched the source block. The report contains 18 receipt records for the lifecycle (including seed ship), deployment receipt references, before/after balances and hashes of the source files and compiled artifacts. [Saved canonical lifecycle evidence](evidence/canonical-aqua-track.json).
+
+| Fork swap | Actual output | Gas used |
+| --- | --- | --- |
+| Static: 10 NO → YES | 9.936740437215126350 YES | 573,702 |
+| Static: 10 YES → NO | 10.063257005253998257 NO | 442,030 |
+| Time-scaled: 10 NO → YES | 9.874265811291351166 YES | 619,412 |
+
+These are sequential trades with different reserve/time states, not a comparative performance benchmark. The dynamic quote can change before mining, so its receipt output is checked against the minimum output and all executed transfer/accounting amounts; static receipt outputs match their quotes exactly. All fork writes and the simulated YES resolution occurred on localhost. No public-chain transaction or actual event resolution was sent.
+
+The evidence records the base Git revision, working-tree status and exact source hashes; it does not mislabel uncommitted additions as part of the base revision. `npm run check` now includes the local lifecycle runner. CI is configured to upload `reports/aqua-track.json` as an artifact; that new workflow step is not claimed to have run remotely in this pass.
+
+Final checks for this pass:
+
+- `npm run check`: passed Solidity compilation, all **24 core tests**, **3 gas regression tests**, **9 lifecycle checks**, TypeScript and Vite production build.
+- `npm run test:browser`: **12 scenarios passed**, including real local transfers, mobile/reduced motion, receipt recovery, wallet events and maker resolution/redemption.
+- `npm audit --audit-level=high`: **0 vulnerabilities** reported at the time of the run.
+- All **17 recorded source/artifact hashes** in the canonical evidence match the current files after verification. Relative links in the updated documentation resolve; `git diff --check` passes.
 
 ## Environment and source
 

@@ -4,7 +4,7 @@
 
 This repository was developed with substantial AI assistance through OpenAI Codex. The initial smart-contract implementation, Gaussian numerical solver, deployment scripts, independent-reference and integration tests, React interface, browser tests, CI workflows and most documentation were generated or edited by Codex under the user's direction. This includes project-authored files in `contracts/`, `lib/`, `scripts/`, `test/`, `web/`, `.github/workflows/` and the root/docs Markdown files. The design review and initial design handoff also used Codex sub-agents.
 
-The user provided the project direction (Paradigm pm-AMM on 1inch Aqua/SwapVM), primary prize requirements, name and remote, testnet/free-infrastructure constraint, neumorphic visual preference and incremental-commit requirement. The user approved React/TypeScript and a local EVM demo, directed the later usability simplification with Laws of UX, and connected the `krishna-aga` CLI account.
+The solo builder is **Krishna Agarwal**, confirmed directly on 2026-09-12. Krishna provided the project direction (Paradigm pm-AMM on 1inch Aqua/SwapVM), prize requirements, name and remote, testnet/free-infrastructure constraint, neumorphic visual preference and incremental-commit requirement. Krishna approved React/TypeScript and a local EVM demo, directed the later usability simplification with Laws of UX, connected the `krishna-aga` CLI account, and explicitly limited the project to the $5,000 Build an Aqua App track.
 
 Codex researched primary sources, ran the automated checks and local/fork executions, and inspected browser screenshots. These are **AI-performed checks**, not evidence of independent human review. The research seed pasted by the user was attributed to Claude; its speculative competition/prize estimates were not adopted as project facts.
 
@@ -18,7 +18,7 @@ At this review, the conversation establishes direction and product decisions. It
 
 For each completed contribution, record the person's name, date, concrete work, relevant commit/test/review evidence and what they concluded or changed. Do not fill this section with planned work, a rubber-stamp review or invented authorship.
 
-**Confirmed additional human contributions:** pending the team's response.
+**Confirmed additional human contributions:** no independent implementation or review is inferred from the solo-builder confirmation. Krishna is handling the submission and any further contribution details.
 
 ## New and reused material
 

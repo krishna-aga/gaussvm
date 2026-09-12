@@ -6,7 +6,7 @@ GaussVM turns [Paradigm's pm-AMM research](https://www.paradigm.xyz/writing/pm-a
 
 The app has one market: **Will this project win ETHOnline 2026?** YES means GaussVM receives any officially announced event prize, including partner prizes, by expiry. The rules are available beside the question; resolution is manual. Confirmed YES/NO purchases receive a short animation, with static feedback for reduced-motion preferences. [What is an Aqua app, and how does GaussVM use it?](docs/aqua.md)
 
-Built for **ETHOnline 2026**, with **1inch's Build an Aqua App** as the primary track. This is a working local/testnet research prototype, not an audited protocol or a promise of LP returns. The time-scaled mode is explicitly distinguished from the paper's complete economic result.
+Built by **Krishna Agarwal** for **ETHOnline 2026**, exclusively targeting **1inch's Build an Aqua App ($5,000)**. This is a working local/testnet research prototype, not an audited protocol or a promise of LP returns. The time-scaled mode is explicitly distinguished from the paper's complete economic result.
 
 Powered by Aqua — © Degensoft Ltd 2025  
 Powered by SwapVM — © Degensoft Ltd 2025
@@ -45,7 +45,15 @@ npm run demo
 
 The script performs a real EVM swap, asserts that balance changes equal quoted amounts, and writes receipts, event logs and before/after balances to `reports/demo.json`. These hashes belong to the local chain, not a public explorer.
 
-For submission evidence against **Aqua's canonical deployed address**, run `npm run demo:fork`. It reads Ethereum into an isolated localhost fork, deploys the custom SwapVM extension and executes a real local swap. No real funds or public transactions are used. The verified run and all outstanding submission requirements are in [qualification](docs/qualification.md).
+For the complete **1inch track demonstration**, run:
+
+```sh
+npm run demo:track
+```
+
+This standalone command compiles and starts a disposable EVM without needing the UI or an existing node. It proves that static and time-scaled strategies share the same maker wallet without deposits, executes three swaps, verifies maker/taker balances and Aqua events, docks both positions, merges complete sets and redeems a simulated YES outcome. It writes receipts and source hashes to `reports/aqua-track.json` and leaves the UI market alone. The simulated resolution is not a claim about the actual event result.
+
+For the same lifecycle against **Aqua's canonical deployed address**, run `npm run demo:fork`. It reads Ethereum into an isolated localhost fork and deploys the permitted custom SwapVM extension. All writes stay on the local fork. Evidence is saved to `reports/aqua-track-fork.json`. See [track requirements](docs/qualification.md) and the [1inch project brief](docs/1inch-track.md).
 
 Clone the published history with `git clone --recurse-submodules https://github.com/krishna-aga/gaussvm.git`. ZIP downloads omit the required upstream submodules.
 
@@ -61,7 +69,7 @@ Clone the published history with `git clone --recurse-submodules https://github.
 | Neumorphic interface | Live balances/quotes, limited approvals, swaps, position controls, mobile layout and research explorer. |
 | Receipt recovery | Failed confirmation lookup preserves an unknown result; recheck the same hash before another write. |
 | Saved workspace | Created positions, selection and receipts survive reload in the same browser; receipts export as JSON. |
-| Reproducible tooling | Local deployment, transfer evidence, numerical/integration/browser tests, CI and optional free static hosting. |
+| Reproducible tooling | Standalone full-lifecycle track demo, canonical Aqua fork, source-bound receipts, numerical/integration/browser tests and CI evidence artifact. |
 
 The curve slider is illustrative and cannot change an executable order. Created positions and their selected strategy are saved per deployment in this browser. Use **Liquidity → Trading position** to switch between saved positions and the seed. The journal records this browser's transactions and offers **Download receipts**; it is not an index of all market activity. Reconnect your wallet after reloading. Interrupted receipt waits return as unknown and must be checked before another write. Clearing browser data removes this local history, and storage failures are shown explicitly.
 
@@ -99,7 +107,8 @@ reports/            Generated evidence, excluded from commits
 
 ## Documentation
 
-- [Research and partner choices](docs/research.md)
+- [1inch track fit and judge walkthrough](docs/1inch-track.md)
+- [Research and 1inch scope](docs/research.md)
 - [Mathematical specification](docs/math.md)
 - [Gas optimization and exact regression benchmarks](docs/gas-optimization.md)
 - [Architecture and byte encoding](docs/architecture.md)
@@ -108,7 +117,7 @@ reports/            Generated evidence, excluded from commits
 - [Troubleshooting and recovery](docs/troubleshooting.md)
 - [Judge demo and submission evidence](docs/demo.md)
 - [Verification](docs/verification.md)
-- [Qualification requirements and submission checklist](docs/qualification.md)
+- [1inch qualification requirements and evidence](docs/qualification.md)
 - [AI assistance and human contribution disclosure](docs/ai-usage.md)
 - [UX changes informed by Laws of UX](docs/ux.md)
 - [Implemented design system](DESIGN.md)

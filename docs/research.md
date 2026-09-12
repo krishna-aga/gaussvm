@@ -28,6 +28,6 @@ Ship static Gaussian pricing and an explicitly named time-scaled extension. Swap
 
 The custom instruction will support exact input only, both YES/NO directions, bounded numerical arguments and an expiry cutoff. Exact output is rejected explicitly. Outcomes are fully backed by a test collateral token. Resolution is a disclosed manual authority with a cancellation timeout, not a decentralized oracle.
 
-## Partner decision
+## Track decision
 
-Focus on the complete 1inch integration. ENS, The Graph, Privy or Chainlink could be future additions, but an unused SDK, artificial AI component, or unimplemented oracle is not a sponsor integration. No secondary track is claimed at this stage.
+The sole target is **1inch — Build an Aqua App ($5,000)**. Product work, demonstrations and evidence focus on official Aqua settlement and the custom SwapVM instruction. The standalone track demo makes shared wallet liquidity, strategy accounting and the full outcome lifecycle observable. Additional sponsor integrations are outside this project's scope.
