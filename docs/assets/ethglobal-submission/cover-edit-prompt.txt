@@ -1,0 +1,7 @@
+Use case: text-localization.
+Asset type: existing ETHGlobal project cover banner, landscape 16:9, output exactly 1600 x 900 pixels if possible.
+Input image 1 is the edit target. Replace only the two-line caption "A different curve for prediction markets." with this exact new caption:
+"Liquidity shaped for
+prediction markets."
+Keep it in the existing caption area below GaussVM, left aligned, across exactly these two lines. Match the existing dark forest green Manrope-like sans serif type, visual weight, line spacing and clear hierarchy. Adjust caption font size only as necessary to fit comfortably in the left area without touching the sculpture.
+Preserve the rest of the existing banner: project name "GaussVM", the existing rounded square logo, pale sage background and lighting, entire green sculptural Gaussian curve, YES and NO tokens, composition, crop, and footer "Built with 1inch Aqua + SwapVM". Do not add new text or change the logo, tokens or curve. Keep the image clean and sharp and the caption readable at 640 x 360. No presentation frame, watermark, additional objects, or redesign.

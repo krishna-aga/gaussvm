@@ -1,0 +1,94 @@
+.market-layout {
+  display: grid;
+  grid-template-columns: minmax(0, 1.15fr) minmax(360px, 1fr);
+  align-items: start;
+  gap: 28px;
+}
+.market-layout > .trade-panel { grid-column: 2; grid-row: 1; min-width: 0; }
+.market-chart { grid-column: 1; grid-row: 1; min-width: 0; padding: 28px; }
+.chart-title-row { display: flex; align-items: center; justify-content: space-between; gap: 16px; flex-wrap: wrap; }
+.chart-title-row h2 { font-size: 20px; letter-spacing: -.025em; }
+.chart-source { color: var(--muted); font-size: 11px; }
+.chart-current { display: flex; align-items: baseline; gap: 12px; margin-top: 22px; flex-wrap: wrap; }
+.chart-current > strong, .example-price > strong { font-size: 42px; letter-spacing: -.035em; font-weight: 550; line-height: 1.15; font-variant-numeric: tabular-nums; }
+.chart-current > span, .example-price > span { color: var(--muted); font-size: 12px; }
+.chart-context { font-size: 13px; margin-top: 8px; }
+.market-history-graph, .example-price-graph { display: block; width: 100%; overflow: visible; margin-top: 16px; }
+.market-history-graph text, .example-price-graph text { font-family: inherit; font-size: 13px; fill: var(--muted); font-variant-numeric: tabular-nums; }
+.graph-grid { stroke: #c3cec0; stroke-width: 1; stroke-dasharray: 3 6; }
+.history-line, .example-curve-line { fill: none; stroke: var(--green); stroke-width: 3; stroke-linecap: round; stroke-linejoin: round; }
+.history-dot { fill: var(--green); }
+.graph-crosshair { stroke: #577e52; stroke-width: 1; stroke-dasharray: 3 5; }
+.selected-dot { fill: var(--green); stroke: var(--surface); stroke-width: 3; }
+.starting-dot { fill: #9b8054; }
+.chart-observation { min-height: 62px; display: flex; flex-direction: column; gap: 4px; padding: 12px 0; font-variant-numeric: tabular-nums; }
+.chart-observation strong { font-size: 14px; }
+.chart-observation span { font-size: 11px; color: var(--muted); }
+.chart-point-controls { display: flex; justify-content: space-between; gap: 16px; }
+.chart-point-controls button { min-height: 44px; }
+.chart-note, .history-scope { font-size: 11px; line-height: 1.75; color: var(--muted); }
+.recent-trades-heading { display: flex; justify-content: space-between; align-items: center; gap: 16px; padding-top: 22px; margin-top: 22px; border-top: 1px solid #ccd3cb; }
+.recent-trades-heading h3 { font-size: 15px; }
+.recent-trades { padding: 0; margin: 0; list-style: none; }
+.recent-trades li { display: flex; align-items: center; gap: 10px; flex-wrap: wrap; padding: 14px 0; border-bottom: 1px solid #d4dcd2; font-size: 11px; }
+.recent-trades li > span:nth-child(2) { flex: 1; min-width: 115px; font-variant-numeric: tabular-nums; }
+.recent-trades a { display: inline-flex; align-items: center; gap: 5px; min-height: 28px; }
+.recent-trades .token { font-size: 10px; white-space: nowrap; }
+.trade-block { font-size: 10px; color: var(--muted); }
+.empty-trades, .history-notice { font-size: 12px; line-height: 1.7; padding: 12px 0; }
+.history-notice { color: #70442c; }
+.history-scope { margin-top: 14px; }
+.explain-link { display: flex; align-items: center; justify-content: space-between; gap: 12px; min-height: 48px; width: 100%; margin-top: 22px; padding: 12px 0 0; background: none; border: 0; border-top: 1px solid #ccd3cb; color: var(--green); text-align: left; font-size: 13px; font-weight: 600; }
+.trade-explainer { padding: 30px; margin-bottom: 42px; scroll-margin-top: 24px; }
+.trade-explainer .chart-title-row h2 { font-size: 25px; }
+.explainer-intro { max-width: 75ch; font-size: 14px; line-height: 1.8; margin-top: 14px; }
+.explainer-layout { display: grid; grid-template-columns: minmax(0,1.3fr) minmax(280px,1fr); align-items: start; gap: 36px; margin-top: 28px; }
+.example-graph-wrap, .example-controls { min-width: 0; }
+.example-price { display: flex; align-items: baseline; gap: 12px; flex-wrap: wrap; }
+.example-price-graph { margin-top: 12px; }
+.example-inventory { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; padding-bottom: 16px; border-bottom: 1px solid #ccd3cb; }
+.example-inventory > div { display: flex; flex-direction: column; gap: 4px; }
+.example-inventory span { color: var(--muted); font-size: 12px; }
+.example-inventory strong { font-weight: 550; font-size: 24px; font-variant-numeric: tabular-nums; }
+.example-trade-story { min-height: 135px; padding: 20px 0; font-size: 13px; }
+.example-trade-story > strong { display: block; margin-bottom: 7px; }
+.example-trade-story p { line-height: 1.8; }
+.example-trade-story svg { display: inline; vertical-align: middle; margin: 0 4px; }
+.example-size { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 10px; font-size: 12px; color: var(--muted); }
+.example-size input { width: 100%; accent-color: var(--green); min-height: 32px; margin: 0; }
+.example-size output { font-variant-numeric: tabular-nums; }
+.example-trade-buttons { display: flex; gap: 12px; margin-top: 18px; }
+.example-trade-buttons button { flex: 1; font-size: 11px; padding: 10px; }
+.example-playback { display: flex; gap: 12px; margin: 20px 0 16px; align-items: center; }
+.example-playback .primary { flex: 1; justify-content: center; }
+.time-playback { margin-top: 20px; min-height: 44px; }
+.time-playback + .curve { margin-top: 22px; }
+@media (max-width: 960px) {
+  .market-layout { grid-template-columns: minmax(0,1fr); }
+  .market-layout > .trade-panel { grid-column: auto; grid-row: auto; }
+  .market-chart { grid-column: auto; grid-row: auto; }
+  .workspace.market-workspace { max-width: 740px; }
+  .explainer-layout { grid-template-columns: minmax(0,1fr); gap: 24px; }
+  .example-graph-wrap { max-width: 640px; width: 100%; }
+  .example-controls { max-width: 640px; width: 100%; }
+  .example-trade-story { min-height: 110px; }
+}
+@media (max-width: 740px) {
+  .market-chart, .trade-explainer { padding: 22px 20px; }
+  .chart-title-row { gap: 7px; }
+  .chart-title-row h2 { font-size: 19px; }
+  .trade-explainer .chart-title-row h2 { font-size: 22px; }
+  .chart-source { font-size: 11px; }
+  .chart-current > strong, .example-price > strong { font-size: 36px; }
+  .chart-current { gap: 8px; }
+  .chart-current > span { flex-basis: 100%; }
+  .market-history-graph text, .example-price-graph text { font-size: 19px; }
+  .market-history-graph, .example-price-graph { margin-top: 22px; }
+  .explainer-intro { font-size: 13px; }
+  .example-price { gap: 8px; }
+  .example-price > span { font-size: 11px; }
+  .example-trade-buttons { flex-wrap: wrap; }
+  .example-trade-buttons button { min-width: 125px; }
+  .recent-trades a { min-height: 44px; }
+  .example-size input { min-height: 44px; }
+}

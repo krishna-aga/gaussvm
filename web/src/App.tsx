@@ -13,7 +13,6 @@ import {
   LoaderCircle,
   LogOut,
   Wallet,
-  Waves,
   XCircle,
 } from "lucide-react";
 import {
@@ -30,7 +29,7 @@ import {
   orderHash,
   takerData,
 } from "../../lib/encoding.mjs";
-import { cdf } from "../../lib/reference.mjs";
+import { positionProbability } from "../../lib/chart-math.mjs";
 import { MARKET_QUESTION, MARKET_RULES } from "../../lib/market.mjs";
 import { PurchaseFeedback } from "./PurchaseFeedback";
 import {
@@ -42,6 +41,9 @@ import {
   receiptState,
 } from "../../lib/workspace.mjs";
 import { Curve } from "./Curve";
+import { MarketChart } from "./MarketChart";
+import { TradeExplainer, TimePlayback } from "./TradeExplainer";
+import './charts.css';
 import {
   aquaAbi,
   connect,
@@ -91,6 +93,7 @@ const browserStorage = {
   getItem: (key: string) => localStorage.getItem(key),
   setItem: (key: string, value: string) => localStorage.setItem(key, value),
 };
+const brandLogoUrl = `${import.meta.env.BASE_URL}logo.png`;
 const fmt = (v: bigint | undefined, digits = 2) =>
   v === undefined
     ? "—"
@@ -748,21 +751,7 @@ export default function App() {
     });
   const balanceIn = state ? (buyYes ? state.no : state.yes) : 0n;
   const insufficient = !!session && parsed > balanceIn;
-  const l = deployment
-    ? (Number(deployment.liquidity) / 1e18) *
-      (deployment.timeScaled && state
-        ? Math.sqrt(
-            Math.max(
-              0,
-              (deployment.expiry - state.timestamp) /
-                (deployment.expiry - deployment.start),
-            ),
-          )
-        : 1)
-    : 1;
-  const z = state ? Number(state.reserveNo - state.reserveYes) / 1e18 / l : 0;
-  const probability =
-    Number.isFinite(z) && Math.abs(z) <= 3 ? cdf(z) : undefined;
+  const probability = positionProbability(deployment, state);
   const status = !state
     ? "Not connected"
     : state.status === 1
@@ -799,9 +788,13 @@ export default function App() {
     <div className="app-shell">
       <header className="app-navigation">
         <a className="brand" href="#market" onClick={() => setPage("market")}>
-          <span className="brand-mark">
-            <Waves size={27} />
-          </span>
+          <img
+            className="brand-mark"
+            src={brandLogoUrl}
+            alt=""
+            width={41}
+            height={41}
+          />
           Gauss<span>VM</span>
         </a>
         <div className="sidebar-body">
@@ -935,6 +928,7 @@ export default function App() {
               <div className="page-heading">
                 <h1>Swap outcomes</h1>
               </div>
+              <div className="market-layout">
               <section
                 id="trade-panel"
                 tabIndex={-1}
@@ -1200,6 +1194,13 @@ export default function App() {
                   </p>
                 </details>
               </section>
+              <MarketChart
+                deployment={deployment}
+                snapshot={state}
+                confirmedHash={transactions.find(tx => tx.state === 'confirmed' && tx.label.startsWith('Swap '))?.hash}
+                onExplain={() => { setPage('research'); window.scrollTo({ top: 0, behavior: 'instant' }); }}
+              />
+              </div>
             </div>
           )}
 
@@ -1536,6 +1537,7 @@ export default function App() {
                 </div>
                 <BookOpen size={34} />
               </div>
+              <TradeExplainer />
               <article className="research-content">
                 <section>
                   <h2>What is an Aqua app?</h2>
@@ -1582,6 +1584,7 @@ export default function App() {
                         Constant product
                       </span>
                     </div>
+                    <TimePlayback remaining={remaining} onChange={setRemaining} />
                     <Curve
                       remaining={remaining / 100}
                       probability={probability ?? 0.5}
@@ -1835,7 +1838,13 @@ export default function App() {
           )}
           <footer>
             <span>
-              <Waves size={16} />
+              <img
+                className="footer-mark"
+                src={brandLogoUrl}
+                alt=""
+                width={18}
+                height={18}
+              />
               GaussVM · ETHOnline 2026
             </span>
             <span>

@@ -13,7 +13,6 @@ reports/*.json
 reports/*.png
 reports/*.log
 .impeccable/*
-!.impeccable/design.json
 test-results/
 playwright-report/
 *.tsbuildinfo

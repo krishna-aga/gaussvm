@@ -1,6 +1,13 @@
 import { useId } from "react";
 import { cdf, pdf } from "../../lib/reference.mjs";
 
+// The normalized profile never changes. Animation only scales these samples.
+const profile = Array.from({ length: 101 }, (_, i) => {
+  const z = -3 + i * 0.06, p = cdf(z);
+  const depth = Math.pow(p * (1-p), 1.5) / pdf(z) / (0.125 / pdf(0));
+  return { p, depth };
+});
+
 export function Curve({
   remaining,
   probability,
@@ -9,12 +16,7 @@ export function Curve({
   probability: number;
 }) {
   const id = useId().replaceAll(":", "");
-  const points = Array.from({ length: 101 }, (_, i) => {
-    const z = -3 + i * 0.06,
-      p = cdf(z),
-      depth = Math.pow(p * (1 - p), 1.5) / pdf(z) / (0.125 / pdf(0));
-    return [52 + p * 596, 202 - depth * 145 * Math.sqrt(remaining)] as const;
-  });
+  const points = profile.map(({p, depth}) => [52 + p * 596, 202 - depth * 145 * Math.sqrt(remaining)] as const);
   const line = points
     .map(([x, y], i) => `${i ? "L" : "M"}${x.toFixed(2)},${y.toFixed(2)}`)
     .join(" ");

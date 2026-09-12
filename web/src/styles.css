@@ -133,11 +133,10 @@ a {
 .brand-mark {
   width: 41px;
   height: 41px;
-  border-radius: 12px;
-  background: #315b41;
-  color: #f5f8ef;
-  display: grid;
-  place-items: center;
+  border-radius: 25%;
+  display: block;
+  flex-shrink: 0;
+  object-fit: contain;
   margin-right: 10px;
   box-shadow:
     4px 4px 9px #c5cebf,
@@ -644,6 +643,11 @@ footer > span {
   display: flex;
   align-items: center;
   gap: 8px;
+}
+.footer-mark {
+  display: block;
+  flex-shrink: 0;
+  border-radius: 25%;
 }
 .footer-dot {
   margin: 0 3px;
@@ -1201,7 +1205,7 @@ footer {
   padding: 32px 32px 0;
 }
 .workspace.market-workspace {
-  max-width: 656px;
+  max-width: 1160px;
 }
 .page-heading {
   margin-bottom: 24px;

@@ -1,130 +1,75 @@
+<img src="web/public/logo.png" alt="GaussVM logo" width="96" height="96" />
+
 # GaussVM
 
-**Gaussian prediction-market liquidity, executed through 1inch Aqua and SwapVM.**
+**Liquidity shaped for prediction markets.**
 
-GaussVM turns [Paradigm's pm-AMM research](https://www.paradigm.xyz/writing/pm-amm) into an executable test-token position. A custom SwapVM instruction prices YES/NO trades using the Gaussian invariant. Official Aqua contracts account for the maker's allocation and transfer tokens between wallets.
+Gaussian prediction-market liquidity on **1inch Aqua and SwapVM**. A custom SwapVM instruction prices collateral-backed YES/NO trades using the pm-AMM invariant. Aqua accounts for maker allocations and settles trades while the maker's outcome tokens stay in their wallet until execution.
 
-The app has one market: **Will this project win ETHOnline 2026?** YES means GaussVM receives any officially announced event prize, including partner prizes, by expiry. The rules are available beside the question; resolution is manual. Confirmed YES/NO purchases receive a short animation, with static feedback for reduced-motion preferences. [What is an Aqua app, and how does GaussVM use it?](docs/aqua.md)
+**[Open the Sepolia app](https://krishna-aga.github.io/gaussvm/)** · [Deployed contracts](docs/live-deployment.md)
 
-Built by **Krishna Agarwal** for **ETHOnline 2026**, exclusively targeting **1inch's Build an Aqua App ($5,000)**. This is a working local/testnet research prototype, not an audited protocol or a promise of LP returns. The time-scaled mode is explicitly distinguished from the paper's complete economic result.
+The demo market asks **Will this project win ETHOnline 2026?** Connect a wallet on Sepolia, get free faucet ETH for gas, then select **Get 100 YES + 100 NO** to trade. Market rules are shown beside the question. This is an unaudited test-token prototype with manual resolution; time-scaled pricing is experimental.
 
 Powered by Aqua — © Degensoft Ltd 2025  
 Powered by SwapVM — © Degensoft Ltd 2025
 
-## Live Sepolia app
+## Run locally
 
-**[Open GaussVM](https://krishna-aga.github.io/gaussvm/)** · [Deployed contracts and public evidence](docs/live-deployment.md)
-
-Connect an Ethereum wallet on **Sepolia**, with free faucet ETH for gas. Select **Get 100 YES + 100 NO**, then make a swap. The app uses worthless test assets, and receipts link to Sepolia Etherscan. Hosting uses free GitHub Pages; no mainnet assets or paid service is needed. The current market expires **11 October 2026 at 14:58:24 UTC**.
-
-## Run the complete demo
-
-Requirements: **Node.js 22.16+**, npm and Git. The Node scripts work in Windows PowerShell, macOS and Linux. No wallet extension, faucet, API key or paid service is needed locally.
-
-From this existing workspace:
+Requires **Node.js 22.16+**, npm and Git. No wallet extension, faucet or API key is needed locally.
 
 ```sh
+git clone --recurse-submodules https://github.com/krishna-aga/gaussvm.git
+cd gaussvm
 npm ci
-git submodule update --init --recursive
 npm run dev
 ```
 
-Open **http://127.0.0.1:5173**. This compiles Solidity, starts a localhost EVM, deploys official Aqua and GaussVM, seeds a 1,000 YES + 1,000 NO position and starts the interface. It never connects to mainnet. Ctrl+C stops the services it started. A pre-existing local node is reused with a fresh market.
+For an existing checkout, run `git submodule update --init --recursive` before starting. Source ZIPs omit the required submodules.
 
-1. Select **Connect to swap**.
-2. Select **Get 100 YES + 100 NO**. Faucet gUSD is claimed if needed; 100 gUSD becomes 100 YES and 100 NO. A funded wallet skips this step.
-3. Swap NO for YES, then reverse direction. The journal shows actual hashes, blocks and gas.
-4. Open **Liquidity** to inspect addresses, ship a static/time-scaled position, dock a maker position or merge complete sets.
-5. To resolve, switch to the local maker wallet, advance the local clock to expiry, choose YES/NO and redeem. Restart the demo for a fresh market.
+Open **http://127.0.0.1:5173**. The launcher compiles contracts, starts a local EVM, deploys Aqua and GaussVM, seeds 1,000 YES + 1,000 NO, and starts the app.
 
-Keep the app running and execute this in a second terminal:
+1. Select **Connect to swap**, then **Get 100 YES + 100 NO**.
+2. Swap NO for YES or reverse direction. The market graph updates from chain balances and shows recent confirmed trades; the journal keeps transaction receipts.
+3. Open **Liquidity** to create or dock positions, merge complete sets, and use the local maker controls for resolution and redemption.
+4. Open **How it works** and select **Play walkthrough** to show example trades moving the pm-AMM price. **Explore the Gaussian curve** also has a time animation. These illustrations do not submit wallet transactions.
 
-```sh
-npm run demo
-```
+Ctrl+C stops services started by the launcher. To reset a resolved local market, run `npm run deploy:local` with the node running, then reload.
 
-The script performs a real EVM swap, asserts that balance changes equal quoted amounts, and writes receipts, event logs and before/after balances to `reports/demo.json`. These hashes belong to the local chain, not a public explorer.
+## Demos and checks
 
-For the complete **1inch track demonstration**, run:
-
-```sh
-npm run demo:track
-```
-
-This standalone command compiles and starts a disposable EVM without needing the UI or an existing node. It proves that static and time-scaled strategies share the same maker wallet without deposits, executes three swaps, verifies maker/taker balances and Aqua events, docks both positions, merges complete sets and redeems a simulated YES outcome. It writes receipts and source hashes to `reports/aqua-track.json` and leaves the UI market alone. The simulated resolution is not a claim about the actual event result.
-
-For the same lifecycle against **Aqua's canonical deployed address**, run `npm run demo:fork`. It reads Ethereum into an isolated localhost fork and deploys the permitted custom SwapVM extension. All writes stay on the local fork. Evidence is saved to `reports/aqua-track-fork.json`. See [track requirements](docs/qualification.md) and the [1inch project brief](docs/1inch-track.md).
-
-Clone the published history with `git clone --recurse-submodules https://github.com/krishna-aga/gaussvm.git`. ZIP downloads omit the required upstream submodules.
-
-## What is implemented
-
-| Component | Behavior |
+| Command | Purpose |
 | --- | --- |
-| Gaussian opcode `0x80` | Exact-input YES/NO swaps, bounded CDF/PDF and conservative bisection. |
-| Official SwapVM base | Pinned current dispatch, order validation, slippage/deadline enforcement, locks and settlement. |
-| Official Aqua | Unmodified source deployment; ship/dock and push/pull transfers; maker tokens stay in the wallet until execution. |
-| Binary outcomes | Collateral-backed split/merge, manual resolver, timeout cancellation and redemption. |
-| Two strategy modes | Static L or normalized square-root time scale, with documented inactive complete-set offset. |
-| Neumorphic interface | Live balances/quotes, limited approvals, swaps, position controls, mobile layout and research explorer. |
-| Receipt recovery | Failed confirmation lookup preserves an unknown result; recheck the same hash before another write. |
-| Saved workspace | Created positions, selection and receipts survive reload in the same browser; receipts export as JSON. |
-| Reproducible tooling | Standalone full-lifecycle track demo, canonical Aqua fork, source-bound receipts, numerical/integration/browser tests and CI evidence artifact. |
+| `npm run demo` | Execute a swap against the running local demo; save receipts and balance changes to `reports/demo.json`. |
+| `npm run demo:track` | Run a standalone lifecycle: two strategies sharing wallet inventory, three swaps, docking, merging and simulated redemption. Writes `reports/aqua-track.json`. |
+| `npm run demo:fork` | Run that lifecycle against canonical Aqua on a local Ethereum fork. Writes `reports/aqua-track-fork.json`; all transactions stay on localhost. |
+| `npm run check` | Compile Solidity, run core/gas/lifecycle checks, typecheck and build the app. |
+| `npm run test:browser` | Exercise the local UI. Install Chromium first with `npx playwright install chromium`. |
+| `npm run audit:math` | Run the bounded numerical audit and save results with source hashes. |
 
-The curve slider is illustrative and cannot change an executable order. Created positions and their selected strategy are saved per deployment in this browser. Use **Liquidity → Trading position** to switch between saved positions and the seed. The journal records this browser's transactions and offers **Download receipts**; it is not an index of all market activity. Reconnect your wallet after reloading. Interrupted receipt waits return as unknown and must be checked before another write. Clearing browser data removes this local history, and storage failures are shown explicitly.
+Browser tests resolve their local market. Reset it before a subsequent manual demo. See [verification](docs/verification.md) for recorded results and test coverage.
 
-## Verification
+## How it works
 
-```sh
-npm run check          # Solidity build, tests, TypeScript and production build
-npx playwright install chromium
-npm run test:browser   # Starts a local demo if necessary
-npm run audit:math     # Bounded computation, source hashes, versions and manifest
-npm audit             # Dependency advisories
-```
-
-Browser tests provision a fresh market each run, then resolve it in the lifecycle scenario. Run `npm run deploy:local` and refresh, or restart `npm run dev`, before a subsequent manual demo. Results and limits are recorded in [verification](docs/verification.md). No test count establishes universal safety.
-
-## Testnet and hosting
-
-Local operation is entirely free. The public **Sepolia-only** deployment uses faucet ETH, a test-only key in ignored `.env`, a free public RPC and GitHub Pages. All six deployed contracts have exact source-code matches on Sourcify. See [live deployment](docs/live-deployment.md) and [deployment instructions](docs/deployment.md).
-
-`npm run build:public` uses the committed `deployments/sepolia.json` and excludes localhost configuration. Without a Sepolia manifest it produces a research preview. The manual GitHub Pages workflow publishes the static app; `npm run dev` continues to create an independent local market.
-
-## Repository map
-
-```text
-contracts/          Gaussian pricing, SwapVM extension, test collateral and outcomes
-vendor/             Official Aqua, SwapVM and Solidity Utils Git submodules
-lib/                Shared encoding, deployment and independent math reference
-scripts/            Compile, local dev, deploy, demo and computation provenance
-test/               Numerical, economic, integration and browser tests
-web/                React/TypeScript interface
-docs/               Research, math, architecture, deployment and demo guides
-deployments/        Generated chain manifests (local ignored)
-reports/            Generated evidence, excluded from commits
-```
+- **BinaryMarket:** one gUSD splits into one YES plus one NO; complete sets can merge back into collateral. Manual resolution or timeout cancellation enables redemption.
+- **GaussVM:** opcode `0x80` computes exact-input output with bounded Gaussian arithmetic and conservative bisection. Static and time-scaled strategies are supported.
+- **SwapVM and Aqua:** pinned upstream contracts validate orders, enforce slippage/deadlines, and settle transfers. Allocations depend on maker balances and allowances.
+- **Web app:** React/TypeScript interface with wallet connection, quotes, position controls, chain-derived price history and receipt recovery. Positions and the transaction journal are saved in the current browser; market history is read from the selected position's onchain swaps and balances. The interactive research examples are illustrative.
 
 ## Documentation
 
-- [1inch track fit and judge walkthrough](docs/1inch-track.md)
-- [Research and 1inch scope](docs/research.md)
+- [Aqua walkthrough](docs/aqua.md)
 - [Mathematical specification](docs/math.md)
-- [Gas optimization and exact regression benchmarks](docs/gas-optimization.md)
-- [Architecture and byte encoding](docs/architecture.md)
-- [Security assumptions](docs/security.md)
-- [Local and Sepolia deployment](docs/deployment.md)
+- [Market graph and interactive demo controls](docs/market-charts.md)
+- [Architecture and encoding](docs/architecture.md)
+- [Security assumptions and limits](docs/security.md)
+- [Deployment and hosting](docs/deployment.md)
 - [Troubleshooting and recovery](docs/troubleshooting.md)
-- [Judge demo and submission evidence](docs/demo.md)
-- [Verification](docs/verification.md)
-- [1inch qualification requirements and evidence](docs/qualification.md)
-- [AI assistance and human contribution disclosure](docs/ai-usage.md)
-- [UX changes informed by Laws of UX](docs/ux.md)
-- [Implemented design system](DESIGN.md)
-- [Contribution and commit conventions](CONTRIBUTING.md)
+- [Gas benchmarks and router migration](docs/gas-optimization.md)
+
+Source lives in `contracts/`, `lib/`, `scripts/`, `web/` and `test/`. Pinned upstream contracts are Git submodules in `vendor/`; public chain manifests are in `deployments/`.
 
 ## Attribution and licensing
 
-The pm-AMM concept is by **Ciamac Moallemi and Dan Robinson**. GaussVM contributes the bounded numerical implementation, custom SwapVM instruction and complete Aqua outcome-position demo.
+Built by **Krishna Agarwal** for ETHOnline 2026. The [pm-AMM research](https://www.paradigm.xyz/writing/pm-amm) is by **Ciamac Moallemi and Dan Robinson**. GaussVM contributes the bounded numerical implementation, SwapVM instruction and Aqua integration.
 
-Official dependencies are pinned and unmodified. The SwapVM-derived source retains its source-available license; the combined project is not MIT-only. See [LICENSE](LICENSE) and [third-party notices](THIRD_PARTY_NOTICES.md). There is no endorsement or audit claim from Paradigm, 1inch or Degensoft.
+The project includes source-available Aqua/SwapVM code and is not MIT-only. See [LICENSE](LICENSE) and [third-party notices](THIRD_PARTY_NOTICES.md) for terms and pinned dependencies.
